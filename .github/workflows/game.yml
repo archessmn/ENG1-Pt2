@@ -1,0 +1,33 @@
+name: Build Game
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: "corretto"
+          java-version: "17"
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+      - name: Download Licenses
+        run: ./gradlew build
+      - name: Copy License Files
+        run: mv lwjgl3/build/libs/ENG1-1.0.0.jar lwjgl3/build/libs/ENG1-CH2-GRP3-UniSim-1.0.0.jar
+
+      - name: Upload production-ready build files
+        uses: actions/upload-artifact@v4
+        with:
+          name: game-files
+          path: ./lwjgl3/build/libs/*.jar
