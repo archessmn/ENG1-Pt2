@@ -12,6 +12,12 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.Align;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Scanner;
+import java.io.BufferedWriter;
 
 /**
  * This screen should be shown when the game ends.
@@ -21,8 +27,13 @@ public class EndScreen implements Screen {
     private StretchViewport viewport;
     private Stage stage;
     private Label scoreLabel;
+    private Label scoreNum;
     private final Skin skin;
     private int score;
+    private int varScoreHeight;
+    private File leaderboard;
+    private Scanner scanBoard;
+    private BufferedWriter writeBoard;
 
     SpriteBatch spriteBatch = new SpriteBatch();
 
@@ -32,7 +43,8 @@ public class EndScreen implements Screen {
         this.stage = new Stage(this.viewport);
         this.skin = new Skin(Gdx.files.internal("ui/uiskin.json"));
         this.score = score;
-        createScoreLabel();
+        addToScoreBoard();
+        createScoreBoard();
     }
 
     // Adds a label to the middle of the screen displaying the score that the player
@@ -40,10 +52,10 @@ public class EndScreen implements Screen {
     private void createScoreLabel() {
         // Initialize scoreLabel
         scoreLabel = new Label("Score : " + score, skin);
-        scoreLabel.setFontScale(3); 
+        scoreLabel.setFontScale(3);
         scoreLabel.setAlignment(Align.center);
         scoreLabel.setColor(Consts.TIMER_COLOR);
-        
+
         // Position the label at the top center of the screen
         scoreLabel.setPosition(Consts.SCORE_LABEL_X, Consts.SCORE_LABEL_Y, Align.center);
 
@@ -51,6 +63,55 @@ public class EndScreen implements Screen {
         stage.addActor(scoreLabel);
     }
 
+    private void addToScoreBoard(){
+        File leaderboard = new File("Leaderboard.txt");
+        try {
+            BufferedWriter writeBoard = new BufferedWriter(new FileWriter(leaderboard, true));
+            writeBoard.write("\n"+String.valueOf(score));
+            writeBoard.flush();
+            writeBoard.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void createScoreBoard() {
+        // Initialize scoreLabel
+        scoreLabel = new Label("Scoreboard:", skin);
+        scoreLabel.setFontScale(3);
+        scoreLabel.setAlignment(Align.center);
+        scoreLabel.setColor(Consts.TIMER_COLOR);
+
+        // Position the label at the top center of the screen
+        scoreLabel.setPosition(Consts.SCORE_LABEL_X, Consts.SCORE_LABEL_Y, Align.center);
+
+        // Add the label to the stage
+        stage.addActor(scoreLabel);
+
+        Integer varStringHeight = Consts.SCORE_LABEL_Y;
+
+        File leaderboard = new File("Leaderboard.txt");
+        try {
+            scanBoard = new Scanner(leaderboard);
+
+            for (int i = 0; i<5; i++){
+                varStringHeight -= Consts.LABEL_GAP;
+                if(scanBoard.hasNext()){
+                    String string = scanBoard.next();
+                    scoreNum = new Label(string, skin);
+                    scoreNum.setFontScale(3);
+                    scoreNum.setAlignment(Align.center);
+                    scoreNum.setColor(Consts.TIMER_COLOR);
+                    scoreNum.setPosition(Consts.SCORE_LABEL_X, varStringHeight, Align.center);
+                    stage.addActor(scoreNum);
+                }
+            }
+
+            scanBoard.close();
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     @Override
     public void show() {
@@ -63,7 +124,7 @@ public class EndScreen implements Screen {
         spriteBatch.begin();
         spriteBatch.draw(Assets.startBackgroundTexture, 0, 0, Consts.WORLD_WIDTH, Consts.WORLD_HEIGHT);
         spriteBatch.end();
-        
+
     }
 
     @Override
