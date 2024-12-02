@@ -18,6 +18,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
 import java.io.BufferedWriter;
+import java.util.ArrayList;
 
 /**
  * This screen should be shown when the game ends.
@@ -30,10 +31,7 @@ public class EndScreen implements Screen {
     private Label scoreNum;
     private final Skin skin;
     private int score;
-    private int varScoreHeight;
-    private File leaderboard;
     private Scanner scanBoard;
-    private BufferedWriter writeBoard;
 
     SpriteBatch spriteBatch = new SpriteBatch();
 
@@ -63,11 +61,35 @@ public class EndScreen implements Screen {
         stage.addActor(scoreLabel);
     }
 
+    // Checks if score is high enough be added to leaderboard
     private void addToScoreBoard(){
         File leaderboard = new File("Leaderboard.txt");
+        ArrayList<Integer> boardList = new ArrayList<Integer>();
         try {
-            BufferedWriter writeBoard = new BufferedWriter(new FileWriter(leaderboard, true));
-            writeBoard.write("\n"+String.valueOf(score));
+            scanBoard = new Scanner(leaderboard);
+            for (int i = 0; i<5; i++) {
+            if (scanBoard.hasNext()) {
+                String string = scanBoard.next();
+                boardList.add(Integer.valueOf(string));
+            }
+            }
+            scanBoard.close();
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        Integer currentScore;
+        for (int i = 0; i < boardList.size(); i++) {
+            currentScore = (Integer) boardList.get(i);
+            if (currentScore < score) {
+                boardList.add(i, score);
+                break;
+            }
+        }
+        try{
+            BufferedWriter writeBoard = new BufferedWriter(new FileWriter(leaderboard));
+            for (int i = 0; i < boardList.size(); i++){
+                writeBoard.write(boardList.get(i) + "\r\n");
+            }
             writeBoard.flush();
             writeBoard.close();
         } catch (IOException e) {
