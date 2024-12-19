@@ -19,6 +19,8 @@ public class GameScreen implements Screen {
 
     private Timer timer;
 
+    private int money;
+
     private GameMenu menu; // Used to make and display the game menu
 
     boolean isPaused = false;
@@ -27,12 +29,14 @@ public class GameScreen implements Screen {
     boolean hasEnded = false;
 
     private Map map;
-    public GameScreen(Main game){
+
+    public GameScreen(Main game) {
         this.game = game;
         viewport = game.getViewport();
         timer = new Timer();
+        money = 250;
         map = new Map(game);
-        menu = new GameMenu(game, timer, map.getBuildingManager());
+        menu = new GameMenu(game, timer, money, map.getBuildingManager());
         SoundManager.playMusic();
 
     }
@@ -46,7 +50,7 @@ public class GameScreen implements Screen {
     public void render(float delta) {
         input();
         update();
-        if (hasEnded == true) return;
+        if (hasEnded) return;
         draw();
     }
 
@@ -57,18 +61,17 @@ public class GameScreen implements Screen {
         menu.input();
         map.input();
 
-        if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)){
+        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
             if (isPaused) {
                 isPaused = false;
                 menu.resume();
-            }
-            else {
+            } else {
                 isPaused = true;
                 menu.pause();
             }
         }
 
-        if(Gdx.input.isKeyJustPressed(Input.Keys.ENTER)){
+        if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
             game.endGame();
             hasEnded = true;
         }
@@ -80,8 +83,19 @@ public class GameScreen implements Screen {
      * and will end the game if the timer has reached its max time.
      */
     private void update() {
-        if (isPaused == false) {
+        if (!isPaused) {
             timer.update();
+
+            // Increase money by 10 until half time, then by 20
+            if (timer.hasWholeSecondPassed()) {
+                if (timer.getElapsedTime() >= 150) {
+                    money += 20;
+                } else {
+                    money += 10;
+                }
+                menu.updateMoney(money);
+            }
+
             if (timer.hasReachedMaxTime()) {
                 game.endGame();
                 hasEnded = true;

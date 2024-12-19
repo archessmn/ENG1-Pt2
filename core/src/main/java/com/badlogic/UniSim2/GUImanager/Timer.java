@@ -13,6 +13,9 @@ public class Timer {
     private final float maxTime;
     private boolean reachedMaxTime;
 
+    private int lastSecond;
+    private int currentSecond;
+
     public Timer() {
         this.maxTime = Consts.MAX_TIME;
         this.elapsedTime = 0;
@@ -28,18 +31,25 @@ public class Timer {
         if (elapsedTime < maxTime) {
             // If not it updates the time
             elapsedTime += Gdx.graphics.getDeltaTime();
+
+            lastSecond = currentSecond;
+            currentSecond = (int) Math.floor(elapsedTime);
         }
         if (elapsedTime >= maxTime) {
             reachedMaxTime = true;
         }
     }
 
-    public float getElapsedTime(){
+    public float getElapsedTime() {
         return elapsedTime;
     }
 
-    public boolean hasReachedMaxTime(){
+    public boolean hasReachedMaxTime() {
         return reachedMaxTime;
+    }
+
+    public boolean hasWholeSecondPassed() {
+        return lastSecond != currentSecond;
     }
 }
 

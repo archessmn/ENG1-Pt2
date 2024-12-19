@@ -72,12 +72,14 @@ public class Consts {
     public static final int BUILDING_BUTTON_HEIGHT = scaleToCellSize(3);
     public static final int BUILDING_BUTTON_X_BOUNDARY = scaleToCellSize(1) / 2;
     public static final int BUILDING_BUTTON_Y_BOUNDARY = WORLD_HEIGHT - scaleToCellSize(2);
-    public static final int BUILDING_BUTTON_GAP = scaleToCellSize(2) + BUILDING_BUTTON_HEIGHT;
+    public static final int BUILDING_BUTTON_GAP = scaleToCellSize(1) + BUILDING_BUTTON_HEIGHT;
 
     public static final int TIMER_WIDTH = scaleToCellSize(6);
     public static final int TIMER_HEIGHT = scaleToCellSize(2);
     public static final int TIMER_X = scaleToCellSize(4);
     public static final int TIMER_Y = WORLD_HEIGHT - scaleToCellSize(2);
+    public static final int MONEY_X = scaleToCellSize(4);
+    public static final int MONEY_Y = WORLD_HEIGHT - scaleToCellSize(32);
     public static final int TIMER_SIZE = 3;
     public static final Color TIMER_COLOR = new Color(Color.BLACK);
     public static final int MAX_TIME = 300;
