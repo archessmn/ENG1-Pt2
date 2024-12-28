@@ -51,7 +51,7 @@ public class Main extends Game {
      * the {@link GameScreen} when the timer ends.
      */
     public void endGame() {
-        endScreen = new EndScreen(this, 0);
+        endScreen = new EndScreen(this, 680);
         setScreen(endScreen);
         gameScreen.dispose();
     }
