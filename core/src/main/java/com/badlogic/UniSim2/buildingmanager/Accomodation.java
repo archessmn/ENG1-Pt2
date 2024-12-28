@@ -15,7 +15,8 @@ public class Accomodation extends Building{
             Assets.accomodationDraggingTexture,
             Consts.ACCOMODATION_WIDTH,
             Consts.ACCOMODATION_HEIGHT,
-            BuildingTypes.Accomodation
-        ); 
+            BuildingTypes.Accomodation,
+            Consts.ACCOMODATION_COST
+        );
     }
 }

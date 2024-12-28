@@ -7,7 +7,7 @@ import com.badlogic.UniSim2.resources.*;
  * @see Building
  */
 public class LectureHall extends Building{
-    
+
     public LectureHall(){
         super(
             Assets.lectureHallPlacedTexture,
@@ -15,8 +15,9 @@ public class LectureHall extends Building{
             Assets.lectureHallDraggingTexture,
             Consts.LECTUREHALL_WIDTH,
             Consts.LECTUREHALL_HEIGHT,
-            BuildingTypes.LectureHall
-        );       
+            BuildingTypes.LectureHall,
+            Consts.LECTUREHALL_COST
+        );
     }
 
 }

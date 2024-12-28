@@ -16,7 +16,8 @@ public class Nature extends Building{
             Assets.natureDraggingTexture,
             Consts.NATURE_WIDTH,
             Consts.NATURE_HEIGHT,
-            BuildingTypes.Nature
+            BuildingTypes.Nature,
+            Consts.NATURE_COST
         );
-    } 
+    }
 }

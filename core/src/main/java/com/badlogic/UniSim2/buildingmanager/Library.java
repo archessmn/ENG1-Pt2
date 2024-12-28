@@ -15,7 +15,8 @@ public class Library extends Building{
             Assets.libraryDraggingTexture,
             Consts.LIBRARY_WIDTH,
             Consts.LIBRARY_HEIGHT,
-            BuildingTypes.Library
+            BuildingTypes.Library,
+            Consts.LECTUREHALL_COST
         );
     }
 }

@@ -8,7 +8,7 @@ import com.badlogic.UniSim2.resources.*;
  * @see Building
  */
 public class Recreational extends Building{
-    
+
     public Recreational(){
         super(
             Assets.recreationalPlacedTexture,
@@ -16,7 +16,8 @@ public class Recreational extends Building{
             Assets.recreationalDraggingTexture,
             Consts.RECREATIONAL_WIDTH,
             Consts.RECREATIONAL_HEIGHT,
-            BuildingTypes.Recreational
+            BuildingTypes.Recreational,
+            Consts.RECREATIONAL_COST
         );
     }
 }

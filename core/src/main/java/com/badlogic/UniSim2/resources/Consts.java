@@ -72,12 +72,14 @@ public class Consts {
     public static final int BUILDING_BUTTON_HEIGHT = scaleToCellSize(3);
     public static final int BUILDING_BUTTON_X_BOUNDARY = scaleToCellSize(1) / 2;
     public static final int BUILDING_BUTTON_Y_BOUNDARY = WORLD_HEIGHT - scaleToCellSize(2);
-    public static final int BUILDING_BUTTON_GAP = scaleToCellSize(2) + BUILDING_BUTTON_HEIGHT;
+    public static final int BUILDING_BUTTON_GAP = scaleToCellSize(1) + BUILDING_BUTTON_HEIGHT;
 
     public static final int TIMER_WIDTH = scaleToCellSize(6);
     public static final int TIMER_HEIGHT = scaleToCellSize(2);
     public static final int TIMER_X = scaleToCellSize(4);
     public static final int TIMER_Y = WORLD_HEIGHT - scaleToCellSize(2);
+    public static final int MONEY_X = scaleToCellSize(4);
+    public static final int MONEY_Y = WORLD_HEIGHT - scaleToCellSize(32);
     public static final int TIMER_SIZE = 3;
     public static final Color TIMER_COLOR = new Color(Color.BLACK);
     public static final int MAX_TIME = 300;
@@ -99,22 +101,29 @@ public class Consts {
 
     public static final int ACCOMODATION_WIDTH = scaleToCellSize(4);
     public static final int ACCOMODATION_HEIGHT = scaleToCellSize(6);
+    public static final int ACCOMODATION_COST = 50;
 
     public static final int LECTUREHALL_WIDTH = scaleToCellSize(6);
     public static final int LECTUREHALL_HEIGHT = scaleToCellSize(10);
+    public static final int LECTUREHALL_COST = 30;
 
     public static final int LIBRARY_WIDTH = scaleToCellSize(10);
     public static final int LIBRARY_HEIGHT = scaleToCellSize(3);
+    public static final int LIBRARY_COST = 20;
 
     public static final int COURSE_WIDTH = scaleToCellSize(5);
     public static final int COURSE_HEIGHT = scaleToCellSize(5);
+    public static final int COURSE_COST = 20;
 
     public static final int FOODZONE_WIDTH = scaleToCellSize(2);
     public static final int FOODZONE_HEIGHT = scaleToCellSize(2);
+    public static final int FOODZONE_COST = 10;
 
     public static final int RECREATIONAL_WIDTH = scaleToCellSize(3);
     public static final int RECREATIONAL_HEIGHT = scaleToCellSize(4);
+    public static final int RECREATIONAL_COST = 10;
 
     public static final int NATURE_WIDTH = scaleToCellSize(4);
     public static final int NATURE_HEIGHT = scaleToCellSize(5);
+    public static final int NATURE_COST = 5;
 }
