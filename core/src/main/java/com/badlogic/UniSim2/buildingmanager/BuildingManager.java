@@ -7,21 +7,24 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
 /**
- * This class is used to manage all of the placed {@link Building buildings} 
+ * This class is used to manage all of the placed {@link Building buildings}
  * on the map as well as a single selectedBuilding.
  */
 public class BuildingManager {
+
+    private Map map;
 
     private Array<Building> buildings; // Array of all the buildings on the map in order of when placed
 
     private Building currentBuilding; // References the building currently selected
 
-    private boolean currentlySelecting; // True when a building is selected and being being dragged 
+    private boolean currentlySelecting; // True when a building is selected and being being dragged
 
-    public BuildingManager() {
+    public BuildingManager(Map map) {
         buildings = new Array<>();
         currentBuilding = null;
         currentlySelecting = false;
+        this.map = map;
     }
 
     /**
@@ -48,7 +51,7 @@ public class BuildingManager {
             else if(backspacePressed){
                 removeBuilding();
             }
-            
+
             else{
                 handleDragging(mousePos); // Otherwise continue dragging the building
             }
@@ -67,8 +70,11 @@ public class BuildingManager {
      * the location where it should be placed.
      */
     private void handlePlacing(){
-        // If the current building is not colliding 
-        if(!isColliding(currentBuilding)){
+        boolean canAfford = map.getGame().getGameScreen().getMoney() >= currentBuilding.cost;
+
+        // If the current building is not colliding
+        if(!isColliding(currentBuilding) && canAfford){
+            map.getGame().getGameScreen().subtractMoney(currentBuilding.cost);
             currentBuilding.placeBuilding(); // Place building
             currentBuilding = null;
             currentlySelecting = false; // No longer selecting a building
@@ -76,7 +82,7 @@ public class BuildingManager {
     }
 
     /**
-     * Called when a building button has been pressed. Deals with placing a new building 
+     * Called when a building button has been pressed. Deals with placing a new building
      * corresponding to the button pressed determined with type
      * @param type The type of the building which the building button relates to.
      */
@@ -128,7 +134,8 @@ public class BuildingManager {
      */
     private void handleDragging(Vector2 mousPos){
         boolean colliding = isColliding(currentBuilding);
-        currentBuilding.handleDragging(mousPos, colliding);
+        boolean canAfford = map.getGame().getGameScreen().getMoney() >= currentBuilding.cost;
+        currentBuilding.handleDragging(mousPos, (colliding || !canAfford));
     }
 
     /**
@@ -138,7 +145,7 @@ public class BuildingManager {
      * @return true if the building is colliding with something and false otherwise.
      */
     private boolean isColliding(Building building){
-        
+
         // For all sprites that are collidable
         for(Sprite collidableSprite : Map.collidableSprites){
             // Check if the building is overlapping with any

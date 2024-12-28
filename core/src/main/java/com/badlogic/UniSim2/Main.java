@@ -42,6 +42,10 @@ public class Main extends Game {
         startScreen.dispose();
     }
 
+    public GameScreen getGameScreen() {
+        return gameScreen;
+    }
+
     /**
      * Ends the game by settings the screen to {@link #endScreen}. Should be called by
      * the {@link GameScreen} when the timer ends.

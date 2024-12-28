@@ -17,6 +17,7 @@ import com.badlogic.gdx.utils.Align;
 public class GameMenu {
     private Stage stage;
     private final Skin skin;
+    private BuildingManager buildingManager;
     private BuildingMenu buildingMenu;
     private Timer timer;
     private int money;
@@ -30,6 +31,7 @@ public class GameMenu {
         buildingMenu = new BuildingMenu(stage, buildings);
         this.timer = timer;
         this.money = money;
+        this.buildingManager = buildings;
         isPaused = false;
         createMenu();
     }

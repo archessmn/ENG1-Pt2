@@ -41,6 +41,23 @@ public class GameScreen implements Screen {
 
     }
 
+    public int getMoney() {
+        return money;
+    }
+
+    /**
+     * Subtracts an amount of money if the current amount of money is greater than or equal to it
+     * @param amount The amount of money to subtract
+     * @return If the money got subtracted
+     */
+    public boolean subtractMoney(int amount) {
+        if (this.money >= amount) {
+            this.money -= amount;
+            return true;
+        }
+        return false;
+    }
+
     @Override
     public void show() {
         menu.activate();
@@ -93,8 +110,8 @@ public class GameScreen implements Screen {
                 } else {
                     money += 10;
                 }
-                menu.updateMoney(money);
             }
+            menu.updateMoney(money);
 
             if (timer.hasReachedMaxTime()) {
                 game.endGame();

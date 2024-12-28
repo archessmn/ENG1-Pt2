@@ -24,8 +24,9 @@ public class Map {
     private final Grid grid;
 
     private BuildingManager buildings; // Used to control all the buildings in the game
-    public static Array<Sprite> collidableSprites; // Contains both buildings and paths 
-    
+    private Main game;
+    public static Array<Sprite> collidableSprites; // Contains both buildings and paths
+
     private final SpriteBatch spriteBatch;
     private StretchViewport viewport;
 
@@ -36,7 +37,9 @@ public class Map {
 
         grid = new Grid();
 
-        buildings = new BuildingManager();
+        this.game = game;
+
+        buildings = new BuildingManager(this);
         collidableSprites = new Array<Sprite>();
         Paths.createPaths();
 
@@ -48,7 +51,11 @@ public class Map {
     public BuildingManager getBuildingManager() {
         return buildings;
     }
-    
+
+    public Main getGame() {
+        return game;
+    }
+
 
     /**
      * Handles all input.
@@ -70,10 +77,10 @@ public class Map {
         drawBackground();
         grid.draw(viewport);
         drawPath();
-        buildings.draw(spriteBatch); 
+        buildings.draw(spriteBatch);
     }
 
-    // Required to start drawing 
+    // Required to start drawing
     private void drawSetup(){
         ScreenUtils.clear(Consts.BACKGROUND_COLOR);
         viewport.apply();

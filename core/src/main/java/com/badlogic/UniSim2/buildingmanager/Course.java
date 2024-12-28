@@ -15,7 +15,8 @@ public class Course extends Building{
             Assets.courseDraggingTexture,
             Consts.COURSE_WIDTH,
             Consts.COURSE_HEIGHT,
-            BuildingTypes.Course
+            BuildingTypes.Course,
+            Consts.COURSE_COST
         );
-    } 
+    }
 }

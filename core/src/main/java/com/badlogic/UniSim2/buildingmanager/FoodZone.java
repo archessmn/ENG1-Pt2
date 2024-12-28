@@ -15,7 +15,8 @@ public class FoodZone extends Building{
             Assets.foodZoneDraggingTexture,
             Consts.FOODZONE_WIDTH,
             Consts.FOODZONE_HEIGHT,
-            BuildingTypes.FoodZone
+            BuildingTypes.FoodZone,
+            Consts.FOODZONE_COST
         );
     }
 }

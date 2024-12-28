@@ -22,8 +22,10 @@ public abstract class Building extends Sprite {
     private boolean isSelected; // True when the corresponding building button is clicked
     private boolean isPlaced; // True when a building is placed on the grid
 
-    private final int width; 
+    private final int width;
     private final int height;
+
+    public final int cost;
 
     public enum BuildingTypes{
         Accomodation,
@@ -35,8 +37,8 @@ public abstract class Building extends Sprite {
         Nature
     }
     private BuildingTypes type;
-    
-    public Building(Texture placedTexture, Texture collisionTexture, Texture draggingTexture, int width, int height, BuildingTypes type) {
+
+    public Building(Texture placedTexture, Texture collisionTexture, Texture draggingTexture, int width, int height, BuildingTypes type, int cost) {
 
         this.placedTexture = placedTexture;
         this.collisionTexture = collisionTexture;
@@ -44,6 +46,7 @@ public abstract class Building extends Sprite {
         this.width = width;
         this.height = height;
         this.type = type;
+        this.cost = cost;
         isSelected = true;
         isPlaced = false;
 
@@ -69,7 +72,7 @@ public abstract class Building extends Sprite {
     }
 
     /**
-     * Should be called when is building is being dragged. Will update the 
+     * Should be called when is building is being dragged. Will update the
      * position to the mousePos and will set use the colliding texture
      * if colliding is set to true.
      * @param mousePos The mouse position in world coords.
@@ -121,7 +124,7 @@ public abstract class Building extends Sprite {
 
     /**
      * Ensures that the building stays within the boundaries set by {@link Consts#MAP_MIN_X_BOUNDARY},
-     * {@link Consts#MAP_MAX_X_BOUNDARY}, {@link Consts#MAP_MIN_Y_BOUNDARY} and 
+     * {@link Consts#MAP_MAX_X_BOUNDARY}, {@link Consts#MAP_MIN_Y_BOUNDARY} and
      * {@link Consts#MAP_MAX_Y_BOUNDARY}.
      */
     public void clampPosition() {
