@@ -21,16 +21,19 @@ public class GameMenu {
     private BuildingMenu buildingMenu;
     private Timer timer;
     private int money;
+    private double satisfaction;
     private Label timerLabel;
     private Label moneyLabel;
+    private Label satisfactionLabel;
     private boolean isPaused;
 
-    public GameMenu(Main game, Timer timer, int money, BuildingManager buildings){
+    public GameMenu(Main game, Timer timer, int money, double satisfaction, BuildingManager buildings){
         stage = new Stage(game.getViewport());
         skin = new Skin(Gdx.files.internal("ui/uiskin.json"));
         buildingMenu = new BuildingMenu(stage, buildings);
         this.timer = timer;
         this.money = money;
+        this.satisfaction = satisfaction;
         this.buildingManager = buildings;
         isPaused = false;
         createMenu();
@@ -47,6 +50,7 @@ public class GameMenu {
         buildingMenu.createBuildingMenu();
         createTimerLabel();
         createMoneyLabel();
+        createSatisfactionLabel();
     }
 
     // Adds a label at the top of the screen displaying the time
@@ -100,6 +104,21 @@ public class GameMenu {
         moneyLabel.setText(String.format("$%d", money));
     }
 
+    private void createSatisfactionLabel(){
+        satisfactionLabel = new Label(String.format("Satisfaction:\n%,.1f", satisfaction), skin);
+        satisfactionLabel.setFontScale(2);
+        satisfactionLabel.setAlignment(Align.center);
+        satisfactionLabel.setColor(Consts.TIMER_COLOR);
+
+        satisfactionLabel.setPosition(Consts.SATISFACTION_X, Consts.SATISFACTION_Y, Align.center);
+
+        stage.addActor(satisfactionLabel);
+    }
+
+    private void updateSatisfactionLabel(){
+        satisfactionLabel.setText(String.format("Satisfaction:\n%,.1f", satisfaction));
+    }
+
 
     /**
      * Should be called when the game is paused.
@@ -132,6 +151,7 @@ public class GameMenu {
         if (isPaused == false) {
             updateTimerLabel();
             updateMoneyLabel();
+            updateSatisfactionLabel();
         }
         buildingMenu.draw();
         stage.draw();
@@ -146,6 +166,10 @@ public class GameMenu {
 
     public void updateMoney(int money) {
         this.money = money;
+    }
+
+    public void updateSatisfaction(double satisfaction) {
+        this.satisfaction = satisfaction;
     }
 
     /**

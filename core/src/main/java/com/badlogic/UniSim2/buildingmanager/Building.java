@@ -27,7 +27,7 @@ public abstract class Building extends Sprite {
 
     public final int cost;
 
-    public enum BuildingTypes{
+    public enum BuildingTypes {
         Accomodation,
         LectureHall,
         Library,
@@ -36,6 +36,7 @@ public abstract class Building extends Sprite {
         Recreational,
         Nature
     }
+
     private BuildingTypes type;
 
     public Building(Texture placedTexture, Texture collisionTexture, Texture draggingTexture, int width, int height, BuildingTypes type, int cost) {
@@ -57,6 +58,7 @@ public abstract class Building extends Sprite {
     /**
      * Updates the position of the building to the specified mousePos. Will
      * ensure that the building is snapped to the grid.
+     *
      * @param mousePos The position of the mouse in world coords.
      */
     private void updatePosition(Vector2 mousePos) {
@@ -75,11 +77,12 @@ public abstract class Building extends Sprite {
      * Should be called when is building is being dragged. Will update the
      * position to the mousePos and will set use the colliding texture
      * if colliding is set to true.
-     * @param mousePos The mouse position in world coords.
+     *
+     * @param mousePos  The mouse position in world coords.
      * @param colliding true if the building is colliding with something in
-     * {@link Map#collidableSprites} and false otherwise.
+     *                  {@link Map#collidableSprites} and false otherwise.
      */
-    public void handleDragging(Vector2 mousePos, boolean colliding){
+    public void handleDragging(Vector2 mousePos, boolean colliding) {
         updatePosition(mousePos); // Sets the position of the building to the mouse position
         setDraggingTexture(colliding); // Sets texture to colliding if true, dragging if false
     }
@@ -106,7 +109,7 @@ public abstract class Building extends Sprite {
         SoundManager.playClick();
     }
 
-    private void incrementCount(){
+    private void incrementCount() {
         int index = type.ordinal();
         BuildingMenu.buildingCounts[index]++;
         BuildingMenu.updateCountLabel(index); // Increments the building count label by 1 and displays
@@ -116,6 +119,7 @@ public abstract class Building extends Sprite {
     /**
      * Sets the texture to collision or dragging dependings on if it is colliding
      * with another collidable in {@link Map#collidableSprites}.
+     *
      * @param collision true when the building is colliding and false otherwise.
      */
     private void setDraggingTexture(boolean collision) {
@@ -135,54 +139,57 @@ public abstract class Building extends Sprite {
     /**
      * Gets the distance from this building to another building. The distance
      * is defined by the x_distance + y_distance between buildings.
+     *
      * @param building The other building to find the distance between.
      * @return The distance. Can be rounded both down and up.
      */
-    public int getDistanceFrom(Building building){
-    float xDistance = Math.abs(getX() - building.getX());
-    float yDistance = Math.abs(getY() - building.getY());
-    int distance = Math.round(xDistance + yDistance);
-    return distance;
+    public int getDistanceFrom(Building building) {
+        float xDistance = Math.abs(getX() - building.getX());
+        float yDistance = Math.abs(getY() - building.getY());
+        int distance = Math.round(xDistance + yDistance);
+        return distance;
     }
 
     // Gets the vector of the centre of the building
-    public Vector2 getCentre(){
+    public Vector2 getCentre() {
         return new Vector2(getX() + width / 2, getY() + height / 2);
     }
 
     /**
      * Returns the column of the bottom left square of the building.
+     *
      * @return
      */
-    public int getCol(){
-        return (int)(getX() / Consts.CELL_SIZE);
+    public int getCol() {
+        return (int) (getX() / Consts.CELL_SIZE);
     }
 
     /**
      * Returns the row of the bottom left square of the building.
+     *
      * @return
      */
-    public int getRow(){
-        return (int)(Consts.GRID_ROWS - getY() / Consts.CELL_SIZE);
+    public int getRow() {
+        return (int) (Consts.GRID_ROWS - getY() / Consts.CELL_SIZE);
     }
 
-    public boolean getIsSelected(){
+    public boolean getIsSelected() {
         return isSelected;
     }
 
-    public boolean getIsPlaced(){
+    public boolean getIsPlaced() {
         return isPlaced;
     }
 
-    public int getBuildingWidth(){
+    public int getBuildingWidth() {
         return width;
     }
 
-    public int getBuildingHeight(){
+    public int getBuildingHeight() {
         return height;
     }
 
-    public BuildingTypes getType(){
+    public BuildingTypes getType() {
         return type;
     }
 
