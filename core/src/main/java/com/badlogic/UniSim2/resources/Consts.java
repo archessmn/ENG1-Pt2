@@ -15,6 +15,9 @@ public class Consts {
      */
     public static final int CELL_SIZE = 20;
 
+    public static final int WORLD_CELL_WIDTH = 75;
+    public static final int WORLD_CELL_HEIGHT = 38;
+
     /**
      * Scales a value according to the size of each grid cell.
      * @param value The value to scale.
@@ -23,8 +26,8 @@ public class Consts {
     private static int scaleToCellSize(int value){
         return value * CELL_SIZE;
     }
-    public static final int WORLD_WIDTH = scaleToCellSize(75);
-    public static final int WORLD_HEIGHT = scaleToCellSize(38);
+    public static final int WORLD_WIDTH = scaleToCellSize(WORLD_CELL_WIDTH);
+    public static final int WORLD_HEIGHT = scaleToCellSize(WORLD_CELL_HEIGHT);
 
     public static final int START_BUTTON_WIDTH = scaleToCellSize(10);
     public static final int START_BUTTON_HEIGHT = scaleToCellSize(6);
@@ -80,6 +83,8 @@ public class Consts {
     public static final int TIMER_Y = WORLD_HEIGHT - scaleToCellSize(2);
     public static final int MONEY_X = scaleToCellSize(4);
     public static final int MONEY_Y = WORLD_HEIGHT - scaleToCellSize(32);
+    public static final int SATISFACTION_X = scaleToCellSize(4);
+    public static final int SATISFACTION_Y = WORLD_HEIGHT - scaleToCellSize(36);
     public static final int TIMER_SIZE = 3;
     public static final Color TIMER_COLOR = new Color(Color.BLACK);
     public static final int MAX_TIME = 300;

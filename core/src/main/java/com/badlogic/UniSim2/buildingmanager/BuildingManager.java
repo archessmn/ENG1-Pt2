@@ -6,6 +6,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.stream.Collectors;
+
 /**
  * This class is used to manage all of the placed {@link Building buildings}
  * on the map as well as a single selectedBuilding.
@@ -29,36 +33,39 @@ public class BuildingManager {
 
     /**
      * Adds currentBuilding to the buildings array and to collidableSprites array.
+     *
      * @param building The building to add.
      */
-    private void addBuilding(Building building){
+    private void addBuilding(Building building) {
         buildings.add(building);
         Map.collidableSprites.add(building);
     }
 
+    public Array<Building> getBuildings() {
+        return buildings;
+    }
+
     /**
      * Used to determine what to do when the mouse moves or clicks.
+     *
      * @param mousePos The position of the mouse in world coordinates.
-     * @param clicked true if a click has happened and false if not.
+     * @param clicked  true if a click has happened and false if not.
      */
     public void input(Vector2 mousePos, boolean clicked, boolean backspacePressed) {
 
         // If we're currently selecting a building
-        if(currentlySelecting){
-            if(clicked){
+        if (currentlySelecting) {
+            if (clicked) {
                 handlePlacing(); // Place the building in the location of the click
-            }
-            else if(backspacePressed){
+            } else if (backspacePressed) {
                 removeBuilding();
-            }
-
-            else{
+            } else {
                 handleDragging(mousePos); // Otherwise continue dragging the building
             }
         }
     }
 
-    private void removeBuilding(){
+    private void removeBuilding() {
         buildings.removeValue(currentBuilding, true);
         Map.collidableSprites.removeValue(currentBuilding, true);
         currentBuilding = null;
@@ -69,11 +76,11 @@ public class BuildingManager {
      * Used to place a building in a location. The {@link #currentBuilding} holds
      * the location where it should be placed.
      */
-    private void handlePlacing(){
+    private void handlePlacing() {
         boolean canAfford = map.getGame().getGameScreen().getMoney() >= currentBuilding.cost;
 
         // If the current building is not colliding
-        if(!isColliding(currentBuilding) && canAfford){
+        if (!isColliding(currentBuilding) && canAfford) {
             map.getGame().getGameScreen().subtractMoney(currentBuilding.cost);
             currentBuilding.placeBuilding(); // Place building
             currentBuilding = null;
@@ -84,9 +91,10 @@ public class BuildingManager {
     /**
      * Called when a building button has been pressed. Deals with placing a new building
      * corresponding to the button pressed determined with type
+     *
      * @param type The type of the building which the building button relates to.
      */
-    public void handleSelection(Building.BuildingTypes type){
+    public void handleSelection(Building.BuildingTypes type) {
 
         handleType(type); // Sets current building to the type of building selected
         currentlySelecting = true; // Sets currently selecting to true as we have selected a building to drag and place
@@ -96,10 +104,11 @@ public class BuildingManager {
 
     /**
      * Creates a new building based on the type.
+     *
      * @param type The type of the building to create.
      */
-    private void handleType(Building.BuildingTypes type){
-        switch(type){
+    private void handleType(Building.BuildingTypes type) {
+        switch (type) {
             case Accomodation:
                 currentBuilding = new Accomodation();
                 break;
@@ -130,9 +139,10 @@ public class BuildingManager {
      * Updates the position of the currently selected building to the mouse pos and changes
      * the texture of the building depending on whether it is colliding with
      * another building.
+     *
      * @param mousPos The position of the mouse if world coords.
      */
-    private void handleDragging(Vector2 mousPos){
+    private void handleDragging(Vector2 mousPos) {
         boolean colliding = isColliding(currentBuilding);
         boolean canAfford = map.getGame().getGameScreen().getMoney() >= currentBuilding.cost;
         currentBuilding.handleDragging(mousPos, (colliding || !canAfford));
@@ -141,17 +151,18 @@ public class BuildingManager {
     /**
      * Checks whether a building is colliding with anything in
      * {@link Map#collidableSprites}.
+     *
      * @param building The building to check.
      * @return true if the building is colliding with something and false otherwise.
      */
-    private boolean isColliding(Building building){
+    private boolean isColliding(Building building) {
 
         // For all sprites that are collidable
-        for(Sprite collidableSprite : Map.collidableSprites){
+        for (Sprite collidableSprite : Map.collidableSprites) {
             // Check if the building is overlapping with any
             boolean overlaps = building.getBoundingRectangle().overlaps(collidableSprite.getBoundingRectangle());
             // If so then return true
-            if(!building.equals(collidableSprite) && overlaps){
+            if (!building.equals(collidableSprite) && overlaps) {
                 return true;
             }
         }
@@ -159,22 +170,35 @@ public class BuildingManager {
         return false;
     }
 
+    public boolean hasEveryType() {
+        HashMap<Building.BuildingTypes, Boolean> currentTypes = new HashMap<>();
+
+        for (Building building : buildings) {
+            if (building.getIsPlaced()) {
+                currentTypes.put(building.getType(), true);
+            }
+        }
+
+        return currentTypes.size() == Building.BuildingTypes.values().length;
+    }
+
     /**
      * Draws all the buildings and clamps them to ensure they cannot go outside
      * of the map boundaries. Will also draw the {@link #currentBuilding}
      * on top of any placed buildings.
+     *
      * @param spriteBatch
      */
     public void draw(SpriteBatch spriteBatch) {
         spriteBatch.begin();
         for (Building building : buildings) {
             building.clampPosition(); // Ensures the buildings cannot be outside the map boundaries
-            if(!building.equals(currentBuilding)){
-            building.draw(spriteBatch);
+            if (!building.equals(currentBuilding)) {
+                building.draw(spriteBatch);
             }
         }
         // Draws currentBuilding on top of every other building
-        if(currentBuilding != null){
+        if (currentBuilding != null) {
             currentBuilding.draw(spriteBatch);
         }
         spriteBatch.end();
@@ -183,15 +207,15 @@ public class BuildingManager {
     /**
      * @return true if a building is currently being selected and false otherwise.
      */
-    public boolean getCurrentlySelecting(){
+    public boolean getCurrentlySelecting() {
         return currentlySelecting;
     }
 
     /**
      * Calls {@link Building#dispose()} on each building this stores.
      */
-    public void dispose(){
-        for(Building building : buildings){
+    public void dispose() {
+        for (Building building : buildings) {
             building.dispose();
         }
     }
