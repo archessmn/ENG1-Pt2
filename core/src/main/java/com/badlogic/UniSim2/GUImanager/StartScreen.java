@@ -36,16 +36,15 @@ public class StartScreen implements Screen {
     public void show() {
         Gdx.input.setInputProcessor(stage);
     }
-
     /**
      * Adds a start button to the menu.
      */
     private void addStartButton(){
         setupStartButton(); // Initializes startButton with the correct textures, size, and position
-        addStartButtonClick(); // Adds a click listener to start button 
+        addStartButtonClick(); // Adds a click listener to start button
     }
 
-    // Initializes startButton 
+    // Initializes startButton
     private void setupStartButton(){
 
         // Setting up the textures
@@ -85,7 +84,7 @@ public class StartScreen implements Screen {
         spriteBatch.begin();
         spriteBatch.draw(Assets.startBackgroundTexture, 0, 0, Consts.WORLD_WIDTH, Consts.WORLD_HEIGHT);
         spriteBatch.end();
-        
+
     }
 
     @Override

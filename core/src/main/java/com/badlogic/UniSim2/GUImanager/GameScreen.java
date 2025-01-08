@@ -29,6 +29,7 @@ public class GameScreen implements Screen {
 
     private int money;
     private double satisfaction;
+    private int score;
 
     private GameMenu menu; // Used to make and display the game menu
 
@@ -47,6 +48,7 @@ public class GameScreen implements Screen {
         timer = new Timer();
         money = 250;
         satisfaction = 0;
+        score = 0;
         map = new Map(game);
         menu = new GameMenu(game, timer, money, satisfaction, map.getBuildingManager());
         SoundManager.playMusic();
@@ -107,7 +109,8 @@ public class GameScreen implements Screen {
         }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
-            game.endGame();
+            calculateScore();
+            game.endGame(score);
             hasEnded = true;
         }
 
@@ -220,10 +223,18 @@ public class GameScreen implements Screen {
             menu.updateSatisfaction(satisfaction);
 
             if (timer.hasReachedMaxTime()) {
-                game.endGame();
+                calculateScore();
+                game.endGame(score);
                 hasEnded = true;
             }
         }
+    }
+
+    /**
+     * Calculates the score of the player by the end of the game.
+     */
+    public void calculateScore(){
+        score = (int)(satisfaction) + money/10;
     }
 
     /**
