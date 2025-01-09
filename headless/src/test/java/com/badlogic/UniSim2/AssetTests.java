@@ -54,8 +54,8 @@ public class AssetTests extends AbstractHeadlessGdxTest {
      * Button Up Assets
      */
     @Test
-    public void testAccomodationButtonUpTextureEists() {
-        assertTrue(Gdx.files.internal("textures/buttons/accomodationButtonUp.png").exists());
+    public void testAccommodationButtonUpTextureEists() {
+        assertTrue(Gdx.files.internal("textures/buttons/accommodationButtonUp.png").exists());
     }
 
     @Test
@@ -93,8 +93,8 @@ public class AssetTests extends AbstractHeadlessGdxTest {
      * Button Down Assets
      */
     @Test
-    public void testAccomodationButtonDownTextureExists() {
-        assertTrue(Gdx.files.internal("textures/buttons/accomodationButtonDown.png").exists());
+    public void testAccommodationButtonDownTextureExists() {
+        assertTrue(Gdx.files.internal("textures/buttons/accommodationButtonDown.png").exists());
     }
 
     @Test
@@ -131,18 +131,18 @@ public class AssetTests extends AbstractHeadlessGdxTest {
      * Building Assets
      */
     @Test
-    public void testAccomodationPlacedTextureExists() {
-        assertTrue(Gdx.files.internal("textures/buildings/accomodationPlaced.png").exists());
+    public void testAccommodationPlacedTextureExists() {
+        assertTrue(Gdx.files.internal("textures/buildings/accommodationPlaced.png").exists());
     }
 
     @Test
-    public void testAccomodationCollisionTextureExists() {
-        assertTrue(Gdx.files.internal("textures/buildings/accomodationCollision.png").exists());
+    public void testAccommodationCollisionTextureExists() {
+        assertTrue(Gdx.files.internal("textures/buildings/accommodationCollision.png").exists());
     }
 
     @Test
-    public void testAccomodationDraggingTextureExists() {
-        assertTrue(Gdx.files.internal("textures/buildings/accomodationDragging.png").exists());
+    public void testAccommodationDraggingTextureExists() {
+        assertTrue(Gdx.files.internal("textures/buildings/accommodationDragging.png").exists());
     }
 
     @Test

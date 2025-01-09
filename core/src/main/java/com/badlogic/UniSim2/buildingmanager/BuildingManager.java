@@ -6,9 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.stream.Collectors;
 
 /**
  * This class is used to manage all of the placed {@link Building buildings}
@@ -109,8 +107,8 @@ public class BuildingManager {
      */
     private void handleType(Building.BuildingTypes type) {
         switch (type) {
-            case Accomodation:
-                currentBuilding = new Accomodation();
+            case Accommodation:
+                currentBuilding = new Accommodation();
                 break;
             case LectureHall:
                 currentBuilding = new LectureHall();
