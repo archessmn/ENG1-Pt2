@@ -16,7 +16,7 @@ public class Library extends Building{
             Consts.LIBRARY_WIDTH,
             Consts.LIBRARY_HEIGHT,
             BuildingTypes.Library,
-            Consts.LECTUREHALL_COST
+            Consts.LIBRARY_COST
         );
     }
 }

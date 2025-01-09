@@ -106,29 +106,29 @@ public class Consts {
 
     public static final int ACCOMODATION_WIDTH = scaleToCellSize(4);
     public static final int ACCOMODATION_HEIGHT = scaleToCellSize(6);
-    public static final int ACCOMODATION_COST = 50;
+    public static final int ACCOMODATION_COST = 100;
 
     public static final int LECTUREHALL_WIDTH = scaleToCellSize(6);
     public static final int LECTUREHALL_HEIGHT = scaleToCellSize(10);
-    public static final int LECTUREHALL_COST = 30;
+    public static final int LECTUREHALL_COST = 60;
 
     public static final int LIBRARY_WIDTH = scaleToCellSize(10);
     public static final int LIBRARY_HEIGHT = scaleToCellSize(3);
-    public static final int LIBRARY_COST = 20;
+    public static final int LIBRARY_COST = 40;
 
     public static final int COURSE_WIDTH = scaleToCellSize(5);
     public static final int COURSE_HEIGHT = scaleToCellSize(5);
-    public static final int COURSE_COST = 20;
+    public static final int COURSE_COST = 40;
 
     public static final int FOODZONE_WIDTH = scaleToCellSize(2);
     public static final int FOODZONE_HEIGHT = scaleToCellSize(2);
-    public static final int FOODZONE_COST = 10;
+    public static final int FOODZONE_COST = 20;
 
     public static final int RECREATIONAL_WIDTH = scaleToCellSize(3);
     public static final int RECREATIONAL_HEIGHT = scaleToCellSize(4);
-    public static final int RECREATIONAL_COST = 10;
+    public static final int RECREATIONAL_COST = 20;
 
     public static final int NATURE_WIDTH = scaleToCellSize(4);
     public static final int NATURE_HEIGHT = scaleToCellSize(5);
-    public static final int NATURE_COST = 5;
+    public static final int NATURE_COST = 10;
 }
