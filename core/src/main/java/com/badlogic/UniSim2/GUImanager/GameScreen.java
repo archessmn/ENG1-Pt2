@@ -51,6 +51,7 @@ public class GameScreen implements Screen {
         score = 0;
         map = new Map(game);
         menu = new GameMenu(game, timer, money, satisfaction, map.getBuildingManager());
+
         SoundManager.playMusic();
 
         shapeRenderer = new ShapeRenderer();
@@ -180,7 +181,7 @@ public class GameScreen implements Screen {
                                 }
                             }
                             break;
-                        case Accomodation:
+                        case Accommodation:
                             proximityRectangle = new Rectangle(building.getBoundingRectangle());
                             proximityRectangle.set(proximityRectangle.x - (Consts.CELL_SIZE * 10), proximityRectangle.y - (Consts.CELL_SIZE * 10), proximityRectangle.width + (Consts.CELL_SIZE * 20), proximityRectangle.height + (Consts.CELL_SIZE * 20));
 
@@ -189,7 +190,7 @@ public class GameScreen implements Screen {
                             for (Building proximityBuilding : new Array.ArrayIterator<>(map.getBuildingManager().getBuildings())) {
                                 if (!proximityBuilding.getIsPlaced()) continue;
                                 switch (proximityBuilding.getType()) {
-                                    case Accomodation -> {}
+                                    case Accommodation -> {}
                                     default -> {
                                         if (proximityRectangle.overlaps(proximityBuilding.getBoundingRectangle())) {
                                             nearbyBuildings.put(proximityBuilding.getType(), true);
@@ -203,12 +204,12 @@ public class GameScreen implements Screen {
                             }
                             break;
                     }
-                    if (building.getType() == Building.BuildingTypes.Nature) {
-                        numNatures++;
-                        if (numNatures == 5) {
-                            break;
-                        }
-                    }
+//                    if (building.getType() == Building.BuildingTypes.Nature) {
+//                        numNatures++;
+//                        if (numNatures == 5) {
+//                            break;
+//                        }
+//                    }
                 }
 
                 satisfactionMultiplier += numNatures * 0.5;

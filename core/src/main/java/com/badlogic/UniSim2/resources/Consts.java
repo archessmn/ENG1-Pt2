@@ -104,9 +104,9 @@ public class Consts {
     public static final int MAP_MIN_Y_BOUNDARY = scaleToCellSize(0);
     public static final int MAP_MAX_Y_BOUNDARY = WORLD_HEIGHT;;
 
-    public static final int ACCOMODATION_WIDTH = scaleToCellSize(4);
-    public static final int ACCOMODATION_HEIGHT = scaleToCellSize(6);
-    public static final int ACCOMODATION_COST = 100;
+    public static final int ACCOMMODATION_WIDTH = scaleToCellSize(4);
+    public static final int ACCOMMODATION_HEIGHT = scaleToCellSize(6);
+    public static final int ACCOMMODATION_COST = 100;
 
     public static final int LECTUREHALL_WIDTH = scaleToCellSize(6);
     public static final int LECTUREHALL_HEIGHT = scaleToCellSize(10);

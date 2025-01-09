@@ -25,7 +25,7 @@ public class Assets {
 
     public static Texture menuBarTexture;
 
-    public static Texture accomodationButtonUpTexture;
+    public static Texture accommodationButtonUpTexture;
     public static Texture lectureHallButtonUpTexture;
     public static Texture libraryButtonUpTexture;
     public static Texture courseButtonUpTexture;
@@ -34,7 +34,7 @@ public class Assets {
     public static Texture natureButtonUpTexture;
     public static Texture[] buttonUpTextures;
 
-    public static Texture accomodationButtonDownTexture;
+    public static Texture accommodationButtonDownTexture;
     public static Texture lectureHallButtonDownTexture;
     public static Texture libraryButtonDownTexture;
     public static Texture courseButtonDownTexture;
@@ -43,9 +43,9 @@ public class Assets {
     public static Texture natureButtonDownTexture;
     public static Texture[] buttonDownTextures;
 
-    public static Texture accomodationPlacedTexture;
-    public static Texture accomodationCollisionTexture;
-    public static Texture accomodationDraggingTexture;
+    public static Texture accommodationPlacedTexture;
+    public static Texture accommodationCollisionTexture;
+    public static Texture accommodationDraggingTexture;
 
     public static Texture lectureHallPlacedTexture;
     public static Texture lectureHallCollisionTexture;
@@ -76,7 +76,7 @@ public class Assets {
     /**
      * This method loads all the textures that might be used.
      * Note that this method should not be called before libgdx has called the
-     * {@link Main#create()} method. 
+     * {@link Main#create()} method.
      */
     public static void loadTextures(){
 
@@ -101,7 +101,7 @@ public class Assets {
         // BUTTON TEXTURES
         // =======================================
         // Building button textures when not hovering over
-        accomodationButtonUpTexture =   new Texture("textures/buttons/accomodationButtonUp.png");
+        accommodationButtonUpTexture =   new Texture("textures/buttons/accommodationButtonUp.png");
         lectureHallButtonUpTexture =    new Texture("textures/buttons/lectureHallButtonUp.png");
         libraryButtonUpTexture =        new Texture("textures/buttons/libraryButtonUp.png");
         courseButtonUpTexture =         new Texture("textures/buttons/courseButtonUp.png");
@@ -110,7 +110,7 @@ public class Assets {
         natureButtonUpTexture =         new Texture("textures/buttons/natureButtonUp.png");
         buttonUpTextures = new Texture[]
         {
-            accomodationButtonUpTexture,
+            accommodationButtonUpTexture,
             lectureHallButtonUpTexture,
             libraryButtonUpTexture,
             courseButtonUpTexture,
@@ -120,7 +120,7 @@ public class Assets {
         };
 
         // Building button textures when hovering over
-        accomodationButtonDownTexture = new Texture("textures/buttons/accomodationButtonDown.png");
+        accommodationButtonDownTexture = new Texture("textures/buttons/accommodationButtonDown.png");
         lectureHallButtonDownTexture =  new Texture("textures/buttons/lectureHallButtonDown.png");
         libraryButtonDownTexture =      new Texture("textures/buttons/libraryButtonDown.png");
         courseButtonDownTexture =       new Texture("textures/buttons/courseButtonDown.png");
@@ -129,7 +129,7 @@ public class Assets {
         natureButtonDownTexture =       new Texture("textures/buttons/natureButtonDown.png");
         buttonDownTextures = new Texture[]
         {
-            accomodationButtonDownTexture,
+            accommodationButtonDownTexture,
             lectureHallButtonDownTexture,
             libraryButtonDownTexture,
             courseButtonDownTexture,
@@ -141,9 +141,9 @@ public class Assets {
         // =======================================
         // BUILDING SPRITE TEXTURES
         // =======================================
-        accomodationPlacedTexture =     new Texture("textures/buildings/accomodationPlaced.png");
-        accomodationCollisionTexture =  new Texture("textures/buildings/accomodationCollision.png");
-        accomodationDraggingTexture =   new Texture("textures/buildings/accomodationDragging.png");
+        accommodationPlacedTexture =     new Texture("textures/buildings/accommodationPlaced.png");
+        accommodationCollisionTexture =  new Texture("textures/buildings/accommodationCollision.png");
+        accommodationDraggingTexture =   new Texture("textures/buildings/accommodationDragging.png");
 
         lectureHallPlacedTexture =      new Texture("textures/buildings/lectureHallPlaced.png");
         lectureHallCollisionTexture =   new Texture("textures/buildings/lectureHallCollision.png");

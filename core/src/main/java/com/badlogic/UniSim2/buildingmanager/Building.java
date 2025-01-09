@@ -28,7 +28,7 @@ public abstract class Building extends Sprite {
     public final int cost;
 
     public enum BuildingTypes {
-        Accomodation,
+        Accommodation,
         LectureHall,
         Library,
         Course,
