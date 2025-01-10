@@ -111,7 +111,7 @@ public class GameScreen implements Screen {
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
             calculateScore();
-            game.endGame(score);
+            game.endGame(score, satisfaction);
             hasEnded = true;
         }
 
@@ -225,7 +225,7 @@ public class GameScreen implements Screen {
 
             if (timer.hasReachedMaxTime()) {
                 calculateScore();
-                game.endGame(score);
+                game.endGame(score, satisfaction);
                 hasEnded = true;
             }
         }
