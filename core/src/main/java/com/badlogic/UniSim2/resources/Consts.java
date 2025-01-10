@@ -91,8 +91,11 @@ public class Consts {
 
     public static final int SCORE_LABEL_WIDTH = scaleToCellSize(6);
     public static final int SCORE_LABEL_HEIGHT = scaleToCellSize(2);
-    public static final int SCORE_LABEL_X = (WORLD_WIDTH/2) - scaleToCellSize(4) + 75;
-    public static final int SCORE_LABEL_Y = (WORLD_HEIGHT/2) - scaleToCellSize(4)+ 75;
+    public static final int SCOREBOARD_LABEL_X = (WORLD_WIDTH/2) - scaleToCellSize(10);
+    public static final int SCOREBOARD_LABEL_Y = (WORLD_HEIGHT/2) - scaleToCellSize(4)+ 75;
+
+    public static final int GAME_STATUS_LABEL_X = (WORLD_WIDTH/2) + scaleToCellSize(8);
+    public static final int GAME_STATUS_LABEL_Y = (WORLD_HEIGHT/2) - scaleToCellSize(5)+ 75;
 
     public static final int LABEL_GAP = 40;
 

@@ -30,32 +30,44 @@ public class EndScreen implements Screen {
     private Label scoreLabel;
     private Label scoreNum;
     private final Skin skin;
-    private int score;
+    private final int score;
+    private double satisfaction;
+    private final boolean didWin;
     private Scanner scanBoard;
 
     SpriteBatch spriteBatch = new SpriteBatch();
 
-    public EndScreen(Main game, int score){
+    public EndScreen(Main game, int score, double satisfaction){
         this.game = game;
         this.viewport = game.getViewport();
         this.stage = new Stage(this.viewport);
         this.skin = new Skin(Gdx.files.internal("ui/uiskin.json"));
         this.score = score;
+        this.satisfaction = satisfaction;
+
+        didWin = satisfaction >= 500;
+
+
         addToScoreBoard();
         createScoreBoard();
+        createScoreLabel();
+        stage.setDebugAll(true);
     }
 
     // Adds a label to the middle of the screen displaying the score that the player
     // managed to get throughout the game.
     private void createScoreLabel() {
         // Initialize scoreLabel
-        scoreLabel = new Label("Score : " + score, skin);
+        scoreLabel = new Label("You " + (didWin ? "Won!!!" : "Lost :(") +
+            "\nScore : " + score +
+            "\nSatisfaction: " + (int) satisfaction + (!didWin ? "\n^ 500 needed to win." : ""), skin);
         scoreLabel.setFontScale(3);
         scoreLabel.setAlignment(Align.center);
+        scoreLabel.setAlignment(Align.top);
         scoreLabel.setColor(Consts.TIMER_COLOR);
 
         // Position the label at the top center of the screen
-        scoreLabel.setPosition(Consts.SCORE_LABEL_X, Consts.SCORE_LABEL_Y, Align.center);
+        scoreLabel.setPosition(Consts.GAME_STATUS_LABEL_X, Consts.GAME_STATUS_LABEL_Y, Align.center);
 
         // Add the label to the stage
         stage.addActor(scoreLabel);
@@ -105,12 +117,12 @@ public class EndScreen implements Screen {
         scoreLabel.setColor(Consts.TIMER_COLOR);
 
         // Position the label at the top center of the screen
-        scoreLabel.setPosition(Consts.SCORE_LABEL_X, Consts.SCORE_LABEL_Y, Align.center);
+        scoreLabel.setPosition(Consts.SCOREBOARD_LABEL_X, Consts.SCOREBOARD_LABEL_Y, Align.center);
 
         // Add the label to the stage
         stage.addActor(scoreLabel);
 
-        Integer varStringHeight = Consts.SCORE_LABEL_Y;
+        Integer varStringHeight = Consts.SCOREBOARD_LABEL_Y;
 
         File leaderboard = new File("Leaderboard.txt");
         try {
@@ -124,7 +136,7 @@ public class EndScreen implements Screen {
                     scoreNum.setFontScale(3);
                     scoreNum.setAlignment(Align.center);
                     scoreNum.setColor(Consts.TIMER_COLOR);
-                    scoreNum.setPosition(Consts.SCORE_LABEL_X, varStringHeight, Align.center);
+                    scoreNum.setPosition(Consts.SCOREBOARD_LABEL_X, varStringHeight, Align.center);
                     stage.addActor(scoreNum);
                 }
             }

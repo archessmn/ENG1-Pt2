@@ -137,14 +137,17 @@ public class BuildingMenu {
      * @param button The button to add the listener to.
      * @param type The type of building that button represents. This building type
      * will be created when the button is pressed.
-     * @param index The index of the building in the enum {@link Building#BuildingTypes}
+     * @param index The index of the building in the enum {@link com.badlogic.UniSim2.buildingmanager.Building.BuildingTypes}
      */
     private void addImageButtonClick(ImageButton button, Building.BuildingTypes type, int index){
         button.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y){
-                // Prevents clicking a button while already selecting a building
-                if(!buildings.getCurrentlySelecting()){
+                // If the currently selected building matches the button type, just unselect it, otherwise unselect and select new
+                if (buildings.getCurrentlySelecting() && buildings.getSelectedType() == type) {
+                    buildings.cancelCurrentlySelecting();
+                } else {
+                    buildings.cancelCurrentlySelecting();
                     SoundManager.playClick();
                     buildings.handleSelection(type); // Creates a building of whatever type the button pressed is
                 }
@@ -176,7 +179,7 @@ public class BuildingMenu {
 
     /**
      * Increments the count label for a specified building button label.
-     * @param index The index of the building in the enum {@link Building#BuildingTypes}
+     * @param index The index of the building in the enum {@link com.badlogic.UniSim2.buildingmanager.Building.BuildingTypes}
      */
     public static void updateCountLabel(int index){
         countLabels.get(index).setText(String.valueOf(buildingCounts[index]));

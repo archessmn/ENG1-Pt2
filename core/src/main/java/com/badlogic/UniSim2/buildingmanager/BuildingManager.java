@@ -209,6 +209,17 @@ public class BuildingManager {
         return currentlySelecting;
     }
 
+    public Building.BuildingTypes getSelectedType() {
+        return currentBuilding.getType();
+    }
+
+    public boolean cancelCurrentlySelecting() {
+        if (currentlySelecting) {
+            removeBuilding();
+            return true;
+        } else return false;
+    }
+
     /**
      * Calls {@link Building#dispose()} on each building this stores.
      */
