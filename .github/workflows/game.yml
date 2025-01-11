@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repo
+      - name: Checkout Repo
         uses: actions/checkout@v4
 
       - name: Setup Java
@@ -19,10 +19,13 @@ jobs:
         with:
           distribution: "corretto"
           java-version: "17"
+
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
+
       - name: Build Game
         run: ./gradlew build
+
       - name: Copy Game File
         run: mv lwjgl3/build/libs/UniSim2-1.0.0.jar lwjgl3/build/libs/ENG1-Pt2-CH2-GRP3-UniSim2-1.0.0.jar
 
