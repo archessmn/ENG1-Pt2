@@ -107,7 +107,7 @@ public class GameScreen implements Screen {
         menu.input();
         map.input();
 
-        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) || Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
             if (isPaused) {
                 isPaused = false;
                 menu.resume();
