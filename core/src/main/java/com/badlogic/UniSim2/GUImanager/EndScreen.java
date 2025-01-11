@@ -76,27 +76,56 @@ public class EndScreen implements Screen {
     // Checks if score is high enough be added to leaderboard
     private void addToScoreBoard(){
         File leaderboard = new File("Leaderboard.txt");
+        try {
+            if (leaderboard.createNewFile()) {
+                newScoreBoard(leaderboard);
+                return;
+            }
+        }
+        catch (IOException e){
+            throw new RuntimeException(e);
+        }
         ArrayList<Integer> boardList = new ArrayList<Integer>();
         try {
             scanBoard = new Scanner(leaderboard);
             for (int i = 0; i<5; i++) {
-            if (scanBoard.hasNext()) {
-                String string = scanBoard.next();
-                boardList.add(Integer.valueOf(string));
-            }
+                if (scanBoard.hasNext()) {
+                    String string = scanBoard.next();
+                    boardList.add(Integer.valueOf(string));
+                }
             }
             scanBoard.close();
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
         Integer currentScore;
+        boolean appended = false;
         for (int i = 0; i < boardList.size(); i++) {
             currentScore = (Integer) boardList.get(i);
             if (currentScore < score) {
                 boardList.add(i, score);
+                appended = true;
                 break;
             }
         }
+        if ((boardList.size() < 5) && (!appended)){
+            boardList.add(score);
+        }
+        try{
+            BufferedWriter writeBoard = new BufferedWriter(new FileWriter(leaderboard));
+            for (int i = 0; i < boardList.size(); i++){
+                writeBoard.write(boardList.get(i) + "\r\n");
+            }
+            writeBoard.flush();
+            writeBoard.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void newScoreBoard(File leaderboard){
+        ArrayList<Integer> boardList = new ArrayList<Integer>();
+        boardList.add(score);
         try{
             BufferedWriter writeBoard = new BufferedWriter(new FileWriter(leaderboard));
             for (int i = 0; i < boardList.size(); i++){
