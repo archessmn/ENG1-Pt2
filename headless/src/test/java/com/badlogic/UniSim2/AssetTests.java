@@ -7,9 +7,14 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+/**
+ // Test that all the asset files exist and are loaded,
+ // there's likely better ways to do it but at least this gives a granular view of what's wrong.
+ */
 public class AssetTests extends AbstractHeadlessGdxTest {
-
-
+    /**
+     * Test Sound files
+     */
     @Test
     public void testMusicExists() {
         assertTrue(Gdx.files.internal("sounds/music.mp3").exists());
@@ -20,6 +25,9 @@ public class AssetTests extends AbstractHeadlessGdxTest {
         assertTrue(Gdx.files.internal("sounds/click.mp3").exists());
     }
 
+    /**
+     * Test generic textures
+     */
     @Test
     public void testStartBackgroundTextureExists() {
         assertTrue(Gdx.files.internal("startBackground.png").exists());
@@ -54,37 +62,37 @@ public class AssetTests extends AbstractHeadlessGdxTest {
      * Button Up Assets
      */
     @Test
-    public void testAccommodationButtonUpTextureEists() {
+    public void testAccommodationButtonUpTextureExists() {
         assertTrue(Gdx.files.internal("textures/buttons/accommodationButtonUp.png").exists());
     }
 
     @Test
-    public void testLectureHallButtonUpTextureEists() {
+    public void testLectureHallButtonUpTextureExists() {
         assertTrue(Gdx.files.internal("textures/buttons/lectureHallButtonUp.png").exists());
     }
 
     @Test
-    public void testLibraryButtonUpTextureEists() {
+    public void testLibraryButtonUpTextureExists() {
         assertTrue(Gdx.files.internal("textures/buttons/libraryButtonUp.png").exists());
     }
 
     @Test
-    public void testCourseButtonUpTextureEists() {
+    public void testCourseButtonUpTextureExists() {
         assertTrue(Gdx.files.internal("textures/buttons/courseButtonUp.png").exists());
     }
 
     @Test
-    public void testFoodZoneButtonUpTextureEists() {
+    public void testFoodZoneButtonUpTextureExists() {
         assertTrue(Gdx.files.internal("textures/buttons/foodZoneButtonUp.png").exists());
     }
 
     @Test
-    public void testRecreationalButtonUpTextureEists() {
+    public void testRecreationalButtonUpTextureExists() {
         assertTrue(Gdx.files.internal("textures/buttons/recreationalButtonUp.png").exists());
     }
 
     @Test
-    public void testNatureButtonUpTextureEists() {
+    public void testNatureButtonUpTextureExists() {
         assertTrue(Gdx.files.internal("textures/buttons/natureButtonUp.png").exists());
     }
 
@@ -128,7 +136,7 @@ public class AssetTests extends AbstractHeadlessGdxTest {
     }
 
     /**
-     * Building Assets
+     * Building Assets (Placed, Collision and Dragging for each type)
      */
     @Test
     public void testAccommodationPlacedTextureExists() {
