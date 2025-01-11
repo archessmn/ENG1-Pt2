@@ -6,6 +6,10 @@ on:
       - opened
       - edited
 
+  push:
+    branches:
+      - main
+
 jobs:
   test:
     name: Test
