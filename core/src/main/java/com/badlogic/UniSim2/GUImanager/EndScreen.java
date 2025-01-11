@@ -35,23 +35,30 @@ public class EndScreen implements Screen {
     private final boolean didWin;
     private Scanner scanBoard;
 
-    SpriteBatch spriteBatch = new SpriteBatch();
+    private SpriteBatch spriteBatch;
 
-    public EndScreen(Main game, int score, double satisfaction){
+    public EndScreen (Main game, int score, double satisfaction, boolean headless) {
         this.game = game;
         this.viewport = game.getViewport();
-        this.stage = new Stage(this.viewport);
+
         this.skin = new Skin(Gdx.files.internal("ui/uiskin.json"));
         this.score = score;
         this.satisfaction = satisfaction;
 
-        didWin = satisfaction >= 500;
+        didWin = hasWon();
 
+        if (!headless) {
+            this.stage = new Stage(this.viewport);
+            spriteBatch = new SpriteBatch();
 
-        addToScoreBoard();
-        createScoreBoard();
-        createScoreLabel();
-        stage.setDebugAll(true);
+            addToScoreBoard();
+            createScoreBoard();
+            createScoreLabel();
+        }
+    }
+
+    public EndScreen(Main game, int score, double satisfaction){
+        this(game, score, satisfaction, false);
     }
 
     // Adds a label to the middle of the screen displaying the score that the player
@@ -161,6 +168,14 @@ public class EndScreen implements Screen {
 
     }
 
+    public boolean hasWon(double satisfaction) {
+        return satisfaction >= 500;
+    }
+
+    public boolean hasWon() {
+        return hasWon(satisfaction);
+    }
+
     @Override
     public void render(float delta) {
         viewport.apply();
@@ -193,3 +208,4 @@ public class EndScreen implements Screen {
         skin.dispose();
     }
 }
+
