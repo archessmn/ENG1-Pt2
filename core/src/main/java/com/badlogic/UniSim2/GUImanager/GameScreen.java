@@ -22,6 +22,8 @@ import java.util.HashMap;
  * This screen is used when the game is being played.
  */
 public class GameScreen implements Screen {
+    private boolean headless = false;
+
     private Main game;
     private StretchViewport viewport;
 
@@ -42,20 +44,26 @@ public class GameScreen implements Screen {
 
     private Map map;
 
-    public GameScreen(Main game) {
+    public GameScreen (Main game) {
+        this(game, false);
+    }
+
+    public GameScreen(Main game, boolean headless) {
         this.game = game;
         viewport = game.getViewport();
         timer = new Timer();
         money = 250;
         satisfaction = 0;
         score = 0;
-        map = new Map(game);
-        menu = new GameMenu(game, timer, money, satisfaction, map.getBuildingManager());
 
-        SoundManager.playMusic();
+        if (!headless) {
+            map = new Map(game);
+            menu = new GameMenu(game, timer, money, satisfaction, map.getBuildingManager());
 
-        shapeRenderer = new ShapeRenderer();
+            SoundManager.playMusic();
 
+            shapeRenderer = new ShapeRenderer();
+        } else this.headless = true;
     }
 
     public int getMoney() {
@@ -121,107 +129,106 @@ public class GameScreen implements Screen {
      * Will update the timer or not (depending on whether the game is paused)
      * and will end the game if the timer has reached its max time.
      */
-    private void update() {
+    public void update() {
         if (!isPaused) {
             timer.update();
 
             if (timer.hasWholeSecondPassed()) {
                 // Money Calculations
-                // Increase money by 10 until half time, then by 20
+                // Increase money by 10 until half-time, then by 20
                 if (timer.getElapsedTime() >= 150) {
                     money += 20;
                 } else {
                     money += 10;
                 }
 
-                double satisfactionMultiplier = 1;
-                double satisfactionToAdd = 0;
+                if (!headless) {
+                    double satisfactionMultiplier = 1;
+                    double satisfactionToAdd = 0;
 
-                // Satisfaction Calculations
-                if (map.getBuildingManager().hasEveryType()) {
-                    satisfactionToAdd ++;
-                }
+                    // Satisfaction Calculations
+                    if (map.getBuildingManager().hasEveryType()) {
+                        satisfactionToAdd++;
+                    }
 
-                int numNatures = 0;
+                    int numNatures = 0;
 
-                Rectangle proximityRectangle;
+                    Rectangle proximityRectangle;
 
-                for (Building building : new Array.ArrayIterator<>(map.getBuildingManager().getBuildings())) {
-                    if (!building.getIsPlaced()) continue;
-                    switch (building.getType()) {
-                        case Nature:
-                            if (numNatures <= 4) numNatures++;
-                            break;
-                        case LectureHall:
-                        case FoodZone:
-                        case Library:
-                            // Check for {LectureHall, FoodZone, Library} within 3 tiles of a {Course, Recreational, LectureHall}
+                    for (Building building : new Array.ArrayIterator<>(map.getBuildingManager().getBuildings())) {
+                        if (!building.getIsPlaced()) continue;
+                        switch (building.getType()) {
+                            case Nature:
+                                if (numNatures <= 4) numNatures++;
+                                break;
+                            case LectureHall:
+                            case FoodZone:
+                            case Library:
+                                // Check for {LectureHall, FoodZone, Library} within 3 tiles of a {Course, Recreational, LectureHall}
 
-                            // Create a rectangle 3 tiles bigger on each side to check for overlaps
-                            proximityRectangle = new Rectangle(building.getBoundingRectangle());
-                            proximityRectangle.set(proximityRectangle.x - (Consts.CELL_SIZE * 3), proximityRectangle.y - (Consts.CELL_SIZE * 3), proximityRectangle.width + (Consts.CELL_SIZE * 6), proximityRectangle.height + (Consts.CELL_SIZE * 6));
+                                // Create a rectangle 3 tiles bigger on each side to check for overlaps
+                                proximityRectangle = new Rectangle(building.getBoundingRectangle());
+                                proximityRectangle.set(proximityRectangle.x - (Consts.CELL_SIZE * 3), proximityRectangle.y - (Consts.CELL_SIZE * 3), proximityRectangle.width + (Consts.CELL_SIZE * 6), proximityRectangle.height + (Consts.CELL_SIZE * 6));
 
-                            // Match current building type to one to match to
-                            Building.BuildingTypes matchType = switch (building.getType()) {
-                                case LectureHall -> Building.BuildingTypes.Course;
-                                case FoodZone -> Building.BuildingTypes.Recreational;
-                                case Library -> Building.BuildingTypes.LectureHall;
-                                default -> throw new IllegalStateException("Unexpected value in satisfaction switch: " + building.getType());
-                            };
+                                // Match current building type to one to match to
+                                Building.BuildingTypes matchType = switch (building.getType()) {
+                                    case LectureHall -> Building.BuildingTypes.Course;
+                                    case FoodZone -> Building.BuildingTypes.Recreational;
+                                    case Library -> Building.BuildingTypes.LectureHall;
+                                    default ->
+                                        throw new IllegalStateException("Unexpected value in satisfaction switch: " + building.getType());
+                                };
 
-                            // Find the matching buildings and check if they overlap
-                            for (Building proximityBuilding : new Array.ArrayIterator<>(map.getBuildingManager().getBuildings())) {
-                                if (!proximityBuilding.getIsPlaced()) continue;
+                                // Find the matching buildings and check if they overlap
+                                for (Building proximityBuilding : new Array.ArrayIterator<>(map.getBuildingManager().getBuildings())) {
+                                    if (!proximityBuilding.getIsPlaced()) continue;
 
-                                if (proximityBuilding.getType() == matchType) {
-                                    if (proximityRectangle.overlaps(proximityBuilding.getBoundingRectangle())) {
-                                        satisfactionMultiplier += 0.2;
-                                        break;
-                                    }
-                                }
-                            }
-                            break;
-                        case Accommodation:
-                            proximityRectangle = new Rectangle(building.getBoundingRectangle());
-                            proximityRectangle.set(proximityRectangle.x - (Consts.CELL_SIZE * 10), proximityRectangle.y - (Consts.CELL_SIZE * 10), proximityRectangle.width + (Consts.CELL_SIZE * 20), proximityRectangle.height + (Consts.CELL_SIZE * 20));
-
-                            HashMap<Building.BuildingTypes, Boolean> nearbyBuildings = new HashMap<>();
-
-                            for (Building proximityBuilding : new Array.ArrayIterator<>(map.getBuildingManager().getBuildings())) {
-                                if (!proximityBuilding.getIsPlaced()) continue;
-                                switch (proximityBuilding.getType()) {
-                                    case Accommodation -> {}
-                                    default -> {
+                                    if (proximityBuilding.getType() == matchType) {
                                         if (proximityRectangle.overlaps(proximityBuilding.getBoundingRectangle())) {
-                                            nearbyBuildings.put(proximityBuilding.getType(), true);
+                                            satisfactionMultiplier += 0.2;
+                                            break;
                                         }
                                     }
                                 }
-                            }
+                                break;
+                            case Accommodation:
+                                proximityRectangle = new Rectangle(building.getBoundingRectangle());
+                                proximityRectangle.set(proximityRectangle.x - (Consts.CELL_SIZE * 10), proximityRectangle.y - (Consts.CELL_SIZE * 10), proximityRectangle.width + (Consts.CELL_SIZE * 20), proximityRectangle.height + (Consts.CELL_SIZE * 20));
 
-                            if (nearbyBuildings.size() == Building.BuildingTypes.values().length - 1) {
-                                satisfactionMultiplier += 1;
-                            }
-                            break;
+                                HashMap<Building.BuildingTypes, Boolean> nearbyBuildings = new HashMap<>();
+
+                                for (Building proximityBuilding : new Array.ArrayIterator<>(map.getBuildingManager().getBuildings())) {
+                                    if (!proximityBuilding.getIsPlaced()) continue;
+                                    switch (proximityBuilding.getType()) {
+                                        case Accommodation -> {
+                                        }
+                                        default -> {
+                                            if (proximityRectangle.overlaps(proximityBuilding.getBoundingRectangle())) {
+                                                nearbyBuildings.put(proximityBuilding.getType(), true);
+                                            }
+                                        }
+                                    }
+                                }
+
+                                if (nearbyBuildings.size() == Building.BuildingTypes.values().length - 1) {
+                                    satisfactionMultiplier += 1;
+                                }
+                                break;
+                        }
                     }
-//                    if (building.getType() == Building.BuildingTypes.Nature) {
-//                        numNatures++;
-//                        if (numNatures == 5) {
-//                            break;
-//                        }
-//                    }
+
+                    satisfactionMultiplier += numNatures * 0.5;
+
+                    System.out.println(satisfactionMultiplier);
+
+                    this.satisfaction += (satisfactionToAdd * satisfactionMultiplier);
                 }
-
-                satisfactionMultiplier += numNatures * 0.5;
-
-                System.out.println(satisfactionMultiplier);
-
-                this.satisfaction += (satisfactionToAdd * satisfactionMultiplier);
-
-//                shapeRenderer.end();
             }
-            menu.updateMoney(money);
-            menu.updateSatisfaction(satisfaction);
+
+            if (!headless) {
+                menu.updateMoney(money);
+                menu.updateSatisfaction(satisfaction);
+            }
 
             if (timer.hasReachedMaxTime()) {
                 calculateScore();
@@ -236,6 +243,10 @@ public class GameScreen implements Screen {
      */
     public void calculateScore(){
         score = (int)(satisfaction) + money/10;
+    }
+
+    public int getScore() {
+        return score;
     }
 
     /**
@@ -258,10 +269,12 @@ public class GameScreen implements Screen {
 
     @Override
     public void pause() {
+        isPaused = true;
     }
 
     @Override
     public void resume() {
+        isPaused = false;
     }
 
     @Override
