@@ -1,6 +1,7 @@
 package com.badlogic.UniSim2;
 
 import com.badlogic.gdx.Application;
+import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.backends.headless.HeadlessApplication;
 import com.badlogic.gdx.backends.headless.HeadlessApplicationConfiguration;
 import com.badlogic.UniSim2.Main;
@@ -11,9 +12,25 @@ public class HeadlessLauncher {
         createApplication();
     }
 
-    private static Application createApplication() {
+    public static Application createApplication() {
         // Note: you can use a custom ApplicationListener implementation for the headless project instead of Gemo.
-        return new HeadlessApplication(new Main(), getDefaultConfiguration());
+        return new HeadlessApplication(new ApplicationListener() {
+            @Override
+            public void create() { // Pass null or a mock game instance if necessary
+            }
+            @Override
+            public void resize(int width, int height) {}
+            @Override
+            public void render() {
+            }
+            @Override
+            public void pause() {}
+            @Override
+            public void resume() {}
+            @Override
+            public void dispose() {
+            }
+        }, getDefaultConfiguration());
     }
 
     private static HeadlessApplicationConfiguration getDefaultConfiguration() {
