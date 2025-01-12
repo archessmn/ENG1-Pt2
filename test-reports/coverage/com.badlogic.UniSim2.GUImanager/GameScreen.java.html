@@ -243,45 +243,39 @@ public class GameScreen implements Screen {
      * Adds events to the game.
      */
     private void gameEvents(){
-<span class="pc bpc" id="L246" title="3 of 4 branches missed.">        if (timer.getElapsedTime() &gt; 59.5 &amp;&amp; timer.getElapsedTime() &lt; 60.5) {</span>
-<span class="nc bnc" id="L247" title="All 2 branches missed.">            if (Math.random() &lt; 0.5){</span>
-<span class="nc" id="L248">                menu.updateEventLabel(&quot;You won the lottery!!! Have an extra $500&quot;);</span>
-<span class="nc" id="L249">                money += 500;</span>
+<span class="pc bpc" id="L246" title="3 of 4 branches missed.">        if ((timer.getElapsedTime() &gt; 59.5 &amp;&amp; timer.getElapsedTime() &lt; 60.5) ||</span>
+<span class="pc bpc" id="L247" title="3 of 4 branches missed.">            (timer.getElapsedTime() &gt; 119.5 &amp;&amp; timer.getElapsedTime() &lt; 120.5) ||</span>
+<span class="pc bpc" id="L248" title="3 of 4 branches missed.">            (timer.getElapsedTime() &gt; 179.5 &amp;&amp; timer.getElapsedTime() &lt; 180.5) ||</span>
+<span class="pc bpc" id="L249" title="3 of 4 branches missed.">            (timer.getElapsedTime() &gt; 239.5 &amp;&amp; timer.getElapsedTime() &lt; 240.5)) {</span>
+<span class="nc bnc" id="L250" title="All 2 branches missed.">            if (Math.random() &lt; 0.5){</span>
+<span class="nc" id="L251">                menu.updateEventLabel(&quot;You won the lottery!!! Have an extra $500&quot;);</span>
+<span class="nc" id="L252">                money += 500;</span>
             }
             else {
-<span class="nc" id="L252">                menu.updateEventLabel(&quot;Building fine - $300 has been confiscated :((&quot;);</span>
-<span class="nc" id="L253">                money -= 300;</span>
-<span class="nc bnc" id="L254" title="All 2 branches missed.">                if (money &lt; 0){</span>
-<span class="nc" id="L255">                    money = 0;</span>
+<span class="nc" id="L255">                menu.updateEventLabel(&quot;Building fine - $300 has been confiscated :((&quot;);</span>
+<span class="nc" id="L256">                money -= 300;</span>
+<span class="nc bnc" id="L257" title="All 2 branches missed.">                if (money &lt; 0){</span>
+<span class="nc" id="L258">                    money = 0;</span>
                 }
             }
         }
-<span class="pc bpc" id="L259" title="3 of 4 branches missed.">        if (timer.getElapsedTime() &gt; 69.5 &amp;&amp; timer.getElapsedTime() &lt; 70.5) {</span>
-<span class="nc" id="L260">            menu.updateEventLabel(&quot;&quot;);</span>
+<span class="pc bpc" id="L262" title="3 of 4 branches missed.">        if (timer.getElapsedTime() &gt; 69.5 &amp;&amp; timer.getElapsedTime() &lt; 70.5||</span>
+<span class="pc bpc" id="L263" title="3 of 4 branches missed.">            (timer.getElapsedTime() &gt; 129.5 &amp;&amp; timer.getElapsedTime() &lt; 130.5) ||</span>
+<span class="pc bpc" id="L264" title="3 of 4 branches missed.">            (timer.getElapsedTime() &gt; 189.5 &amp;&amp; timer.getElapsedTime() &lt; 190.5) ||</span>
+<span class="pc bpc" id="L265" title="3 of 4 branches missed.">            (timer.getElapsedTime() &gt; 249.5 &amp;&amp; timer.getElapsedTime() &lt; 250.5)) {</span>
+<span class="nc" id="L266">            menu.updateEventLabel(&quot;&quot;);</span>
         }
-<span class="pc bpc" id="L262" title="3 of 4 branches missed.">        if (timer.getElapsedTime() &gt; 179.5 &amp;&amp; timer.getElapsedTime() &lt; 180.5) {</span>
-<span class="nc" id="L263">            menu.updateEventLabel(&quot;Tornado warning!!! Expect building loss!&quot;);</span>
-<span class="nc bnc" id="L264" title="All 2 branches missed.">            if (Math.random() &lt; 0.5) {</span>
-<span class="nc" id="L265">                map.getBuildingManager().removeLastBuildings(5);</span>
-            }
-            else{
-<span class="nc" id="L268">                map.getBuildingManager().removeLastBuildings(10);</span>
-            }
-        }
-<span class="pc bpc" id="L271" title="3 of 4 branches missed.">        if (timer.getElapsedTime() &gt; 189.5 &amp;&amp; timer.getElapsedTime() &lt; 190.5) {</span>
-<span class="nc" id="L272">            menu.updateEventLabel(&quot;&quot;);</span>
-        }
-<span class="fc" id="L274">    }</span>
+<span class="fc" id="L268">    }</span>
 
     /**
      * Calculates the score of the player by the end of the game.
      */
     public void calculateScore(){
-<span class="fc" id="L280">        score = (int)(satisfaction) + money/10;</span>
-<span class="fc" id="L281">    }</span>
+<span class="fc" id="L274">        score = (int)(satisfaction) + money/10;</span>
+<span class="fc" id="L275">    }</span>
 
     public int getScore() {
-<span class="fc" id="L284">        return score;</span>
+<span class="fc" id="L278">        return score;</span>
     }
 
     /**
@@ -289,37 +283,37 @@ public class GameScreen implements Screen {
      * map.
      */
     private void draw() {
-<span class="nc" id="L292">        viewport.apply();</span>
-<span class="nc" id="L293">        ScreenUtils.clear(Consts.BACKGROUND_COLOR);</span>
-<span class="nc" id="L294">        map.draw();</span>
-<span class="nc" id="L295">        menu.draw();</span>
-<span class="nc" id="L296">    }</span>
+<span class="nc" id="L286">        viewport.apply();</span>
+<span class="nc" id="L287">        ScreenUtils.clear(Consts.BACKGROUND_COLOR);</span>
+<span class="nc" id="L288">        map.draw();</span>
+<span class="nc" id="L289">        menu.draw();</span>
+<span class="nc" id="L290">    }</span>
 
 
     @Override
     public void resize(int width, int height) {
-<span class="nc" id="L301">        map.resize(width, height);</span>
-<span class="nc" id="L302">        viewport.update(width, height, true);</span>
-<span class="nc" id="L303">    }</span>
+<span class="nc" id="L295">        map.resize(width, height);</span>
+<span class="nc" id="L296">        viewport.update(width, height, true);</span>
+<span class="nc" id="L297">    }</span>
 
     @Override
     public void pause() {
-<span class="fc" id="L307">        isPaused = true;</span>
-<span class="fc" id="L308">    }</span>
+<span class="fc" id="L301">        isPaused = true;</span>
+<span class="fc" id="L302">    }</span>
 
     @Override
     public void resume() {
-<span class="nc" id="L312">        isPaused = false;</span>
-<span class="nc" id="L313">    }</span>
+<span class="nc" id="L306">        isPaused = false;</span>
+<span class="nc" id="L307">    }</span>
 
     @Override
     public void hide() {
-<span class="nc" id="L317">    }</span>
+<span class="nc" id="L311">    }</span>
 
     @Override
     public void dispose() {
-<span class="nc" id="L321">        map.dispose();</span>
-<span class="nc" id="L322">        menu.dispose();</span>
-<span class="nc" id="L323">    }</span>
+<span class="nc" id="L315">        map.dispose();</span>
+<span class="nc" id="L316">        menu.dispose();</span>
+<span class="nc" id="L317">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
