@@ -1,4 +1,4 @@
-import { Image } from "@mantine/core";
+import { Image, Text } from "@mantine/core";
 import { modals } from "@mantine/modals";
 
 export default function CustomImage(props: { src: string }) {
@@ -10,7 +10,12 @@ export default function CustomImage(props: { src: string }) {
       fit="contain"
       onClick={() => {
         modals.open({
-          title: `Image: ${props.src}`,
+          // title: `Image: ${props.src}`,
+          title: (
+            <a href={props.src} target="_blank" rel="noopener noreferrer">
+              <Text>Image: {props.src}</Text>
+            </a>
+          ),
           fullScreen: true,
           children: (
             <Image

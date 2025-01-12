@@ -79,6 +79,9 @@ export function AppLayout() {
             <Anchor component={NavLink} to={"/tests"}>
               Test Reports
             </Anchor>
+            <Anchor component={NavLink} to={"/architecture"}>
+              Architecture
+            </Anchor>
           </Group>
         </Stack>
       </AppShell.Header>

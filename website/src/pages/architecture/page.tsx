@@ -1,23 +1,20 @@
 import { Center, Group, Stack, Title } from "@mantine/core";
 import { NavLink } from "react-router-dom";
 
-export default function TestsPage() {
+export default function ArchitecturePage() {
   return (
     <>
       <Center>
-        <Title>Test Reports</Title>
+        <Title>Architecture</Title>
       </Center>
       <Center>
         <Group>
           <Stack>
-            <NavLink to={"/tests/summary"}>Tests Summary</NavLink>
+            <NavLink to={"/architecture/uml"}>UML Diagram</NavLink>
           </Stack>
-          <Stack>
+          {/* <Stack>
             <NavLink to={"/tests/coverage"}>Tests Coverage</NavLink>
-          </Stack>
-          <Stack>
-            <NavLink to={"/tests/manual"}>Manual UI Tests</NavLink>
-          </Stack>
+          </Stack> */}
         </Group>
       </Center>
     </>

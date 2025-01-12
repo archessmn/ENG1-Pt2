@@ -166,13 +166,13 @@ export function RootPage() {
                 <Avatar src={imageLinks.jar} size={121} />
               </Center>
               <Center>
-                <Link
-                  to={"/assets/jar/UniSim2-1.0.0.jar"}
+                <a
+                  href={"/assets/jar/UniSim2-1.0.0.jar"}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
                   <Text>Here is the JAR executable</Text>
-                </Link>
+                </a>
               </Center>
             </Stack>
           </Stack>
