@@ -23,6 +23,7 @@ export function RootPage() {
     meth: "https://static.wixstatic.com/media/65b018bc7a184dd4bda27809bc2ce0bf.jpg/v1/crop/x_97,y_0,w_1806,h_1806/fill/w_121,h_121,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/Urban%20Planning.jpg",
     risk: "https://static.wixstatic.com/media/11062b_51b43d659ec24e46bc510178f0e30101~mv2.jpg/v1/crop/x_512,y_0,w_3160,h_3160/fill/w_121,h_121,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/Safety%20Wear.jpg",
     impl: "https://static.wixstatic.com/media/be0c8732c52445f79601e0965fa55b0e.jpg/v1/crop/x_125,y_0,w_750,h_750/fill/w_121,h_121,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/Engineering%20Sketch.jpg",
+    eval: "https://t4.ftcdn.net/jpg/04/80/32/91/360_F_480329143_udbywRAkIk8LObNgwFnLhWqbOyjenXca.jpg",
     jar: "https://static.wixstatic.com/media/53bd28_e079e2f7d938470cb159acddb847a9f9~mv2.png/v1/crop/x_200,y_0,w_500,h_500/fill/w_121,h_121,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/duke.png",
   };
 
@@ -71,7 +72,7 @@ export function RootPage() {
               <Avatar src={imageLinks.req} size={121} />
             </Center>
             <Center>
-              <Text style={{ fontSize: 20 }}>Requirements</Text>
+              <Text style={{ fontSize: 20 }}>Change report</Text>
             </Center>
             <Center>
               <Link
@@ -81,7 +82,7 @@ export function RootPage() {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <Text>Req2</Text>
+                <Text>Change2</Text>
               </Link>
             </Center>
             <Space h={50} />
@@ -89,7 +90,7 @@ export function RootPage() {
               <Avatar src={imageLinks.risk} size={121} />
             </Center>
             <Center>
-              <Text style={{ fontSize: 20 }}>Risk Assessment</Text>
+              <Text style={{ fontSize: 20 }}>Testing</Text>
             </Center>
             <Center>
               <Link
@@ -99,9 +100,20 @@ export function RootPage() {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <Text>Risk2</Text>
+                <Text>Test2</Text>
               </Link>
             </Center>
+            <Stack gap={0}>
+              <Center>
+                <NavLink to={"/tests/summary"}>Tests Summary</NavLink>
+              </Center>
+              <Center>
+                <NavLink to={"/tests/coverage"}>Tests Coverage</NavLink>
+              </Center>
+              <Center>
+                <NavLink to={"/tests/manual"}>Manual UI Tests</NavLink>
+              </Center>
+            </Stack>
           </Stack>
           <Stack w={500}>
             <Stack>
@@ -112,6 +124,18 @@ export function RootPage() {
                 <Text>Architecture</Text>
               </Center>
               <Center>
+                <NavLink to={"/architecture/uml"}>UML Diagram</NavLink>
+              </Center>
+            </Stack>
+            <Space h={50} />
+            <Stack>
+              <Center>
+                <Avatar src={imageLinks.eval} size={121} />
+              </Center>
+              <Center>
+                <Text>User Evaluation</Text>
+              </Center>
+              <Center>
                 <Link
                   to={
                     "https://drive.google.com/drive/folders/1_c1pkNcemokb3aUFgCjt7k40SX_Fa1QT?usp=sharing"
@@ -119,11 +143,8 @@ export function RootPage() {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <Text>Arch2</Text>
+                  <Text>Eval2</Text>
                 </Link>
-              </Center>
-              <Center>
-                <NavLink to={"/architecture/uml"}>UML Diagram</NavLink>
               </Center>
             </Stack>
           </Stack>
@@ -133,7 +154,7 @@ export function RootPage() {
                 <Avatar src={imageLinks.meth} size={121} />
               </Center>
               <Center>
-                <Text>Methods & Planning</Text>
+                <Text>Continuous Integration</Text>
               </Center>
               <Center>
                 <Link
@@ -143,7 +164,7 @@ export function RootPage() {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <Text>Plan2</Text>
+                  <Text>CI2</Text>
                 </Link>
               </Center>
             </Stack>
@@ -180,7 +201,7 @@ export function RootPage() {
               </Center>
               <Center>
                 <a
-                  href={"/assets/jar/UniSim2-1.0.0.jar"}
+                  href={"/assets/jar/ENG1-Pt2-CH2-GRP3-UniSim2-1.0.0.jar"}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
