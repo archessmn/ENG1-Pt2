@@ -1,31 +1,23 @@
 import {
+  ActionIcon,
   Anchor,
   AppShell,
   Breadcrumbs,
-  Burger,
+  Center,
   Group,
-  Text,
-  Title,
+  Space,
+  Stack,
+  Text as MantineText,
 } from "@mantine/core";
-import { useDisclosure } from "@mantine/hooks";
-import { NavLink, Outlet, useLocation } from "react-router-dom";
-import { CNavLink } from "./CustomNavLink";
-import {
-  FaCalendar,
-  FaExternalLinkAlt,
-  FaGithub,
-  FaHome,
-  FaJava,
-} from "react-icons/fa";
-import { LayoutContext } from "./LayoutContext";
-import { IoDocumentText } from "react-icons/io5";
-import { MdArchitecture } from "react-icons/md";
-import { FaFilePdf } from "react-icons/fa6";
+import { useWindowScroll } from "@mantine/hooks";
+import { NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
+import { FaHome } from "react-icons/fa";
 
 export function AppLayout() {
-  const [mobileOpened, { toggle: toggleMobile, close: closeMobile }] =
-    useDisclosure();
-  const [desktopOpened, { toggle: toggleDesktop }] = useDisclosure();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [_scroll, scrollTo] = useWindowScroll();
+
+  const navigate = useNavigate();
 
   const { pathname } = useLocation();
 
@@ -49,126 +41,69 @@ export function AppLayout() {
           .slice(0, -1)
       : [];
 
-  console.log(items);
-
   return (
-    <LayoutContext.Provider
-      value={{
-        navbar: {
-          mobile: {
-            opened: mobileOpened,
-            toggle: toggleMobile,
-            close: closeMobile,
-          },
-          desktop: {
-            opened: desktopOpened,
-            toggle: toggleDesktop,
-          },
-        },
-      }}
-    >
-      <AppShell
-        header={{ height: 60 }}
-        navbar={{
-          width: 300,
-          breakpoint: "sm",
-          collapsed: { mobile: !mobileOpened, desktop: !desktopOpened },
+    <AppShell>
+      <AppShell.Header
+        h={50}
+        bg={"#eff1f2"}
+        pt={12}
+        style={{
+          border: "",
+          borderBottom: "solid #a0138e",
         }}
-        padding="md"
       >
-        <AppShell.Header>
-          <Group
-            h="100%"
-            px="md"
-          >
-            <Burger
-              opened={mobileOpened}
-              onClick={toggleMobile}
-              hiddenFrom="sm"
-              size="sm"
-            />
-            <Burger
-              opened={desktopOpened}
-              onClick={toggleDesktop}
-              visibleFrom="sm"
-              size="sm"
-            />
-            <Text
-              component={NavLink}
-              to={"/"}
-              onClick={closeMobile}
-            >
-              <Title>ENG1 CH2 GRP3</Title>
-            </Text>
+        <Stack gap={13}>
+          <Center>
+            <Group gap={5}>
+              <MantineText>
+                This site was painfully recreated from scratch because the last
+                team used the
+              </MantineText>
+              <div
+                style={{
+                  width: "36px",
+                }}
+              >
+                <svg className="_4i7Zy" viewBox="0 0 28 10.89" aria-label="wix">
+                  <path
+                    d="M16.02.2c-.55.3-.76.78-.76 2.14a2.17 2.17 0 0 1 .7-.42 3 3 0 0 0 .7-.4A1.62 1.62 0 0 0 17.22 0a3 3 0 0 0-1.18.2z"
+                    className="o4sLYL"
+                  ></path>
+                  <path d="M12.77.52a2.12 2.12 0 0 0-.58 1l-1.5 5.8-1.3-4.75a4.06 4.06 0 0 0-.7-1.55 2.08 2.08 0 0 0-2.9 0 4.06 4.06 0 0 0-.7 1.55L3.9 7.32l-1.5-5.8a2.12 2.12 0 0 0-.6-1A2.6 2.6 0 0 0 0 .02l2.9 10.83a3.53 3.53 0 0 0 1.42-.17c.62-.33.92-.57 1.3-2 .33-1.33 1.26-5.2 1.35-5.47a.5.5 0 0 1 .34-.4.5.5 0 0 1 .4.5c.1.3 1 4.2 1.4 5.5.4 1.5.7 1.7 1.3 2a3.53 3.53 0 0 0 1.4.2l2.8-11a2.6 2.6 0 0 0-1.82.53zm4.43 1.26a1.76 1.76 0 0 1-.58.5c-.26.16-.52.26-.8.4a.82.82 0 0 0-.57.82v7.36a2.47 2.47 0 0 0 1.2-.15c.6-.3.75-.6.75-2V1.8zm7.16 3.68L28 .06a3.22 3.22 0 0 0-2.3.42 8.67 8.67 0 0 0-1 1.24l-1.34 1.93a.3.3 0 0 1-.57 0l-1.4-1.93a8.67 8.67 0 0 0-1-1.24 3.22 3.22 0 0 0-2.3-.43l3.6 5.4-3.7 5.4a3.54 3.54 0 0 0 2.32-.48 7.22 7.22 0 0 0 1-1.16l1.33-1.9a.3.3 0 0 1 .57 0l1.37 2a8.2 8.2 0 0 0 1 1.2 3.47 3.47 0 0 0 2.33.5z"></path>
+                </svg>
+              </div>
+              <MantineText>.com website builder</MantineText>
+            </Group>
+          </Center>
+          <Group bg={"#eff1f2"} pl={5}>
+            <Anchor component={NavLink} to={"/tests"}>
+              Test Reports
+            </Anchor>
           </Group>
-        </AppShell.Header>
-        <AppShell.Navbar p="md">
-          <CNavLink
-            to="/"
-            label="Home"
-            leftSection={<FaHome />}
-          />
-          <CNavLink
-            to="https://github.com/archessmn/ENG1"
-            label="GitHub"
-            leftSection={<FaGithub />}
-            rightSection={<FaExternalLinkAlt opacity={0.5} />}
-            external
-          />
-          <CNavLink
-            to="https://drive.google.com/drive/folders/1J6WqC8ZL57_cKZNBVh6YP5StXt0D0F5L?usp=sharing"
-            label="Deliverables + Jar"
-            leftSection={
-              <Group>
-                <FaFilePdf />
-                <FaJava />
-              </Group>
-            }
-            rightSection={<FaExternalLinkAlt opacity={0.5} />}
-            external
-          />
-          <CNavLink
-            to="/arch1"
-            label="Arch1"
-            leftSection={<MdArchitecture />}
+        </Stack>
+      </AppShell.Header>
+      <Space h={85} />
+      <Breadcrumbs>{items}</Breadcrumbs>
+      <Space h={20} />
+      <Outlet />
+      <AppShell.Footer h={0} w={"100%"}>
+        <Center pos={"relative"} bottom={"70px"}>
+          <ActionIcon
+            size={"60"}
+            variant="filled"
+            radius={"xl"}
+            color="black"
+            onClick={() => {
+              if (pathname.trim() !== "/") {
+                navigate("/");
+              }
+              scrollTo({ y: 0 });
+            }}
           >
-            <CNavLink
-              to="/arch1/crc-cards"
-              label={`CRC Cards`}
-            />
-            <CNavLink
-              to="/arch1/behavioral"
-              label={`Behavioral Diagrams`}
-            />
-            <CNavLink
-              to="/arch1/structural"
-              label={`Structural Diagrams`}
-            />
-          </CNavLink>
-          <CNavLink
-            to="/weeks"
-            leftSection={<FaCalendar />}
-            label="Weeks"
-            onClick={closeMobile}
-          >
-            {[...Array(7)].map((_v, idx) => (
-              <CNavLink
-                to={`/weeks/${idx + 1}`}
-                label={`Week ${idx + 1}`}
-              />
-            ))}
-          </CNavLink>
-          <CNavLink
-            to="/licenses"
-            label="Game Licenses"
-            leftSection={<IoDocumentText />}
-          />
-        </AppShell.Navbar>
-        <AppShell.Main>
-          <Breadcrumbs>{items}</Breadcrumbs>
-          <Outlet />
-        </AppShell.Main>
-      </AppShell>
-    </LayoutContext.Provider>
+            <FaHome style={{ width: "70%", height: "70%" }} />
+          </ActionIcon>
+        </Center>
+      </AppShell.Footer>
+    </AppShell>
   );
 }

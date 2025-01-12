@@ -2,134 +2,32 @@
 // All packages except `@mantine/hooks` require styles imports
 import "@mantine/core/styles.css";
 
-import { Center, MantineProvider, Title } from "@mantine/core";
-import { AppLayout } from "./_components/AppShell";
+import { MantineProvider } from "@mantine/core";
 import { HashRouter, Route, Routes } from "react-router-dom";
-import { WeekList } from "./pages/weeks/page";
-import LicensePage from "./pages/licenses/page";
-import Week1 from "./pages/weeks/Week1";
-import Week2 from "./pages/weeks/Week2";
-import Week3 from "./pages/weeks/Week3";
-import Week4 from "./pages/weeks/Week4";
-import Week5 from "./pages/weeks/Week5";
-import Week6 from "./pages/weeks/Week6";
-import Week7 from "./pages/weeks/Week7";
-import { ModalsProvider } from "@mantine/modals";
 import { RootPage } from "./pages/page";
-import Arch1Page from "./pages/arch1/page";
-import CRCCards from "./pages/arch1/CRCCards";
-import BehavioralPage from "./pages/arch1/Behavioral";
-import StructuralPage from "./pages/arch1/Structural";
+import TestsPage from "./pages/tests/page";
+import TestsSummaryPage from "./pages/tests/TestsSummaryPage";
+import { AppLayout } from "./_components/AppShell";
+import TestsCoveragePage from "./pages/tests/TestsCoveragePage";
 
 export default function App() {
   return (
     <>
       <MantineProvider>
-        <Center>
-          <Title
-            style={{
-              fontSize: "",
-            }}
-            mt={"30%"}
-          >
-            OCTAGAME
-          </Title>
-        </Center>
-        <Center>
-          <Title
-            c={"indigo"}
-            size={71}
-            mt={"20%"}
-            style={{
-              textDecoration: "underline dotted",
-            }}
-          >
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UniSim&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          </Title>
-        </Center>
+        <HashRouter>
+          <Routes>
+            <Route path="/" element={<AppLayout />}>
+              <Route path="" element={<RootPage />} />
+              <Route path="tests">
+                <Route index element={<TestsPage />} />
+                <Route path="summary" element={<TestsSummaryPage />} />
+                <Route path="coverage" element={<TestsCoveragePage />} />
+              </Route>
+              <Route path="weeks"></Route>
+            </Route>
+          </Routes>
+        </HashRouter>
       </MantineProvider>
     </>
   );
 }
-
-// export default function App() {
-//   return (
-//     <MantineProvider defaultColorScheme="dark">
-//       <ModalsProvider>
-//         <HashRouter>
-//           <Routes>
-//             <Route
-//               path="/"
-//               element={<AppLayout />}
-//             >
-//               <Route
-//                 path=""
-//                 element={<RootPage />}
-//               />
-//               <Route
-//                 path="test"
-//                 element={<Title>Test Page</Title>}
-//               />
-//               <Route
-//                 path="licenses"
-//                 element={<LicensePage />}
-//               />
-//               <Route path="arch1">
-//                 <Route
-//                   index
-//                   element={<Arch1Page />}
-//                 />
-//                 <Route
-//                   path="crc-cards"
-//                   element={<CRCCards />}
-//                 />
-//                 <Route
-//                   path="behavioral"
-//                   element={<BehavioralPage />}
-//                 />
-//                 <Route
-//                   path="structural"
-//                   element={<StructuralPage />}
-//                 />
-//               </Route>
-//               <Route path="weeks">
-//                 <Route
-//                   index
-//                   element={<WeekList />}
-//                 />
-//                 <Route
-//                   path="1"
-//                   element={<Week1 />}
-//                 />
-//                 <Route
-//                   path="2"
-//                   element={<Week2 />}
-//                 />
-//                 <Route
-//                   path="3"
-//                   element={<Week3 />}
-//                 />
-//                 <Route
-//                   path="4"
-//                   element={<Week4 />}
-//                 />
-//                 <Route
-//                   path="5"
-//                   element={<Week5 />}
-//                 />
-//                 <Route
-//                   path="6"
-//                   element={<Week6 />}
-//                 />
-//                 <Route
-//                   path="7"
-//                   element={<Week7 />}
-//                 />
-//               </Route>
-//             </Route>
-//           </Routes>
-//         </HashRouter>
-//       </ModalsProvider>
-//     </MantineProvider>
-//   );
-// }

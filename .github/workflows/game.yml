@@ -1,4 +1,4 @@
-name: Build Game
+name: Build Game and Website
 
 on:
   push:
@@ -6,8 +6,8 @@ on:
       - main
 
 jobs:
-  build:
-    name: Build
+  build-game:
+    name: Build Game
     runs-on: ubuntu-latest
 
     steps:
@@ -34,3 +34,105 @@ jobs:
         with:
           name: game-files
           path: ./lwjgl3/build/libs/*.jar
+
+  test:
+    name: Run Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: "corretto"
+          java-version: "17"
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Run Tests
+        run: ./gradlew test
+
+      - name: Run Tests
+        run: ./gradlew jacocoTestReport
+
+      - name: Upload test report files
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-reports
+          path: ./headless/build/reports
+
+  build-website:
+    name: Build Website
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+
+      - name: Install dependencies
+        uses: bahmutov/npm-install@v1
+        with:
+          working-directory: website
+
+      - name: Build project
+        working-directory: ./website
+        run: npm run build
+
+      - name: Add CNAME for deployment
+        run: |
+          touch website/dist/CNAME
+          echo "eng1pt2.archess.mn" >> website/dist/CNAME
+
+      - name: Upload production-ready build files
+        uses: actions/upload-artifact@v4
+        with:
+          name: production-files
+          path: ./website/dist
+
+  deploy-website:
+    name: Deploy Website
+    needs: [build-game, build-website, test]
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download Website Build
+        uses: actions/download-artifact@v4
+        with:
+          name: production-files
+          path: ./dist
+
+      - name: Download Test Reports
+        uses: actions/download-artifact@v4
+        with:
+          name: test-reports
+          path: ./reports
+
+      - name: Download Game Files
+        uses: actions/download-artifact@v4
+        with:
+          name: game-files
+          path: ./jar
+
+      - name: Make directories
+        run: |
+          mkdir dist/test-reports/coverage
+          mkdir dist/test-reports/summary
+          mkdir dist/assets/jar
+
+      - name: Move files
+        run: |
+          mv ./jar/UniSim2-1.0.0.jar dist/assets/jar/
+          mv reports/tests/test/* dist/test-reports/summary
+          mv reports/tests/jacoco/test/html/* dist/test-reports/coverage
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
