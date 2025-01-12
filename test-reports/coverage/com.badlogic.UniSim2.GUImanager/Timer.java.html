@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Timer.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">headless</a> &gt; <a href="index.source.html" class="el_package">com.badlogic.UniSim2.GUImanager</a> &gt; <span class="el_source">Timer.java</span></div><h1>Timer.java</h1><pre class="source lang-java linenums">package com.badlogic.UniSim2.GUImanager;
+
+import com.badlogic.UniSim2.resources.Consts;
+import com.badlogic.gdx.Gdx;
+
+/**
+ * A timer which can count up from 0 seconds to 5 minutes. Will hold the
+ * current elapsed time and can be {@link #update() updated} until the
+ * max time is reached.
+ */
+public class Timer {
+    private float elapsedTime;
+    private final float maxTime;
+    private boolean reachedMaxTime;
+
+    private int lastSecond;
+    private int currentSecond;
+
+<span class="fc" id="L19">    public Timer() {</span>
+<span class="fc" id="L20">        this.maxTime = Consts.MAX_TIME;</span>
+<span class="fc" id="L21">        this.elapsedTime = 0;</span>
+<span class="fc" id="L22">        reachedMaxTime = false;</span>
+<span class="fc" id="L23">    }</span>
+
+    /**
+     * Update the timer by the amount of time since the last frame and checks
+     * whether the time has reached its maximum time limit.
+     */
+    public void update() {
+        // Checks if the time has reached the limit
+<span class="pc bpc" id="L31" title="1 of 2 branches missed.">        if (elapsedTime &lt; maxTime) {</span>
+            // If not it updates the time
+<span class="fc" id="L33">            elapsedTime += Gdx.graphics.getDeltaTime();</span>
+
+<span class="fc" id="L35">            lastSecond = currentSecond;</span>
+<span class="fc" id="L36">            currentSecond = (int) Math.floor(elapsedTime);</span>
+        }
+<span class="fc bfc" id="L38" title="All 2 branches covered.">        if (elapsedTime &gt;= maxTime) {</span>
+<span class="fc" id="L39">            reachedMaxTime = true;</span>
+        }
+<span class="fc" id="L41">    }</span>
+
+    public float getElapsedTime() {
+<span class="fc" id="L44">        return elapsedTime;</span>
+    }
+
+    public boolean hasReachedMaxTime() {
+<span class="fc" id="L48">        return reachedMaxTime;</span>
+    }
+
+    public boolean hasWholeSecondPassed() {
+<span class="fc bfc" id="L52" title="All 2 branches covered.">        return lastSecond != currentSecond;</span>
+    }
+}
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

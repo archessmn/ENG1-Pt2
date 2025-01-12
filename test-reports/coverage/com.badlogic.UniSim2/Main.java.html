@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Main.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">headless</a> &gt; <a href="index.source.html" class="el_package">com.badlogic.UniSim2</a> &gt; <span class="el_source">Main.java</span></div><h1>Main.java</h1><pre class="source lang-java linenums">package com.badlogic.UniSim2;
+
+import com.badlogic.UniSim2.GUImanager.EndScreen;
+import com.badlogic.UniSim2.GUImanager.GameScreen;
+import com.badlogic.UniSim2.GUImanager.StartScreen;
+import com.badlogic.UniSim2.resources.*;
+import com.badlogic.gdx.Game;
+import com.badlogic.gdx.utils.viewport.StretchViewport;
+
+/** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
+<span class="fc" id="L11">public class Main extends Game {</span>
+
+<span class="fc" id="L13">    private StretchViewport viewport = new StretchViewport(Consts.WORLD_WIDTH, Consts.WORLD_HEIGHT);</span>
+
+    private StartScreen startScreen;
+    private GameScreen gameScreen;
+    private EndScreen endScreen;
+
+    @Override
+    public void create() {
+<span class="nc" id="L21">        Assets.loadTextures();</span>
+<span class="nc" id="L22">        startScreen = new StartScreen(this);</span>
+<span class="nc" id="L23">        setScreen(startScreen);</span>
+<span class="nc" id="L24">    }</span>
+
+    public StretchViewport getViewport() {
+<span class="fc" id="L27">        return viewport;</span>
+    }
+
+    @Override
+    public void render() {
+<span class="nc" id="L32">        super.render();</span>
+<span class="nc" id="L33">    }</span>
+
+    /**
+     * Starts the game by setting the screen to the {@link #gameScreen}. Should be
+     * called by the {@link StartScreen} when the start button is clicked.
+     */
+    public void startGame() {
+<span class="nc" id="L40">        gameScreen = new GameScreen(this);</span>
+<span class="nc" id="L41">        setScreen(gameScreen);</span>
+<span class="nc" id="L42">        startScreen.dispose();</span>
+<span class="nc" id="L43">    }</span>
+
+    public GameScreen getGameScreen() {
+<span class="nc" id="L46">        return gameScreen;</span>
+    }
+
+    /**
+     * Ends the game by settings the screen to {@link #endScreen}. Should be called by
+     * the {@link GameScreen} when the timer ends.
+     */
+    public void endGame(int score, double satisfaction, int[] counts) {
+<span class="nc" id="L54">        endScreen = new EndScreen(this, score, satisfaction, counts);</span>
+<span class="nc" id="L55">        setScreen(endScreen);</span>
+<span class="nc" id="L56">        gameScreen.dispose();</span>
+<span class="nc" id="L57">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

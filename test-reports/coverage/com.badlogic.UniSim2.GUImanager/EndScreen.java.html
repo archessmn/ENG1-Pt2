@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>EndScreen.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">headless</a> &gt; <a href="index.source.html" class="el_package">com.badlogic.UniSim2.GUImanager</a> &gt; <span class="el_source">EndScreen.java</span></div><h1>EndScreen.java</h1><pre class="source lang-java linenums">package com.badlogic.UniSim2.GUImanager;
+
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.UniSim2.Main;
+import com.badlogic.UniSim2.resources.Assets;
+import com.badlogic.UniSim2.resources.Consts;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.utils.viewport.StretchViewport;
+import com.badlogic.gdx.utils.Align;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Scanner;
+import java.io.BufferedWriter;
+import java.util.ArrayList;
+
+/**
+ * This screen should be shown when the game ends.
+ */
+public class EndScreen implements Screen {
+    private Main game;
+    private StretchViewport viewport;
+    private Stage stage;
+    private Label scoreLabel;
+    private Label scoreNum;
+    private Label achievementLabel;
+    private final Skin skin;
+    private int score;
+    private double satisfaction;
+    private final boolean didWin;
+    private final int[] buildingCounts;
+    private Scanner scanBoard;
+
+    private SpriteBatch spriteBatch;
+
+<span class="fc" id="L42">    public EndScreen (Main game, int score, double satisfaction, boolean headless, int[] counts) {</span>
+<span class="fc" id="L43">        this.game = game;</span>
+<span class="fc" id="L44">        this.viewport = game.getViewport();</span>
+
+<span class="fc" id="L46">        this.skin = new Skin(Gdx.files.internal(&quot;ui/uiskin.json&quot;));</span>
+<span class="fc" id="L47">        this.score = score;</span>
+<span class="fc" id="L48">        this.satisfaction = satisfaction;</span>
+<span class="fc" id="L49">        this.buildingCounts = counts;</span>
+
+<span class="fc" id="L51">        didWin = hasWon();</span>
+
+<span class="pc bpc" id="L53" title="1 of 2 branches missed.">        if (!headless) {</span>
+<span class="nc" id="L54">            this.stage = new Stage(this.viewport);</span>
+<span class="nc" id="L55">            spriteBatch = new SpriteBatch();</span>
+
+<span class="nc" id="L57">            calculateAchievements();</span>
+<span class="nc" id="L58">            addToScoreBoard();</span>
+<span class="nc" id="L59">            createScoreBoard();</span>
+<span class="nc" id="L60">            createScoreLabel();</span>
+        }
+<span class="fc" id="L62">    }</span>
+
+    public EndScreen(Main game, int score, double satisfaction, int[] counts){
+<span class="nc" id="L65">        this(game, score, satisfaction, false, counts);</span>
+<span class="nc" id="L66">    }</span>
+
+    // Adds achievement label to screen and adds to score if necessary
+    private void calculateAchievements(){
+<span class="nc" id="L70">        achievementLabel = new Label(&quot;&quot;, skin);</span>
+<span class="nc" id="L71">        int change = 0;</span>
+
+<span class="nc bnc" id="L73" title="All 2 branches missed.">        if (satisfaction == 0) {</span>
+<span class="nc" id="L74">            achievementLabel = new Label (&quot;ACHIEVEMENT: game completed with 0 satisfaction&quot; +</span>
+                &quot;\n &quot; +
+                &quot;\n &quot; +
+                &quot;\n &quot; +
+                &quot;\n &quot; +
+                &quot;\n &quot; +
+                &quot;\n &quot; +
+                &quot;\nReward: +50 points&quot;, skin);
+<span class="nc" id="L82">            change = 50;</span>
+        }
+
+<span class="nc" id="L85">        int overallCount = 0;</span>
+<span class="nc bnc" id="L86" title="All 2 branches missed.">        for (int i = 0; i &lt; buildingCounts.length; i++) {</span>
+<span class="nc" id="L87">            overallCount += buildingCounts[i];</span>
+        }
+<span class="nc bnc" id="L89" title="All 2 branches missed.">        if (overallCount &gt; 50){</span>
+<span class="nc" id="L90">            achievementLabel = new Label (&quot;ACHIEVEMENT: over fifty buildings placed&quot; +</span>
+                &quot;\n &quot; +
+                &quot;\n &quot; +
+                &quot;\n &quot; +
+                &quot;\n &quot; +
+                &quot;\n &quot; +
+                &quot;\n &quot; +
+                &quot;\nReward: +100 points&quot;, skin);
+<span class="nc" id="L98">            change = 100;</span>
+            }
+
+<span class="nc" id="L101">        int nature = buildingCounts[6];</span>
+<span class="nc bnc" id="L102" title="All 2 branches missed.">        if (nature &gt;= 25){</span>
+<span class="nc" id="L103">            achievementLabel = new Label (&quot;ACHIEVEMENT: nature lover - over 25 bushes placed&quot; +</span>
+                &quot;\n &quot; +
+                &quot;\n &quot; +
+                &quot;\n &quot; +
+                &quot;\n &quot; +
+                &quot;\n &quot; +
+                &quot;\n &quot; +
+                &quot;\nReward: +250 points&quot;, skin);
+<span class="nc" id="L111">            change = 250;</span>
+        }
+
+<span class="nc" id="L114">        score += change;</span>
+
+<span class="nc" id="L116">        achievementLabel.setFontScale(4);</span>
+<span class="nc" id="L117">        achievementLabel.setAlignment(Align.center);</span>
+<span class="nc" id="L118">        achievementLabel.setAlignment(Align.top);</span>
+<span class="nc" id="L119">        achievementLabel.setColor(Consts.TIMER_COLOR);</span>
+        // Position the label at the top center of the screen
+<span class="nc" id="L121">        achievementLabel.setPosition(Consts.ACHIEVEMENT_LABEL_X, Consts.ACHIEVEMENT_LABEL_Y, Align.center);</span>
+
+        // Add the label to the stage
+<span class="nc" id="L124">        stage.addActor(achievementLabel);</span>
+<span class="nc" id="L125">    }</span>
+
+    // Adds a label to the middle of the screen displaying the score that the player
+    // managed to get throughout the game.
+    private void createScoreLabel() {
+        // Initialize scoreLabel
+<span class="nc bnc" id="L131" title="All 2 branches missed.">        scoreLabel = new Label(&quot;You &quot; + (didWin ? &quot;Won!!!&quot; : &quot;Lost :(&quot;) +</span>
+            &quot;\nScore : &quot; + score +
+<span class="nc bnc" id="L133" title="All 2 branches missed.">            &quot;\nSatisfaction: &quot; + (int) satisfaction + (!didWin ? &quot;\n^ 500 needed to win.&quot; : &quot;&quot;), skin);</span>
+<span class="nc" id="L134">        scoreLabel.setFontScale(3);</span>
+<span class="nc" id="L135">        scoreLabel.setAlignment(Align.center);</span>
+<span class="nc" id="L136">        scoreLabel.setAlignment(Align.top);</span>
+<span class="nc" id="L137">        scoreLabel.setColor(Consts.TIMER_COLOR);</span>
+
+        // Position the label at the top center of the screen
+<span class="nc" id="L140">        scoreLabel.setPosition(Consts.GAME_STATUS_LABEL_X, Consts.GAME_STATUS_LABEL_Y, Align.center);</span>
+
+        // Add the label to the stage
+<span class="nc" id="L143">        stage.addActor(scoreLabel);</span>
+<span class="nc" id="L144">    }</span>
+
+    // Checks if score is high enough be added to leaderboard
+    private void addToScoreBoard(){
+<span class="nc" id="L148">        File leaderboard = new File(&quot;Leaderboard.txt&quot;);</span>
+        try {
+<span class="nc bnc" id="L150" title="All 2 branches missed.">            if (leaderboard.createNewFile()) {</span>
+<span class="nc" id="L151">                newScoreBoard(leaderboard);</span>
+<span class="nc" id="L152">                return;</span>
+            }
+        }
+<span class="nc" id="L155">        catch (IOException e){</span>
+<span class="nc" id="L156">            throw new RuntimeException(e);</span>
+<span class="nc" id="L157">        }</span>
+<span class="nc" id="L158">        ArrayList&lt;Integer&gt; boardList = new ArrayList&lt;Integer&gt;();</span>
+        try {
+<span class="nc" id="L160">            scanBoard = new Scanner(leaderboard);</span>
+<span class="nc bnc" id="L161" title="All 2 branches missed.">            for (int i = 0; i&lt;5; i++) {</span>
+<span class="nc bnc" id="L162" title="All 2 branches missed.">                if (scanBoard.hasNext()) {</span>
+<span class="nc" id="L163">                    String string = scanBoard.next();</span>
+<span class="nc" id="L164">                    boardList.add(Integer.valueOf(string));</span>
+                }
+            }
+<span class="nc" id="L167">            scanBoard.close();</span>
+<span class="nc" id="L168">        } catch (FileNotFoundException e) {</span>
+<span class="nc" id="L169">            throw new RuntimeException(e);</span>
+<span class="nc" id="L170">        }</span>
+        Integer currentScore;
+<span class="nc" id="L172">        boolean appended = false;</span>
+<span class="nc bnc" id="L173" title="All 2 branches missed.">        for (int i = 0; i &lt; boardList.size(); i++) {</span>
+<span class="nc" id="L174">            currentScore = (Integer) boardList.get(i);</span>
+<span class="nc bnc" id="L175" title="All 2 branches missed.">            if (currentScore &lt; score) {</span>
+<span class="nc" id="L176">                boardList.add(i, score);</span>
+<span class="nc" id="L177">                appended = true;</span>
+<span class="nc" id="L178">                break;</span>
+            }
+        }
+<span class="nc bnc" id="L181" title="All 4 branches missed.">        if ((boardList.size() &lt; 5) &amp;&amp; (!appended)){</span>
+<span class="nc" id="L182">            boardList.add(score);</span>
+        }
+        try{
+<span class="nc" id="L185">            BufferedWriter writeBoard = new BufferedWriter(new FileWriter(leaderboard));</span>
+<span class="nc bnc" id="L186" title="All 2 branches missed.">            for (int i = 0; i &lt; boardList.size(); i++){</span>
+<span class="nc" id="L187">                writeBoard.write(boardList.get(i) + &quot;\r\n&quot;);</span>
+            }
+<span class="nc" id="L189">            writeBoard.flush();</span>
+<span class="nc" id="L190">            writeBoard.close();</span>
+<span class="nc" id="L191">        } catch (IOException e) {</span>
+<span class="nc" id="L192">            throw new RuntimeException(e);</span>
+<span class="nc" id="L193">        }</span>
+<span class="nc" id="L194">    }</span>
+
+    //Initialises the scoreboard
+    private void newScoreBoard(File leaderboard){
+<span class="nc" id="L198">        ArrayList&lt;Integer&gt; boardList = new ArrayList&lt;Integer&gt;();</span>
+<span class="nc" id="L199">        boardList.add(score);</span>
+        try{
+<span class="nc" id="L201">            BufferedWriter writeBoard = new BufferedWriter(new FileWriter(leaderboard));</span>
+<span class="nc bnc" id="L202" title="All 2 branches missed.">            for (int i = 0; i &lt; boardList.size(); i++){</span>
+<span class="nc" id="L203">                writeBoard.write(boardList.get(i) + &quot;\r\n&quot;);</span>
+            }
+<span class="nc" id="L205">            writeBoard.flush();</span>
+<span class="nc" id="L206">            writeBoard.close();</span>
+<span class="nc" id="L207">        } catch (IOException e) {</span>
+<span class="nc" id="L208">            throw new RuntimeException(e);</span>
+<span class="nc" id="L209">        }</span>
+<span class="nc" id="L210">    }</span>
+
+    //Displays the scoreboard
+    private void createScoreBoard() {
+        // Initialize scoreLabel
+<span class="nc" id="L215">        scoreLabel = new Label(&quot;Scoreboard:&quot;, skin);</span>
+<span class="nc" id="L216">        scoreLabel.setFontScale(3);</span>
+<span class="nc" id="L217">        scoreLabel.setAlignment(Align.center);</span>
+<span class="nc" id="L218">        scoreLabel.setColor(Consts.TIMER_COLOR);</span>
+
+        // Position the label at the top center of the screen
+<span class="nc" id="L221">        scoreLabel.setPosition(Consts.SCOREBOARD_LABEL_X, Consts.SCOREBOARD_LABEL_Y, Align.center);</span>
+
+        // Add the label to the stage
+<span class="nc" id="L224">        stage.addActor(scoreLabel);</span>
+
+<span class="nc" id="L226">        Integer varStringHeight = Consts.SCOREBOARD_LABEL_Y;</span>
+
+<span class="nc" id="L228">        File leaderboard = new File(&quot;Leaderboard.txt&quot;);</span>
+        try {
+<span class="nc" id="L230">            scanBoard = new Scanner(leaderboard);</span>
+
+<span class="nc bnc" id="L232" title="All 2 branches missed.">            for (int i = 0; i&lt;5; i++){</span>
+<span class="nc" id="L233">                varStringHeight -= Consts.LABEL_GAP;</span>
+<span class="nc bnc" id="L234" title="All 2 branches missed.">                if(scanBoard.hasNext()){</span>
+<span class="nc" id="L235">                    String string = scanBoard.next();</span>
+<span class="nc" id="L236">                    scoreNum = new Label(string, skin);</span>
+<span class="nc" id="L237">                    scoreNum.setFontScale(3);</span>
+<span class="nc" id="L238">                    scoreNum.setAlignment(Align.center);</span>
+<span class="nc" id="L239">                    scoreNum.setColor(Consts.TIMER_COLOR);</span>
+<span class="nc" id="L240">                    scoreNum.setPosition(Consts.SCOREBOARD_LABEL_X, varStringHeight, Align.center);</span>
+<span class="nc" id="L241">                    stage.addActor(scoreNum);</span>
+                }
+            }
+
+<span class="nc" id="L245">            scanBoard.close();</span>
+<span class="nc" id="L246">        } catch (FileNotFoundException e) {</span>
+<span class="nc" id="L247">            throw new RuntimeException(e);</span>
+<span class="nc" id="L248">        }</span>
+<span class="nc" id="L249">    }</span>
+
+    @Override
+    public void show() {
+<span class="nc" id="L253">        Gdx.input.setInputProcessor(stage);</span>
+<span class="nc" id="L254">    }</span>
+
+    // Draws the background of the start menu
+    private void drawBackground(){
+<span class="nc" id="L258">        spriteBatch.setProjectionMatrix(viewport.getCamera().combined);</span>
+<span class="nc" id="L259">        spriteBatch.begin();</span>
+<span class="nc" id="L260">        spriteBatch.draw(Assets.startBackgroundTexture, 0, 0, Consts.WORLD_WIDTH, Consts.WORLD_HEIGHT);</span>
+<span class="nc" id="L261">        spriteBatch.end();</span>
+
+<span class="nc" id="L263">    }</span>
+
+    public boolean hasWon(double satisfaction) {
+<span class="fc bfc" id="L266" title="All 2 branches covered.">        return satisfaction &gt;= 500;</span>
+    }
+
+    public boolean hasWon() {
+<span class="fc" id="L270">        return hasWon(satisfaction);</span>
+    }
+
+    @Override
+    public void render(float delta) {
+<span class="nc" id="L275">        viewport.apply();</span>
+<span class="nc" id="L276">        ScreenUtils.clear(Consts.BACKGROUND_COLOR);</span>
+<span class="nc" id="L277">        drawBackground();</span>
+<span class="nc" id="L278">        stage.act(delta);</span>
+<span class="nc" id="L279">        stage.draw();</span>
+<span class="nc" id="L280">    }</span>
+
+    @Override
+    public void resize(int width, int height) {
+<span class="nc" id="L284">        viewport.update(width, height, true);</span>
+<span class="nc" id="L285">    }</span>
+
+    @Override
+    public void pause() {
+<span class="nc" id="L289">    }</span>
+
+    @Override
+    public void resume() {
+<span class="nc" id="L293">    }</span>
+
+    @Override
+    public void hide() {
+<span class="nc" id="L297">    }</span>
+
+    @Override
+    public void dispose() {
+<span class="nc" id="L301">        stage.dispose();</span>
+<span class="nc" id="L302">        skin.dispose();</span>
+<span class="nc" id="L303">    }</span>
+}
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

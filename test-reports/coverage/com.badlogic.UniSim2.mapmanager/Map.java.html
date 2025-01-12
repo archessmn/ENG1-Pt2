@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Map.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">headless</a> &gt; <a href="index.source.html" class="el_package">com.badlogic.UniSim2.mapmanager</a> &gt; <span class="el_source">Map.java</span></div><h1>Map.java</h1><pre class="source lang-java linenums">package com.badlogic.UniSim2.mapmanager;
+
+import com.badlogic.UniSim2.Main;
+import com.badlogic.UniSim2.buildingmanager.Building;
+import com.badlogic.UniSim2.buildingmanager.BuildingManager;
+import com.badlogic.UniSim2.resources.*;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.utils.viewport.StretchViewport;
+
+/**
+ * This class represents the map that the game will take place on. It holds
+ * all {@link Building buildings} and {@link Path paths} that can be placed on the map.
+ */
+public class Map {
+
+    private final int width;
+    private final int height;
+    private final Grid grid;
+
+    private BuildingManager buildings; // Used to control all the buildings in the game
+    private Main game;
+    public static Array&lt;Sprite&gt; collidableSprites; // Contains both buildings and paths
+
+    private final SpriteBatch spriteBatch;
+    private StretchViewport viewport;
+
+
+<span class="nc" id="L34">    public Map(Main game) {</span>
+<span class="nc" id="L35">        width = Consts.WORLD_WIDTH;</span>
+<span class="nc" id="L36">        height = Consts.WORLD_HEIGHT;</span>
+
+<span class="nc" id="L38">        grid = new Grid();</span>
+
+<span class="nc" id="L40">        this.game = game;</span>
+
+<span class="nc" id="L42">        buildings = new BuildingManager(this);</span>
+<span class="nc" id="L43">        collidableSprites = new Array&lt;Sprite&gt;();</span>
+<span class="nc" id="L44">        Paths.createPaths();</span>
+
+<span class="nc" id="L46">        this.viewport = game.getViewport();</span>
+
+<span class="nc" id="L48">        spriteBatch = new SpriteBatch();</span>
+<span class="nc" id="L49">    }</span>
+
+    public BuildingManager getBuildingManager() {
+<span class="nc" id="L52">        return buildings;</span>
+    }
+
+    public Main getGame() {
+<span class="nc" id="L56">        return game;</span>
+    }
+
+
+    /**
+     * Handles all input.
+     */
+    public void input() {
+<span class="nc" id="L64">        Vector2 mousePos = new Vector2(Gdx.input.getX(), Gdx.input.getY()); // Gets the position of the mouse</span>
+<span class="nc" id="L65">        viewport.unproject(mousePos);</span>
+<span class="nc" id="L66">        boolean clicked = Gdx.input.justTouched(); // True when the mouse is clicked</span>
+<span class="nc" id="L67">        boolean backspacePressed = Gdx.input.isKeyJustPressed(Input.Keys.BACKSPACE);</span>
+<span class="nc" id="L68">        buildings.input(mousePos, clicked, backspacePressed); // Handles input for all buildings in the game</span>
+<span class="nc" id="L69">    }</span>
+
+    /**
+     * Draws the entire map including the background, the grid, the paths,
+     * the buildings and then the menu.
+     */
+    public void draw() {
+<span class="nc" id="L76">        drawSetup();</span>
+<span class="nc" id="L77">        drawBackground();</span>
+<span class="nc" id="L78">        grid.draw(viewport);</span>
+<span class="nc" id="L79">        drawPath();</span>
+<span class="nc" id="L80">        buildings.draw(spriteBatch);</span>
+<span class="nc" id="L81">    }</span>
+
+    // Required to start drawing
+    private void drawSetup(){
+<span class="nc" id="L85">        ScreenUtils.clear(Consts.BACKGROUND_COLOR);</span>
+<span class="nc" id="L86">        viewport.apply();</span>
+<span class="nc" id="L87">        spriteBatch.setProjectionMatrix(viewport.getCamera().combined);</span>
+<span class="nc" id="L88">        spriteBatch.enableBlending();</span>
+<span class="nc" id="L89">    }</span>
+
+
+    private void drawBackground() {
+<span class="nc" id="L93">        spriteBatch.begin();</span>
+<span class="nc" id="L94">        spriteBatch.draw(Assets.backgroundTexture, 0, 0, width, height);</span>
+<span class="nc" id="L95">        spriteBatch.end();</span>
+<span class="nc" id="L96">    }</span>
+
+    private void drawPath(){
+<span class="nc" id="L99">        spriteBatch.begin();</span>
+<span class="nc" id="L100">        spriteBatch.draw(Assets.pathTexture, 0,0, width, height);</span>
+<span class="nc" id="L101">        spriteBatch.end();</span>
+<span class="nc" id="L102">    }</span>
+
+    public void resize(int width, int height) {
+<span class="nc" id="L105">        viewport.update(width, height, true);</span>
+<span class="nc" id="L106">    }</span>
+
+    public void pause(){
+<span class="nc" id="L109">        this.pause();</span>
+<span class="nc" id="L110">    }</span>
+
+    public void dispose(){
+<span class="nc" id="L113">        grid.dispose();</span>
+<span class="nc" id="L114">        buildings.dispose();</span>
+<span class="nc" id="L115">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

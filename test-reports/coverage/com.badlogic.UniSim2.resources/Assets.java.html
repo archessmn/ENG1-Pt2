@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Assets.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">headless</a> &gt; <a href="index.source.html" class="el_package">com.badlogic.UniSim2.resources</a> &gt; <span class="el_source">Assets.java</span></div><h1>Assets.java</h1><pre class="source lang-java linenums">package com.badlogic.UniSim2.resources;
+
+import com.badlogic.UniSim2.Main;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Texture;
+
+/**
+ * This class is used to store all textures that will be used in the game.
+ * All textures are made public static variable and should not be changed
+ * by another other class.
+ */
+public class Assets {
+
+    public static Music music;
+    public static Sound click;
+
+    public static Texture startBackgroundTexture;
+    public static Texture startButtonUpTexture;
+    public static Texture startButtonDownTexture;
+
+    public static Texture backgroundTexture;
+    public static Texture pathTexture;
+
+    public static Texture menuBarTexture;
+
+    public static Texture accommodationButtonUpTexture;
+    public static Texture lectureHallButtonUpTexture;
+    public static Texture libraryButtonUpTexture;
+    public static Texture courseButtonUpTexture;
+    public static Texture foodZoneButtonUpTexture;
+    public static Texture recreationalButtonUpTexture;
+    public static Texture natureButtonUpTexture;
+    public static Texture[] buttonUpTextures;
+
+    public static Texture accommodationButtonDownTexture;
+    public static Texture lectureHallButtonDownTexture;
+    public static Texture libraryButtonDownTexture;
+    public static Texture courseButtonDownTexture;
+    public static Texture foodZoneButtonDownTexture;
+    public static Texture recreationalButtonDownTexture;
+    public static Texture natureButtonDownTexture;
+    public static Texture[] buttonDownTextures;
+
+    public static Texture accommodationPlacedTexture;
+    public static Texture accommodationCollisionTexture;
+    public static Texture accommodationDraggingTexture;
+
+    public static Texture lectureHallPlacedTexture;
+    public static Texture lectureHallCollisionTexture;
+    public static Texture lectureHallDraggingTexture;
+
+    public static Texture libraryPlacedTexture;
+    public static Texture libraryCollisionTexture;
+    public static Texture libraryDraggingTexture;
+
+    public static Texture coursePlacedTexture;
+    public static Texture courseCollisionTexture;
+    public static Texture courseDraggingTexture;
+
+    public static Texture foodZonePlacedTexture;
+    public static Texture foodZoneCollisionTexture;
+    public static Texture foodZoneDraggingTexture;
+
+    public static Texture recreationalPlacedTexture;
+    public static Texture recreationalCollisionTexture;
+    public static Texture recreationalDraggingTexture;
+
+    public static Texture naturePlacedTexture;
+    public static Texture natureCollisionTexture;
+    public static Texture natureDraggingTexture;
+
+    private Assets() {};
+
+    /**
+     * This method loads all the textures that might be used.
+     * Note that this method should not be called before libgdx has called the
+     * {@link Main#create()} method.
+     */
+    public static void loadTextures(){
+
+        // =======================================
+        // SOUND EFFECTS AND MUSIC.
+        // =======================================
+<span class="nc" id="L86">        music = Gdx.audio.newMusic(Gdx.files.internal(&quot;sounds/music.mp3&quot;));</span>
+<span class="nc" id="L87">        click = Gdx.audio.newSound(Gdx.files.internal(&quot;sounds/click.mp3&quot;));</span>
+
+        // Start menu textures
+<span class="nc" id="L90">        startBackgroundTexture =    new Texture(&quot;startBackground.png&quot;);</span>
+<span class="nc" id="L91">        startButtonUpTexture =      new Texture(&quot;startButtonUp.png&quot;);</span>
+<span class="nc" id="L92">        startButtonDownTexture =    new Texture(&quot;startButtonDown.png&quot;);</span>
+
+        // Background texture
+<span class="nc" id="L95">        backgroundTexture = new Texture(&quot;background.png&quot;);</span>
+<span class="nc" id="L96">        pathTexture =       new Texture(&quot;path.png&quot;);</span>
+
+<span class="nc" id="L98">        menuBarTexture = new Texture(&quot;menuBar.png&quot;);</span>
+
+        // =======================================
+        // BUTTON TEXTURES
+        // =======================================
+        // Building button textures when not hovering over
+<span class="nc" id="L104">        accommodationButtonUpTexture =   new Texture(&quot;textures/buttons/accommodationButtonUp.png&quot;);</span>
+<span class="nc" id="L105">        lectureHallButtonUpTexture =    new Texture(&quot;textures/buttons/lectureHallButtonUp.png&quot;);</span>
+<span class="nc" id="L106">        libraryButtonUpTexture =        new Texture(&quot;textures/buttons/libraryButtonUp.png&quot;);</span>
+<span class="nc" id="L107">        courseButtonUpTexture =         new Texture(&quot;textures/buttons/courseButtonUp.png&quot;);</span>
+<span class="nc" id="L108">        foodZoneButtonUpTexture =       new Texture(&quot;textures/buttons/foodZoneButtonUp.png&quot;);</span>
+<span class="nc" id="L109">        recreationalButtonUpTexture =   new Texture(&quot;textures/buttons/recreationalButtonUp.png&quot;);</span>
+<span class="nc" id="L110">        natureButtonUpTexture =         new Texture(&quot;textures/buttons/natureButtonUp.png&quot;);</span>
+<span class="nc" id="L111">        buttonUpTextures = new Texture[]</span>
+        {
+            accommodationButtonUpTexture,
+            lectureHallButtonUpTexture,
+            libraryButtonUpTexture,
+            courseButtonUpTexture,
+            foodZoneButtonUpTexture,
+            recreationalButtonUpTexture,
+            natureButtonUpTexture
+        };
+
+        // Building button textures when hovering over
+<span class="nc" id="L123">        accommodationButtonDownTexture = new Texture(&quot;textures/buttons/accommodationButtonDown.png&quot;);</span>
+<span class="nc" id="L124">        lectureHallButtonDownTexture =  new Texture(&quot;textures/buttons/lectureHallButtonDown.png&quot;);</span>
+<span class="nc" id="L125">        libraryButtonDownTexture =      new Texture(&quot;textures/buttons/libraryButtonDown.png&quot;);</span>
+<span class="nc" id="L126">        courseButtonDownTexture =       new Texture(&quot;textures/buttons/courseButtonDown.png&quot;);</span>
+<span class="nc" id="L127">        foodZoneButtonDownTexture =     new Texture(&quot;textures/buttons/foodZoneButtonDown.png&quot;);</span>
+<span class="nc" id="L128">        recreationalButtonDownTexture = new Texture(&quot;textures/buttons/recreationalButtonDown.png&quot;);</span>
+<span class="nc" id="L129">        natureButtonDownTexture =       new Texture(&quot;textures/buttons/natureButtonDown.png&quot;);</span>
+<span class="nc" id="L130">        buttonDownTextures = new Texture[]</span>
+        {
+            accommodationButtonDownTexture,
+            lectureHallButtonDownTexture,
+            libraryButtonDownTexture,
+            courseButtonDownTexture,
+            foodZoneButtonDownTexture,
+            recreationalButtonDownTexture,
+            natureButtonDownTexture
+        };
+
+        // =======================================
+        // BUILDING SPRITE TEXTURES
+        // =======================================
+<span class="nc" id="L144">        accommodationPlacedTexture =     new Texture(&quot;textures/buildings/accommodationPlaced.png&quot;);</span>
+<span class="nc" id="L145">        accommodationCollisionTexture =  new Texture(&quot;textures/buildings/accommodationCollision.png&quot;);</span>
+<span class="nc" id="L146">        accommodationDraggingTexture =   new Texture(&quot;textures/buildings/accommodationDragging.png&quot;);</span>
+
+<span class="nc" id="L148">        lectureHallPlacedTexture =      new Texture(&quot;textures/buildings/lectureHallPlaced.png&quot;);</span>
+<span class="nc" id="L149">        lectureHallCollisionTexture =   new Texture(&quot;textures/buildings/lectureHallCollision.png&quot;);</span>
+<span class="nc" id="L150">        lectureHallDraggingTexture =    new Texture(&quot;textures/buildings/lectureHallDragging.png&quot;);</span>
+
+<span class="nc" id="L152">        libraryPlacedTexture =          new Texture(&quot;textures/buildings/libraryPlaced.png&quot;);</span>
+<span class="nc" id="L153">        libraryCollisionTexture =       new Texture(&quot;textures/buildings/libraryCollision.png&quot;);</span>
+<span class="nc" id="L154">        libraryDraggingTexture =        new Texture(&quot;textures/buildings/libraryDragging.png&quot;);</span>
+
+<span class="nc" id="L156">        coursePlacedTexture =           new Texture(&quot;textures/buildings/coursePlaced.png&quot;);</span>
+<span class="nc" id="L157">        courseCollisionTexture =        new Texture(&quot;textures/buildings/courseCollision.png&quot;);</span>
+<span class="nc" id="L158">        courseDraggingTexture =         new Texture(&quot;textures/buildings/courseDragging.png&quot;);</span>
+
+<span class="nc" id="L160">        foodZonePlacedTexture =         new Texture(&quot;textures/buildings/foodZonePlaced.png&quot;);</span>
+<span class="nc" id="L161">        foodZoneCollisionTexture =      new Texture(&quot;textures/buildings/foodZoneCollision.png&quot;);</span>
+<span class="nc" id="L162">        foodZoneDraggingTexture =       new Texture(&quot;textures/buildings/foodZoneDragging.png&quot;);</span>
+
+<span class="nc" id="L164">        recreationalPlacedTexture =     new Texture(&quot;textures/buildings/recreationalPlaced.png&quot;);</span>
+<span class="nc" id="L165">        recreationalCollisionTexture =  new Texture(&quot;textures/buildings/recreationalCollision.png&quot;);</span>
+<span class="nc" id="L166">        recreationalDraggingTexture =   new Texture(&quot;textures/buildings/recreationalDragging.png&quot;);</span>
+
+<span class="nc" id="L168">        naturePlacedTexture =           new Texture(&quot;textures/buildings/naturePlaced.png&quot;);</span>
+<span class="nc" id="L169">        natureCollisionTexture =        new Texture(&quot;textures/buildings/natureCollision.png&quot;);</span>
+<span class="nc" id="L170">        natureDraggingTexture =         new Texture(&quot;textures/buildings/natureDragging.png&quot;);</span>
+<span class="nc" id="L171">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

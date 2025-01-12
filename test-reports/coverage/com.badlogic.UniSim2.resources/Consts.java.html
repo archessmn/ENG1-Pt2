@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Consts.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">headless</a> &gt; <a href="index.source.html" class="el_package">com.badlogic.UniSim2.resources</a> &gt; <span class="el_source">Consts.java</span></div><h1>Consts.java</h1><pre class="source lang-java linenums">package com.badlogic.UniSim2.resources;
+
+import com.badlogic.gdx.graphics.Color;
+
+/**
+ * This class is used to manage all the constants in the game. It allows
+ * easy changes to be made to all constants within it.
+ */
+public class Consts {
+
+    private Consts(){}
+
+    /**
+     * Size of each cell in pixels, everything scales to the cell size.
+     */
+    public static final int CELL_SIZE = 20;
+
+    public static final int WORLD_CELL_WIDTH = 75;
+    public static final int WORLD_CELL_HEIGHT = 38;
+
+    /**
+     * Scales a value according to the size of each grid cell.
+     * @param value The value to scale.
+     * @return value * {@link #CELL_SIZE}.
+     */
+    private static int scaleToCellSize(int value){
+<span class="fc" id="L27">        return value * CELL_SIZE;</span>
+    }
+<span class="fc" id="L29">    public static final int WORLD_WIDTH = scaleToCellSize(WORLD_CELL_WIDTH);</span>
+<span class="fc" id="L30">    public static final int WORLD_HEIGHT = scaleToCellSize(WORLD_CELL_HEIGHT);</span>
+
+<span class="fc" id="L32">    public static final int START_BUTTON_WIDTH = scaleToCellSize(10);</span>
+<span class="fc" id="L33">    public static final int START_BUTTON_HEIGHT = scaleToCellSize(6);</span>
+<span class="fc" id="L34">    public static final int START_BUTTON_X = WORLD_WIDTH / 2 - START_BUTTON_WIDTH / 2;</span>
+<span class="fc" id="L35">    public static final int START_BUTTON_Y = WORLD_HEIGHT / 2 - START_BUTTON_HEIGHT / 2 - scaleToCellSize(5);</span>
+
+<span class="fc" id="L37">    public static final Color BACKGROUND_COLOR = new Color(Color.BLACK);</span>
+
+<span class="fc" id="L39">    public static final int PATH_SIZE = scaleToCellSize(2);</span>
+
+<span class="fc" id="L41">    public static final int H_PATH_1_X = scaleToCellSize(9);</span>
+<span class="fc" id="L42">    public static final int H_PATH_1_Y = WORLD_HEIGHT - scaleToCellSize(12);</span>
+<span class="fc" id="L43">    public static final int H_PATH_1_WIDTH = WORLD_WIDTH - H_PATH_1_X;</span>
+
+<span class="fc" id="L45">    public static final int H_PATH_2_X = scaleToCellSize(0);</span>
+<span class="fc" id="L46">    public static final int H_PATH_2_Y = WORLD_HEIGHT - scaleToCellSize(24);</span>
+<span class="fc" id="L47">    public static final int H_PATH_2_WIDTH = WORLD_WIDTH;</span>
+
+<span class="fc" id="L49">    public static final int V_PATH_1_X = scaleToCellSize(26);</span>
+<span class="fc" id="L50">    public static final int V_PATH_1_Y = scaleToCellSize(0);</span>
+<span class="fc" id="L51">    public static final int V_PATH_1_HEIGHT = WORLD_HEIGHT - scaleToCellSize(2);</span>
+
+<span class="fc" id="L53">    public static final int V_PATH_2_X = scaleToCellSize(46);</span>
+<span class="fc" id="L54">    public static final int V_PATH_2_Y = scaleToCellSize(0);</span>
+<span class="fc" id="L55">    public static final int V_PATH_2_HEIGHT = WORLD_HEIGHT - scaleToCellSize(10);</span>
+
+<span class="fc" id="L57">    public static final int V_PATH_3_X = scaleToCellSize(60);</span>
+<span class="fc" id="L58">    public static final int V_PATH_3_Y = scaleToCellSize(0);</span>
+<span class="fc" id="L59">    public static final int V_PATH_3_HEIGHT = WORLD_HEIGHT;</span>
+
+<span class="fc" id="L61">    public static final int V_PATH_4_X = scaleToCellSize(9);</span>
+<span class="fc" id="L62">    public static final int V_PATH_4_Y = scaleToCellSize(0);</span>
+<span class="fc" id="L63">    public static final int V_PATH_4_HEIGHT = WORLD_HEIGHT;</span>
+
+<span class="fc" id="L65">    public static final Color GRID_COLOR = new Color(0.28f,0.56f,0.11f, 1);</span>
+<span class="fc" id="L66">    public static final int GRID_ROWS = WORLD_HEIGHT / CELL_SIZE;</span>
+<span class="fc" id="L67">    public static final int GRID_COLS = WORLD_WIDTH / CELL_SIZE;</span>
+
+<span class="fc" id="L69">    public static final int MENU_BAR_X = scaleToCellSize(0);</span>
+<span class="fc" id="L70">    public static final int MENU_BAR_Y = scaleToCellSize(0);</span>
+<span class="fc" id="L71">    public static final int MENU_BAR_WIDTH = scaleToCellSize(9);</span>
+<span class="fc" id="L72">    public static final int MENU_BAR_HEIGHT = WORLD_HEIGHT;</span>
+
+<span class="fc" id="L74">    public static final int BUILDING_BUTTON_WIDTH = scaleToCellSize(7);</span>
+<span class="fc" id="L75">    public static final int BUILDING_BUTTON_HEIGHT = scaleToCellSize(3);</span>
+<span class="fc" id="L76">    public static final int BUILDING_BUTTON_X_BOUNDARY = scaleToCellSize(1) / 2;</span>
+<span class="fc" id="L77">    public static final int BUILDING_BUTTON_Y_BOUNDARY = WORLD_HEIGHT - scaleToCellSize(2);</span>
+<span class="fc" id="L78">    public static final int BUILDING_BUTTON_GAP = scaleToCellSize(1) + BUILDING_BUTTON_HEIGHT;</span>
+
+<span class="fc" id="L80">    public static final int TIMER_WIDTH = scaleToCellSize(6);</span>
+<span class="fc" id="L81">    public static final int TIMER_HEIGHT = scaleToCellSize(2);</span>
+<span class="fc" id="L82">    public static final int TIMER_X = scaleToCellSize(4);</span>
+<span class="fc" id="L83">    public static final int TIMER_Y = WORLD_HEIGHT - scaleToCellSize(2);</span>
+<span class="fc" id="L84">    public static final int MONEY_X = scaleToCellSize(4);</span>
+<span class="fc" id="L85">    public static final int MONEY_Y = WORLD_HEIGHT - scaleToCellSize(31);</span>
+<span class="fc" id="L86">    public static final int SATISFACTION_X = scaleToCellSize(4);</span>
+<span class="fc" id="L87">    public static final int SATISFACTION_Y = WORLD_HEIGHT - scaleToCellSize(35);</span>
+    public static final int TIMER_SIZE = 3;
+<span class="fc" id="L89">    public static final Color TIMER_COLOR = new Color(Color.BLACK);</span>
+    public static final int MAX_TIME = 300;
+
+<span class="fc" id="L92">    public static final int SCORE_LABEL_WIDTH = scaleToCellSize(6);</span>
+<span class="fc" id="L93">    public static final int SCORE_LABEL_HEIGHT = scaleToCellSize(2);</span>
+<span class="fc" id="L94">    public static final int SCOREBOARD_LABEL_X = (WORLD_WIDTH/2) - scaleToCellSize(10);</span>
+<span class="fc" id="L95">    public static final int SCOREBOARD_LABEL_Y = (WORLD_HEIGHT/2) - scaleToCellSize(4)+ 75;</span>
+
+<span class="fc" id="L97">    public static final int ACHIEVEMENT_LABEL_X = scaleToCellSize(38);</span>
+<span class="fc" id="L98">    public static final int ACHIEVEMENT_LABEL_Y = WORLD_HEIGHT - scaleToCellSize(7);</span>
+
+<span class="fc" id="L100">    public static final int EVENT_LABEL_X = (WORLD_WIDTH/2) + scaleToCellSize(3);;</span>
+<span class="fc" id="L101">    public static final int EVENT_LABEL_Y = (WORLD_HEIGHT/2) + scaleToCellSize(8);</span>
+
+<span class="fc" id="L103">    public static final int GAME_STATUS_LABEL_X = (WORLD_WIDTH/2) + scaleToCellSize(8);</span>
+<span class="fc" id="L104">    public static final int GAME_STATUS_LABEL_Y = (WORLD_HEIGHT/2) - scaleToCellSize(5)+ 75;</span>
+
+    public static final int LABEL_GAP = 40;
+
+<span class="fc" id="L108">    public static final Color COUNT_COLOR = new Color(Color.BLACK);</span>
+    public static final int COUNT_SIZE = 2;
+
+<span class="fc" id="L111">    public static final int MAP_MIN_X_BOUNDARY = MENU_BAR_X + MENU_BAR_WIDTH;</span>
+<span class="fc" id="L112">    public static final int MAP_MAX_X_BOUNDARY = WORLD_WIDTH;</span>
+<span class="fc" id="L113">    public static final int MAP_MIN_Y_BOUNDARY = scaleToCellSize(0);</span>
+<span class="fc" id="L114">    public static final int MAP_MAX_Y_BOUNDARY = WORLD_HEIGHT;;</span>
+
+<span class="fc" id="L116">    public static final int ACCOMMODATION_WIDTH = scaleToCellSize(4);</span>
+<span class="fc" id="L117">    public static final int ACCOMMODATION_HEIGHT = scaleToCellSize(6);</span>
+    public static final int ACCOMMODATION_COST = 100;
+
+<span class="fc" id="L120">    public static final int LECTUREHALL_WIDTH = scaleToCellSize(6);</span>
+<span class="fc" id="L121">    public static final int LECTUREHALL_HEIGHT = scaleToCellSize(10);</span>
+    public static final int LECTUREHALL_COST = 60;
+
+<span class="fc" id="L124">    public static final int LIBRARY_WIDTH = scaleToCellSize(10);</span>
+<span class="fc" id="L125">    public static final int LIBRARY_HEIGHT = scaleToCellSize(3);</span>
+    public static final int LIBRARY_COST = 40;
+
+<span class="fc" id="L128">    public static final int COURSE_WIDTH = scaleToCellSize(5);</span>
+<span class="fc" id="L129">    public static final int COURSE_HEIGHT = scaleToCellSize(5);</span>
+    public static final int COURSE_COST = 40;
+
+<span class="fc" id="L132">    public static final int FOODZONE_WIDTH = scaleToCellSize(2);</span>
+<span class="fc" id="L133">    public static final int FOODZONE_HEIGHT = scaleToCellSize(2);</span>
+    public static final int FOODZONE_COST = 20;
+
+<span class="fc" id="L136">    public static final int RECREATIONAL_WIDTH = scaleToCellSize(3);</span>
+<span class="fc" id="L137">    public static final int RECREATIONAL_HEIGHT = scaleToCellSize(4);</span>
+    public static final int RECREATIONAL_COST = 20;
+
+<span class="fc" id="L140">    public static final int NATURE_WIDTH = scaleToCellSize(4);</span>
+<span class="fc" id="L141">    public static final int NATURE_HEIGHT = scaleToCellSize(5);</span>
+    public static final int NATURE_COST = 10;
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
