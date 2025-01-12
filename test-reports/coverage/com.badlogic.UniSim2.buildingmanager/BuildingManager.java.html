@@ -70,21 +70,30 @@ public class BuildingManager {
 <span class="nc" id="L70">        currentlySelecting = false;</span>
 <span class="nc" id="L71">    }</span>
 
+    public void removeLastBuildings(int num){
+<span class="nc bnc" id="L74" title="All 2 branches missed.">        for (int i = 0; i &lt; num; i++){</span>
+<span class="nc bnc" id="L75" title="All 2 branches missed.">            if (!buildings.isEmpty()){</span>
+<span class="nc" id="L76">                buildings.removeIndex(0);</span>
+<span class="nc" id="L77">                Map.collidableSprites.removeIndex(0);</span>
+            }
+        }
+<span class="nc" id="L80">    }</span>
+
     /**
      * Used to place a building in a location. The {@link #currentBuilding} holds
      * the location where it should be placed.
      */
     private void handlePlacing() {
-<span class="nc bnc" id="L78" title="All 2 branches missed.">        boolean canAfford = map.getGame().getGameScreen().getMoney() &gt;= currentBuilding.cost;</span>
+<span class="nc bnc" id="L87" title="All 2 branches missed.">        boolean canAfford = map.getGame().getGameScreen().getMoney() &gt;= currentBuilding.cost;</span>
 
         // If the current building is not colliding
-<span class="nc bnc" id="L81" title="All 4 branches missed.">        if (!isColliding(currentBuilding) &amp;&amp; canAfford) {</span>
-<span class="nc" id="L82">            map.getGame().getGameScreen().subtractMoney(currentBuilding.cost);</span>
-<span class="nc" id="L83">            currentBuilding.placeBuilding(); // Place building</span>
-<span class="nc" id="L84">            currentBuilding = null;</span>
-<span class="nc" id="L85">            currentlySelecting = false; // No longer selecting a building</span>
+<span class="nc bnc" id="L90" title="All 4 branches missed.">        if (!isColliding(currentBuilding) &amp;&amp; canAfford) {</span>
+<span class="nc" id="L91">            map.getGame().getGameScreen().subtractMoney(currentBuilding.cost);</span>
+<span class="nc" id="L92">            currentBuilding.placeBuilding(); // Place building</span>
+<span class="nc" id="L93">            currentBuilding = null;</span>
+<span class="nc" id="L94">            currentlySelecting = false; // No longer selecting a building</span>
         }
-<span class="nc" id="L87">    }</span>
+<span class="nc" id="L96">    }</span>
 
     /**
      * Called when a building button has been pressed. Deals with placing a new building
@@ -94,11 +103,11 @@ public class BuildingManager {
      */
     public void handleSelection(Building.BuildingTypes type) {
 
-<span class="nc" id="L97">        handleType(type); // Sets current building to the type of building selected</span>
-<span class="nc" id="L98">        currentlySelecting = true; // Sets currently selecting to true as we have selected a building to drag and place</span>
-<span class="nc" id="L99">        currentBuilding.selectBuilding(); // Selects building</span>
-<span class="nc" id="L100">        addBuilding(currentBuilding); // Adds currentBuilding to the buildings array and to collidableSprites array</span>
-<span class="nc" id="L101">    }</span>
+<span class="nc" id="L106">        handleType(type); // Sets current building to the type of building selected</span>
+<span class="nc" id="L107">        currentlySelecting = true; // Sets currently selecting to true as we have selected a building to drag and place</span>
+<span class="nc" id="L108">        currentBuilding.selectBuilding(); // Selects building</span>
+<span class="nc" id="L109">        addBuilding(currentBuilding); // Adds currentBuilding to the buildings array and to collidableSprites array</span>
+<span class="nc" id="L110">    }</span>
 
     /**
      * Creates a new building based on the type.
@@ -106,32 +115,32 @@ public class BuildingManager {
      * @param type The type of the building to create.
      */
     private void handleType(Building.BuildingTypes type) {
-<span class="nc bnc" id="L109" title="All 8 branches missed.">        switch (type) {</span>
+<span class="nc bnc" id="L118" title="All 8 branches missed.">        switch (type) {</span>
             case Accommodation:
-<span class="nc" id="L111">                currentBuilding = new Accommodation();</span>
-<span class="nc" id="L112">                break;</span>
-            case LectureHall:
-<span class="nc" id="L114">                currentBuilding = new LectureHall();</span>
-<span class="nc" id="L115">                break;</span>
-            case Library:
-<span class="nc" id="L117">                currentBuilding = new Library();</span>
-<span class="nc" id="L118">                break;</span>
-            case Course:
-<span class="nc" id="L120">                currentBuilding = new Course();</span>
+<span class="nc" id="L120">                currentBuilding = new Accommodation();</span>
 <span class="nc" id="L121">                break;</span>
-            case FoodZone:
-<span class="nc" id="L123">                currentBuilding = new FoodZone();</span>
+            case LectureHall:
+<span class="nc" id="L123">                currentBuilding = new LectureHall();</span>
 <span class="nc" id="L124">                break;</span>
-            case Recreational:
-<span class="nc" id="L126">                currentBuilding = new Recreational();</span>
+            case Library:
+<span class="nc" id="L126">                currentBuilding = new Library();</span>
 <span class="nc" id="L127">                break;</span>
-            case Nature:
-<span class="nc" id="L129">                currentBuilding = new Nature();</span>
+            case Course:
+<span class="nc" id="L129">                currentBuilding = new Course();</span>
 <span class="nc" id="L130">                break;</span>
+            case FoodZone:
+<span class="nc" id="L132">                currentBuilding = new FoodZone();</span>
+<span class="nc" id="L133">                break;</span>
+            case Recreational:
+<span class="nc" id="L135">                currentBuilding = new Recreational();</span>
+<span class="nc" id="L136">                break;</span>
+            case Nature:
+<span class="nc" id="L138">                currentBuilding = new Nature();</span>
+<span class="nc" id="L139">                break;</span>
             default:
                 break;
         }
-<span class="nc" id="L134">    }</span>
+<span class="nc" id="L143">    }</span>
 
     /**
      * Updates the position of the currently selected building to the mouse pos and changes
@@ -141,10 +150,10 @@ public class BuildingManager {
      * @param mousPos The position of the mouse if world coords.
      */
     private void handleDragging(Vector2 mousPos) {
-<span class="nc" id="L144">        boolean colliding = isColliding(currentBuilding);</span>
-<span class="nc bnc" id="L145" title="All 2 branches missed.">        boolean canAfford = map.getGame().getGameScreen().getMoney() &gt;= currentBuilding.cost;</span>
-<span class="nc bnc" id="L146" title="All 4 branches missed.">        currentBuilding.handleDragging(mousPos, (colliding || !canAfford));</span>
-<span class="nc" id="L147">    }</span>
+<span class="nc" id="L153">        boolean colliding = isColliding(currentBuilding);</span>
+<span class="nc bnc" id="L154" title="All 2 branches missed.">        boolean canAfford = map.getGame().getGameScreen().getMoney() &gt;= currentBuilding.cost;</span>
+<span class="nc bnc" id="L155" title="All 4 branches missed.">        currentBuilding.handleDragging(mousPos, (colliding || !canAfford));</span>
+<span class="nc" id="L156">    }</span>
 
     /**
      * Checks whether a building is colliding with anything in
@@ -156,28 +165,28 @@ public class BuildingManager {
     private boolean isColliding(Building building) {
 
         // For all sprites that are collidable
-<span class="nc bnc" id="L159" title="All 2 branches missed.">        for (Sprite collidableSprite : Map.collidableSprites) {</span>
+<span class="nc bnc" id="L168" title="All 2 branches missed.">        for (Sprite collidableSprite : Map.collidableSprites) {</span>
             // Check if the building is overlapping with any
-<span class="nc" id="L161">            boolean overlaps = building.getBoundingRectangle().overlaps(collidableSprite.getBoundingRectangle());</span>
+<span class="nc" id="L170">            boolean overlaps = building.getBoundingRectangle().overlaps(collidableSprite.getBoundingRectangle());</span>
             // If so then return true
-<span class="nc bnc" id="L163" title="All 4 branches missed.">            if (!building.equals(collidableSprite) &amp;&amp; overlaps) {</span>
-<span class="nc" id="L164">                return true;</span>
+<span class="nc bnc" id="L172" title="All 4 branches missed.">            if (!building.equals(collidableSprite) &amp;&amp; overlaps) {</span>
+<span class="nc" id="L173">                return true;</span>
             }
-<span class="nc" id="L166">        }</span>
+<span class="nc" id="L175">        }</span>
         // If not colliding return false
-<span class="nc" id="L168">        return false;</span>
+<span class="nc" id="L177">        return false;</span>
     }
 
     public boolean hasEveryType() {
-<span class="nc" id="L172">        HashMap&lt;Building.BuildingTypes, Boolean&gt; currentTypes = new HashMap&lt;&gt;();</span>
+<span class="nc" id="L181">        HashMap&lt;Building.BuildingTypes, Boolean&gt; currentTypes = new HashMap&lt;&gt;();</span>
 
-<span class="nc bnc" id="L174" title="All 2 branches missed.">        for (Building building : buildings) {</span>
-<span class="nc bnc" id="L175" title="All 2 branches missed.">            if (building.getIsPlaced()) {</span>
-<span class="nc" id="L176">                currentTypes.put(building.getType(), true);</span>
+<span class="nc bnc" id="L183" title="All 2 branches missed.">        for (Building building : buildings) {</span>
+<span class="nc bnc" id="L184" title="All 2 branches missed.">            if (building.getIsPlaced()) {</span>
+<span class="nc" id="L185">                currentTypes.put(building.getType(), true);</span>
             }
-<span class="nc" id="L178">        }</span>
+<span class="nc" id="L187">        }</span>
 
-<span class="nc bnc" id="L180" title="All 2 branches missed.">        return currentTypes.size() == Building.BuildingTypes.values().length;</span>
+<span class="nc bnc" id="L189" title="All 2 branches missed.">        return currentTypes.size() == Building.BuildingTypes.values().length;</span>
     }
 
     /**
@@ -188,45 +197,45 @@ public class BuildingManager {
      * @param spriteBatch
      */
     public void draw(SpriteBatch spriteBatch) {
-<span class="nc" id="L191">        spriteBatch.begin();</span>
-<span class="nc bnc" id="L192" title="All 2 branches missed.">        for (Building building : buildings) {</span>
-<span class="nc" id="L193">            building.clampPosition(); // Ensures the buildings cannot be outside the map boundaries</span>
-<span class="nc bnc" id="L194" title="All 2 branches missed.">            if (!building.equals(currentBuilding)) {</span>
-<span class="nc" id="L195">                building.draw(spriteBatch);</span>
+<span class="nc" id="L200">        spriteBatch.begin();</span>
+<span class="nc bnc" id="L201" title="All 2 branches missed.">        for (Building building : buildings) {</span>
+<span class="nc" id="L202">            building.clampPosition(); // Ensures the buildings cannot be outside the map boundaries</span>
+<span class="nc bnc" id="L203" title="All 2 branches missed.">            if (!building.equals(currentBuilding)) {</span>
+<span class="nc" id="L204">                building.draw(spriteBatch);</span>
             }
-<span class="nc" id="L197">        }</span>
+<span class="nc" id="L206">        }</span>
         // Draws currentBuilding on top of every other building
-<span class="nc bnc" id="L199" title="All 2 branches missed.">        if (currentBuilding != null) {</span>
-<span class="nc" id="L200">            currentBuilding.draw(spriteBatch);</span>
+<span class="nc bnc" id="L208" title="All 2 branches missed.">        if (currentBuilding != null) {</span>
+<span class="nc" id="L209">            currentBuilding.draw(spriteBatch);</span>
         }
-<span class="nc" id="L202">        spriteBatch.end();</span>
-<span class="nc" id="L203">    }</span>
+<span class="nc" id="L211">        spriteBatch.end();</span>
+<span class="nc" id="L212">    }</span>
 
     /**
      * @return true if a building is currently being selected and false otherwise.
      */
     public boolean getCurrentlySelecting() {
-<span class="nc" id="L209">        return currentlySelecting;</span>
+<span class="nc" id="L218">        return currentlySelecting;</span>
     }
 
     public Building.BuildingTypes getSelectedType() {
-<span class="nc" id="L213">        return currentBuilding.getType();</span>
+<span class="nc" id="L222">        return currentBuilding.getType();</span>
     }
 
     public boolean cancelCurrentlySelecting() {
-<span class="nc bnc" id="L217" title="All 2 branches missed.">        if (currentlySelecting) {</span>
-<span class="nc" id="L218">            removeBuilding();</span>
-<span class="nc" id="L219">            return true;</span>
-<span class="nc" id="L220">        } else return false;</span>
+<span class="nc bnc" id="L226" title="All 2 branches missed.">        if (currentlySelecting) {</span>
+<span class="nc" id="L227">            removeBuilding();</span>
+<span class="nc" id="L228">            return true;</span>
+<span class="nc" id="L229">        } else return false;</span>
     }
 
     /**
      * Calls {@link Building#dispose()} on each building this stores.
      */
     public void dispose() {
-<span class="nc bnc" id="L227" title="All 2 branches missed.">        for (Building building : buildings) {</span>
-<span class="nc" id="L228">            building.dispose();</span>
-<span class="nc" id="L229">        }</span>
-<span class="nc" id="L230">    }</span>
+<span class="nc bnc" id="L236" title="All 2 branches missed.">        for (Building building : buildings) {</span>
+<span class="nc" id="L237">            building.dispose();</span>
+<span class="nc" id="L238">        }</span>
+<span class="nc" id="L239">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

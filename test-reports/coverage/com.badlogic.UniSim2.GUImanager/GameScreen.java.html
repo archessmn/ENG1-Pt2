@@ -245,11 +245,11 @@ public class GameScreen implements Screen {
     private void gameEvents(){
 <span class="pc bpc" id="L246" title="3 of 4 branches missed.">        if (timer.getElapsedTime() &gt; 59.5 &amp;&amp; timer.getElapsedTime() &lt; 60.5) {</span>
 <span class="nc bnc" id="L247" title="All 2 branches missed.">            if (Math.random() &lt; 0.5){</span>
-<span class="nc" id="L248">                menu.updateEventLabel(&quot;Event: You won the lottery!!! Have an extra $500&quot;);</span>
+<span class="nc" id="L248">                menu.updateEventLabel(&quot;You won the lottery!!! Have an extra $500&quot;);</span>
 <span class="nc" id="L249">                money += 500;</span>
             }
             else {
-<span class="nc" id="L252">                menu.updateEventLabel(&quot;Event: Building fine - $300 has been confiscated :((&quot;);</span>
+<span class="nc" id="L252">                menu.updateEventLabel(&quot;Building fine - $300 has been confiscated :((&quot;);</span>
 <span class="nc" id="L253">                money -= 300;</span>
 <span class="nc bnc" id="L254" title="All 2 branches missed.">                if (money &lt; 0){</span>
 <span class="nc" id="L255">                    money = 0;</span>
@@ -259,17 +259,29 @@ public class GameScreen implements Screen {
 <span class="pc bpc" id="L259" title="3 of 4 branches missed.">        if (timer.getElapsedTime() &gt; 69.5 &amp;&amp; timer.getElapsedTime() &lt; 70.5) {</span>
 <span class="nc" id="L260">            menu.updateEventLabel(&quot;&quot;);</span>
         }
-<span class="fc" id="L262">    }</span>
+<span class="pc bpc" id="L262" title="3 of 4 branches missed.">        if (timer.getElapsedTime() &gt; 179.5 &amp;&amp; timer.getElapsedTime() &lt; 180.5) {</span>
+<span class="nc" id="L263">            menu.updateEventLabel(&quot;Tornado warning!!! Expect building loss!&quot;);</span>
+<span class="nc bnc" id="L264" title="All 2 branches missed.">            if (Math.random() &lt; 0.5) {</span>
+<span class="nc" id="L265">                map.getBuildingManager().removeLastBuildings(5);</span>
+            }
+            else{
+<span class="nc" id="L268">                map.getBuildingManager().removeLastBuildings(10);</span>
+            }
+        }
+<span class="pc bpc" id="L271" title="3 of 4 branches missed.">        if (timer.getElapsedTime() &gt; 189.5 &amp;&amp; timer.getElapsedTime() &lt; 190.5) {</span>
+<span class="nc" id="L272">            menu.updateEventLabel(&quot;&quot;);</span>
+        }
+<span class="fc" id="L274">    }</span>
 
     /**
      * Calculates the score of the player by the end of the game.
      */
     public void calculateScore(){
-<span class="fc" id="L268">        score = (int)(satisfaction) + money/10;</span>
-<span class="fc" id="L269">    }</span>
+<span class="fc" id="L280">        score = (int)(satisfaction) + money/10;</span>
+<span class="fc" id="L281">    }</span>
 
     public int getScore() {
-<span class="fc" id="L272">        return score;</span>
+<span class="fc" id="L284">        return score;</span>
     }
 
     /**
@@ -277,37 +289,37 @@ public class GameScreen implements Screen {
      * map.
      */
     private void draw() {
-<span class="nc" id="L280">        viewport.apply();</span>
-<span class="nc" id="L281">        ScreenUtils.clear(Consts.BACKGROUND_COLOR);</span>
-<span class="nc" id="L282">        map.draw();</span>
-<span class="nc" id="L283">        menu.draw();</span>
-<span class="nc" id="L284">    }</span>
+<span class="nc" id="L292">        viewport.apply();</span>
+<span class="nc" id="L293">        ScreenUtils.clear(Consts.BACKGROUND_COLOR);</span>
+<span class="nc" id="L294">        map.draw();</span>
+<span class="nc" id="L295">        menu.draw();</span>
+<span class="nc" id="L296">    }</span>
 
 
     @Override
     public void resize(int width, int height) {
-<span class="nc" id="L289">        map.resize(width, height);</span>
-<span class="nc" id="L290">        viewport.update(width, height, true);</span>
-<span class="nc" id="L291">    }</span>
+<span class="nc" id="L301">        map.resize(width, height);</span>
+<span class="nc" id="L302">        viewport.update(width, height, true);</span>
+<span class="nc" id="L303">    }</span>
 
     @Override
     public void pause() {
-<span class="fc" id="L295">        isPaused = true;</span>
-<span class="fc" id="L296">    }</span>
+<span class="fc" id="L307">        isPaused = true;</span>
+<span class="fc" id="L308">    }</span>
 
     @Override
     public void resume() {
-<span class="nc" id="L300">        isPaused = false;</span>
-<span class="nc" id="L301">    }</span>
+<span class="nc" id="L312">        isPaused = false;</span>
+<span class="nc" id="L313">    }</span>
 
     @Override
     public void hide() {
-<span class="nc" id="L305">    }</span>
+<span class="nc" id="L317">    }</span>
 
     @Override
     public void dispose() {
-<span class="nc" id="L309">        map.dispose();</span>
-<span class="nc" id="L310">        menu.dispose();</span>
-<span class="nc" id="L311">    }</span>
+<span class="nc" id="L321">        map.dispose();</span>
+<span class="nc" id="L322">        menu.dispose();</span>
+<span class="nc" id="L323">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
