@@ -11,7 +11,7 @@ import {
   Title,
 } from "@mantine/core";
 // import { NavLink as ReactNavLink } from "react-router-dom";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { FaArrowRight, FaGithub } from "react-icons/fa";
 import { IoDocumentOutline } from "react-icons/io5";
 import { PiArrowBendDownRight } from "react-icons/pi";
@@ -75,7 +75,9 @@ export function RootPage() {
             </Center>
             <Center>
               <Link
-                to={"https://github.com/archessmn"}
+                to={
+                  "https://drive.google.com/drive/folders/1_c1pkNcemokb3aUFgCjt7k40SX_Fa1QT?usp=sharing"
+                }
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -91,7 +93,9 @@ export function RootPage() {
             </Center>
             <Center>
               <Link
-                to={"https://github.com/archessmn"}
+                to={
+                  "https://drive.google.com/drive/folders/1_c1pkNcemokb3aUFgCjt7k40SX_Fa1QT?usp=sharing"
+                }
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -109,12 +113,17 @@ export function RootPage() {
               </Center>
               <Center>
                 <Link
-                  to={"https://github.com/archessmn"}
+                  to={
+                    "https://drive.google.com/drive/folders/1_c1pkNcemokb3aUFgCjt7k40SX_Fa1QT?usp=sharing"
+                  }
                   target="_blank"
                   rel="noopener noreferrer"
                 >
                   <Text>Arch2</Text>
                 </Link>
+              </Center>
+              <Center>
+                <NavLink to={"/architecture/uml"}>UML Diagram</NavLink>
               </Center>
             </Stack>
           </Stack>
@@ -128,7 +137,9 @@ export function RootPage() {
               </Center>
               <Center>
                 <Link
-                  to={"https://github.com/archessmn"}
+                  to={
+                    "https://drive.google.com/drive/folders/1_c1pkNcemokb3aUFgCjt7k40SX_Fa1QT?usp=sharing"
+                  }
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -146,7 +157,9 @@ export function RootPage() {
               </Center>
               <Center>
                 <Link
-                  to={"https://github.com/archessmn"}
+                  to={
+                    "https://drive.google.com/drive/folders/1_c1pkNcemokb3aUFgCjt7k40SX_Fa1QT?usp=sharing"
+                  }
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -189,12 +202,44 @@ export function RootPage() {
                 to={
                   "https://drive.google.com/drive/folders/1_c1pkNcemokb3aUFgCjt7k40SX_Fa1QT?usp=sharing"
                 }
+                target="_blank"
+                rel="noopener noreferrer"
               >
                 Files
               </Button>
             </Center>
           </Stack>
         </Group>
+      </Center>
+      <Center mt={60}>
+        <Group>
+          <IoDocumentOutline size={150} color="#4854c7" />
+          <Title size={56}>Old Teams Documents</Title>
+          <IoDocumentOutline size={150} color="#4854c7" />
+        </Group>
+      </Center>
+      <Center>
+        <Text>
+          The original documents from the team we took over are available below
+        </Text>
+      </Center>
+      <Center mt={20}>
+        <Button
+          component={Link}
+          rightSection={<FaArrowRight size={30} />}
+          size="40"
+          h={80}
+          bg={"#3f7652"}
+          fw={100}
+          radius={40}
+          to={
+            "https://drive.google.com/drive/folders/1_c1pkNcemokb3aUFgCjt7k40SX_Fa1QT?usp=sharing"
+          }
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Old Files
+        </Button>
       </Center>
       <Space h={40} />
       <Box
