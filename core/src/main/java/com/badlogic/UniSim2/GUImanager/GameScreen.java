@@ -245,11 +245,11 @@ public class GameScreen implements Screen {
     private void gameEvents(){
         if (timer.getElapsedTime() > 59.5 && timer.getElapsedTime() < 60.5) {
             if (Math.random() < 0.5){
-                menu.updateEventLabel("Event: You won the lottery!!! Have an extra $500");
+                menu.updateEventLabel("You won the lottery!!! Have an extra $500");
                 money += 500;
             }
             else {
-                menu.updateEventLabel("Event: Building fine - $300 has been confiscated :((");
+                menu.updateEventLabel("Building fine - $300 has been confiscated :((");
                 money -= 300;
                 if (money < 0){
                     money = 0;
@@ -257,6 +257,18 @@ public class GameScreen implements Screen {
             }
         }
         if (timer.getElapsedTime() > 69.5 && timer.getElapsedTime() < 70.5) {
+            menu.updateEventLabel("");
+        }
+        if (timer.getElapsedTime() > 179.5 && timer.getElapsedTime() < 180.5) {
+            menu.updateEventLabel("Tornado warning!!! Expect building loss!");
+            if (Math.random() < 0.5) {
+                map.getBuildingManager().removeLastBuildings(5);
+            }
+            else{
+                map.getBuildingManager().removeLastBuildings(10);
+            }
+        }
+        if (timer.getElapsedTime() > 189.5 && timer.getElapsedTime() < 190.5) {
             menu.updateEventLabel("");
         }
     }

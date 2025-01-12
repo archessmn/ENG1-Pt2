@@ -70,6 +70,15 @@ public class BuildingManager {
         currentlySelecting = false;
     }
 
+    public void removeLastBuildings(int num){
+        for (int i = 0; i < num; i++){
+            if (!buildings.isEmpty()){
+                buildings.removeIndex(0);
+                Map.collidableSprites.removeIndex(0);
+            }
+        }
+    }
+
     /**
      * Used to place a building in a location. The {@link #currentBuilding} holds
      * the location where it should be placed.
