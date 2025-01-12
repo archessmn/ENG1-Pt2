@@ -12,28 +12,28 @@ public class EndScreenTests extends AbstractHeadlessGdxTest {
 
 	@Test
 	public void testLowSatisfaction() {
-        EndScreen endScreen = new EndScreen(new Main(), 0, 50, true);
+        EndScreen endScreen = new EndScreen(new Main(), 0, 50, true, new int[] {});
 
         Assertions.assertFalse(endScreen.hasWon());
 	}
 
     @Test
     public void test499Satisfaction() {
-        EndScreen endScreen = new EndScreen(new Main(), 0, 499, true);
+        EndScreen endScreen = new EndScreen(new Main(), 0, 499, true, new int[] {});
 
         Assertions.assertFalse(endScreen.hasWon());
     }
 
     @Test
     public void test500Satisfaction() {
-        EndScreen endScreen = new EndScreen(new Main(), 0, 500, true);
+        EndScreen endScreen = new EndScreen(new Main(), 0, 500, true, new int[] {});
 
         Assertions.assertTrue(endScreen.hasWon());
     }
 
     @Test
     public void testHighSatisfaction() {
-        EndScreen endScreen = new EndScreen(new Main(), 0, 5000, true);
+        EndScreen endScreen = new EndScreen(new Main(), 0, 5000, true, new int[] {});
 
         Assertions.assertTrue(endScreen.hasWon());
     }
