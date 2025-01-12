@@ -127,7 +127,7 @@ jobs:
 
       - name: Move files
         run: |
-          mv ./jar/UniSim2-1.0.0.jar dist/assets/jar/
+          mv ./jar/ENG1-Pt2-CH2-GRP3-UniSim2-1.0.0.jar dist/assets/jar/
           mv reports/tests/test/* dist/test-reports/summary
           mv reports/tests/jacoco/test/html/* dist/test-reports/coverage
 
