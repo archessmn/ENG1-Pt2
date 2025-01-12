@@ -121,9 +121,9 @@ jobs:
 
       - name: Make directories
         run: |
-          mkdir dist/test-reports/coverage
-          mkdir dist/test-reports/summary
-          mkdir dist/assets/jar
+          mkdir -p dist/test-reports/coverage
+          mkdir -p dist/test-reports/summary
+          mkdir -p dist/assets/jar
 
       - name: Move files
         run: |
