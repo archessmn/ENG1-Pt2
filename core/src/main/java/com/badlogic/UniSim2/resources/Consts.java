@@ -97,6 +97,9 @@ public class Consts {
     public static final int ACHIEVEMENT_LABEL_X = scaleToCellSize(38);
     public static final int ACHIEVEMENT_LABEL_Y = WORLD_HEIGHT - scaleToCellSize(7);
 
+    public static final int EVENT_LABEL_X = (WORLD_WIDTH/2) + scaleToCellSize(3);;
+    public static final int EVENT_LABEL_Y = (WORLD_HEIGHT/2) + scaleToCellSize(8);
+
     public static final int GAME_STATUS_LABEL_X = (WORLD_WIDTH/2) + scaleToCellSize(8);
     public static final int GAME_STATUS_LABEL_Y = (WORLD_HEIGHT/2) - scaleToCellSize(5)+ 75;
 

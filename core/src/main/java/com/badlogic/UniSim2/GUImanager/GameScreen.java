@@ -219,11 +219,11 @@ public class GameScreen implements Screen {
 
                     satisfactionMultiplier += numNatures * 0.5;
 
-                    System.out.println(satisfactionMultiplier);
-
                     this.satisfaction += (satisfactionToAdd * satisfactionMultiplier);
                     menu.updateSatisfactionPerSecond(satisfactionToAdd * satisfactionMultiplier);
                 }
+
+                gameEvents();
             }
 
             if (!headless) {
@@ -236,6 +236,28 @@ public class GameScreen implements Screen {
                 game.endGame(score, satisfaction, menu.returnBuildingCount());
                 hasEnded = true;
             }
+        }
+    }
+
+    /**
+     * Adds events to the game.
+     */
+    private void gameEvents(){
+        if (timer.getElapsedTime() > 59.5 && timer.getElapsedTime() < 60.5) {
+            if (Math.random() < 0.5){
+                menu.updateEventLabel("Event: You won the lottery!!! Have an extra $500");
+                money += 500;
+            }
+            else {
+                menu.updateEventLabel("Event: Building fine - $300 has been confiscated :((");
+                money -= 300;
+                if (money < 0){
+                    money = 0;
+                }
+            }
+        }
+        if (timer.getElapsedTime() > 69.5 && timer.getElapsedTime() < 70.5) {
+            menu.updateEventLabel("");
         }
     }
 

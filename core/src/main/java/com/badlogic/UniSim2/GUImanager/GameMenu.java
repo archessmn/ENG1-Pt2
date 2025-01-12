@@ -26,6 +26,7 @@ public class GameMenu {
     private Label timerLabel;
     private Label moneyLabel;
     private Label satisfactionLabel;
+    private Label eventLabel;
     private boolean isPaused;
 
     public GameMenu(Main game, Timer timer, int money, double satisfaction, BuildingManager buildings){
@@ -56,6 +57,7 @@ public class GameMenu {
         createTimerLabel();
         createMoneyLabel();
         createSatisfactionLabel();
+        createEventLabel();
     }
 
     // Adds a label at the top of the screen displaying the time
@@ -122,6 +124,21 @@ public class GameMenu {
 
     private void updateSatisfactionLabel(){
         satisfactionLabel.setText(String.format("Satisfaction:\n%,.1f\n%,.1f/s", satisfaction, satisfactionPerSecond));
+    }
+
+    private void createEventLabel(){
+        eventLabel = new Label("", skin);
+        eventLabel.setFontScale(2.5f);
+        eventLabel.setAlignment(Align.center);
+        eventLabel.setColor(Consts.TIMER_COLOR);
+
+        eventLabel.setPosition(Consts.EVENT_LABEL_X, Consts.EVENT_LABEL_Y, Align.center);
+
+        stage.addActor(eventLabel);
+    }
+
+    public void updateEventLabel(String text){
+        eventLabel.setText(text);
     }
 
     /**
