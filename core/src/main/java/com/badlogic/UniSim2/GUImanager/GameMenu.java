@@ -22,6 +22,7 @@ public class GameMenu {
     private Timer timer;
     private int money;
     private double satisfaction;
+    private double satisfactionPerSecond;
     private Label timerLabel;
     private Label moneyLabel;
     private Label satisfactionLabel;
@@ -85,7 +86,7 @@ public class GameMenu {
 
         // Initialize timerLabel
         moneyLabel = new Label(String.format("$%d", money), skin);
-        moneyLabel.setFontScale(3);
+        moneyLabel.setFontScale(2f);
         moneyLabel.setAlignment(Align.center);
         moneyLabel.setColor(Consts.TIMER_COLOR);
 
@@ -105,8 +106,8 @@ public class GameMenu {
     }
 
     private void createSatisfactionLabel(){
-        satisfactionLabel = new Label(String.format("Satisfaction:\n%,.1f", satisfaction), skin);
-        satisfactionLabel.setFontScale(2);
+        satisfactionLabel = new Label(String.format("Satisfaction:\n%,.1f\n%,.1f/s", satisfaction, satisfactionPerSecond), skin);
+        satisfactionLabel.setFontScale(1.5f);
         satisfactionLabel.setAlignment(Align.center);
         satisfactionLabel.setColor(Consts.TIMER_COLOR);
 
@@ -116,7 +117,7 @@ public class GameMenu {
     }
 
     private void updateSatisfactionLabel(){
-        satisfactionLabel.setText(String.format("Satisfaction:\n%,.1f", satisfaction));
+        satisfactionLabel.setText(String.format("Satisfaction:\n%,.1f\n%,.1f/s", satisfaction, satisfactionPerSecond));
     }
 
 
@@ -170,6 +171,10 @@ public class GameMenu {
 
     public void updateSatisfaction(double satisfaction) {
         this.satisfaction = satisfaction;
+    }
+
+    public void updateSatisfactionPerSecond(double satisfactionPerSecond) {
+        this.satisfactionPerSecond = satisfactionPerSecond;
     }
 
     /**

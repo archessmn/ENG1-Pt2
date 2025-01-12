@@ -222,6 +222,7 @@ public class GameScreen implements Screen {
                     System.out.println(satisfactionMultiplier);
 
                     this.satisfaction += (satisfactionToAdd * satisfactionMultiplier);
+                    menu.updateSatisfactionPerSecond(satisfactionToAdd * satisfactionMultiplier);
                 }
             }
 

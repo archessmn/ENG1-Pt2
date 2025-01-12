@@ -82,9 +82,9 @@ public class Consts {
     public static final int TIMER_X = scaleToCellSize(4);
     public static final int TIMER_Y = WORLD_HEIGHT - scaleToCellSize(2);
     public static final int MONEY_X = scaleToCellSize(4);
-    public static final int MONEY_Y = WORLD_HEIGHT - scaleToCellSize(32);
+    public static final int MONEY_Y = WORLD_HEIGHT - scaleToCellSize(31);
     public static final int SATISFACTION_X = scaleToCellSize(4);
-    public static final int SATISFACTION_Y = WORLD_HEIGHT - scaleToCellSize(36);
+    public static final int SATISFACTION_Y = WORLD_HEIGHT - scaleToCellSize(35);
     public static final int TIMER_SIZE = 3;
     public static final Color TIMER_COLOR = new Color(Color.BLACK);
     public static final int MAX_TIME = 300;
