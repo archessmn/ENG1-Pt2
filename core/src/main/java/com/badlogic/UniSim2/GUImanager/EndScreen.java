@@ -29,21 +29,24 @@ public class EndScreen implements Screen {
     private Stage stage;
     private Label scoreLabel;
     private Label scoreNum;
+    private Label achievementLabel;
     private final Skin skin;
-    private final int score;
+    private int score;
     private double satisfaction;
     private final boolean didWin;
+    private final int[] buildingCounts;
     private Scanner scanBoard;
 
     private SpriteBatch spriteBatch;
 
-    public EndScreen (Main game, int score, double satisfaction, boolean headless) {
+    public EndScreen (Main game, int score, double satisfaction, boolean headless, int[] counts) {
         this.game = game;
         this.viewport = game.getViewport();
 
         this.skin = new Skin(Gdx.files.internal("ui/uiskin.json"));
         this.score = score;
         this.satisfaction = satisfaction;
+        this.buildingCounts = counts;
 
         didWin = hasWon();
 
@@ -51,14 +54,74 @@ public class EndScreen implements Screen {
             this.stage = new Stage(this.viewport);
             spriteBatch = new SpriteBatch();
 
+            calculateAchievements();
             addToScoreBoard();
             createScoreBoard();
             createScoreLabel();
         }
     }
 
-    public EndScreen(Main game, int score, double satisfaction){
-        this(game, score, satisfaction, false);
+    public EndScreen(Main game, int score, double satisfaction, int[] counts){
+        this(game, score, satisfaction, false, counts);
+    }
+
+    // Adds achievement label to screen and adds to score if necessary
+    private void calculateAchievements(){
+        achievementLabel = new Label("", skin);
+        int change = 0;
+
+        if (satisfaction == 0) {
+            achievementLabel = new Label ("ACHIEVEMENT: game completed with 0 satisfaction" +
+                "\n " +
+                "\n " +
+                "\n " +
+                "\n " +
+                "\n " +
+                "\n " +
+                "\nReward: +50 points", skin);
+            change = 50;
+        }
+
+        int overallCount = 0;
+        for (int i = 0; i < buildingCounts.length; i++) {
+            overallCount += buildingCounts[i];
+        }
+        if (overallCount > 50){
+            achievementLabel = new Label ("ACHIEVEMENT: over fifty buildings placed" +
+                "\n " +
+                "\n " +
+                "\n " +
+                "\n " +
+                "\n " +
+                "\n " +
+                "\nReward: +100 points", skin);
+            change = 100;
+            }
+
+        int nature = buildingCounts[6];
+        if (nature >= 25){
+            achievementLabel = new Label ("ACHIEVEMENT: nature lover - over 25 bushes placed" +
+                "\n " +
+                "\n " +
+                "\n " +
+                "\n " +
+                "\n " +
+                "\n " +
+                "\nReward: +250 points", skin);
+            change = 250;
+        }
+
+        score += change;
+
+        achievementLabel.setFontScale(4);
+        achievementLabel.setAlignment(Align.center);
+        achievementLabel.setAlignment(Align.top);
+        achievementLabel.setColor(Consts.TIMER_COLOR);
+        // Position the label at the top center of the screen
+        achievementLabel.setPosition(Consts.ACHIEVEMENT_LABEL_X, Consts.ACHIEVEMENT_LABEL_Y, Align.center);
+
+        // Add the label to the stage
+        stage.addActor(achievementLabel);
     }
 
     // Adds a label to the middle of the screen displaying the score that the player
@@ -130,6 +193,7 @@ public class EndScreen implements Screen {
         }
     }
 
+    //Initialises the scoreboard
     private void newScoreBoard(File leaderboard){
         ArrayList<Integer> boardList = new ArrayList<Integer>();
         boardList.add(score);
@@ -145,6 +209,7 @@ public class EndScreen implements Screen {
         }
     }
 
+    //Displays the scoreboard
     private void createScoreBoard() {
         // Initialize scoreLabel
         scoreLabel = new Label("Scoreboard:", skin);

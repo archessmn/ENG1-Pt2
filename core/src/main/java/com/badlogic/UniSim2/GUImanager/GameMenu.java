@@ -47,6 +47,10 @@ public class GameMenu {
         Gdx.input.setInputProcessor(stage);
     }
 
+    public int[] returnBuildingCount(){
+        return buildingMenu.returnBuildingCount();
+    }
+
     private void createMenu(){
         buildingMenu.createBuildingMenu();
         createTimerLabel();
@@ -119,7 +123,6 @@ public class GameMenu {
     private void updateSatisfactionLabel(){
         satisfactionLabel.setText(String.format("Satisfaction:\n%,.1f\n%,.1f/s", satisfaction, satisfactionPerSecond));
     }
-
 
     /**
      * Should be called when the game is paused.

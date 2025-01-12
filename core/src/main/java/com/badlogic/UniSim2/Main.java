@@ -50,8 +50,8 @@ public class Main extends Game {
      * Ends the game by settings the screen to {@link #endScreen}. Should be called by
      * the {@link GameScreen} when the timer ends.
      */
-    public void endGame(int score, double satisfaction) {
-        endScreen = new EndScreen(this, score, satisfaction);
+    public void endGame(int score, double satisfaction, int[] counts) {
+        endScreen = new EndScreen(this, score, satisfaction, counts);
         setScreen(endScreen);
         gameScreen.dispose();
     }

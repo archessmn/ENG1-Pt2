@@ -69,6 +69,10 @@ public class BuildingMenu {
         createCountLabels();
     }
 
+    public int[] returnBuildingCount(){
+        return buildingCounts;
+    }
+
     /**
      * Creates a button for each building types with a gap between each button and
      * a count label for each button.
