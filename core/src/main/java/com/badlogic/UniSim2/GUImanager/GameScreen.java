@@ -243,7 +243,10 @@ public class GameScreen implements Screen {
      * Adds events to the game.
      */
     private void gameEvents(){
-        if (timer.getElapsedTime() > 59.5 && timer.getElapsedTime() < 60.5) {
+        if ((timer.getElapsedTime() > 59.5 && timer.getElapsedTime() < 60.5) ||
+            (timer.getElapsedTime() > 119.5 && timer.getElapsedTime() < 120.5) ||
+            (timer.getElapsedTime() > 179.5 && timer.getElapsedTime() < 180.5) ||
+            (timer.getElapsedTime() > 239.5 && timer.getElapsedTime() < 240.5)) {
             if (Math.random() < 0.5){
                 menu.updateEventLabel("You won the lottery!!! Have an extra $500");
                 money += 500;
@@ -256,19 +259,10 @@ public class GameScreen implements Screen {
                 }
             }
         }
-        if (timer.getElapsedTime() > 69.5 && timer.getElapsedTime() < 70.5) {
-            menu.updateEventLabel("");
-        }
-        if (timer.getElapsedTime() > 179.5 && timer.getElapsedTime() < 180.5) {
-            menu.updateEventLabel("Tornado warning!!! Expect building loss!");
-            if (Math.random() < 0.5) {
-                map.getBuildingManager().removeLastBuildings(5);
-            }
-            else{
-                map.getBuildingManager().removeLastBuildings(10);
-            }
-        }
-        if (timer.getElapsedTime() > 189.5 && timer.getElapsedTime() < 190.5) {
+        if (timer.getElapsedTime() > 69.5 && timer.getElapsedTime() < 70.5||
+            (timer.getElapsedTime() > 129.5 && timer.getElapsedTime() < 130.5) ||
+            (timer.getElapsedTime() > 189.5 && timer.getElapsedTime() < 190.5) ||
+            (timer.getElapsedTime() > 249.5 && timer.getElapsedTime() < 250.5)) {
             menu.updateEventLabel("");
         }
     }

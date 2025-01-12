@@ -20,7 +20,7 @@ public class BuildingManager {
 
     private Building currentBuilding; // References the building currently selected
 
-    private boolean currentlySelecting; // True when a building is selected and being being dragged
+    private boolean currentlySelecting; // True when a building is selected and being dragged
 
     public BuildingManager(Map map) {
         buildings = new Array<>();
@@ -68,15 +68,6 @@ public class BuildingManager {
         Map.collidableSprites.removeValue(currentBuilding, true);
         currentBuilding = null;
         currentlySelecting = false;
-    }
-
-    public void removeLastBuildings(int num){
-        for (int i = 0; i < num; i++){
-            if (!buildings.isEmpty()){
-                buildings.removeIndex(0);
-                Map.collidableSprites.removeIndex(0);
-            }
-        }
     }
 
     /**
