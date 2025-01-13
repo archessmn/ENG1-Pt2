@@ -23,12 +23,15 @@ public class Map {
     private final int height;
     private final Grid grid;
 
-    private BuildingManager buildings; // Used to control all the buildings in the game
-    private Main game;
+    private final BuildingManager buildings; // Used to control all the buildings in the game
+    private final Main game;
+    /**
+     * Stores all the sprites that can collide on the map
+     */
     public static Array<Sprite> collidableSprites; // Contains both buildings and paths
 
     private final SpriteBatch spriteBatch;
-    private StretchViewport viewport;
+    private final StretchViewport viewport;
 
 
     public Map(Main game) {
@@ -40,7 +43,7 @@ public class Map {
         this.game = game;
 
         buildings = new BuildingManager(this);
-        collidableSprites = new Array<Sprite>();
+        collidableSprites = new Array<>();
         Paths.createPaths();
 
         this.viewport = game.getViewport();
@@ -101,12 +104,13 @@ public class Map {
         spriteBatch.end();
     }
 
+    /**
+     * Called when the viewport is resized
+     * @param width width to resize to
+     * @param height height to resize to
+     */
     public void resize(int width, int height) {
         viewport.update(width, height, true);
-    }
-
-    public void pause(){
-        this.pause();
     }
 
     public void dispose(){

@@ -16,6 +16,9 @@ public class Timer {
     private int lastSecond;
     private int currentSecond;
 
+    /**
+     * Initialises a timer for use in the rest of the screens
+     */
     public Timer() {
         this.maxTime = Consts.MAX_TIME;
         this.elapsedTime = 0;
@@ -40,14 +43,23 @@ public class Timer {
         }
     }
 
+    /**
+     * @return total time that the timer has kept track of
+     */
     public float getElapsedTime() {
         return elapsedTime;
     }
 
+    /**
+     * @return if the timer has reached the {@link Consts#MAX_TIME}
+     */
     public boolean hasReachedMaxTime() {
         return reachedMaxTime;
     }
 
+    /**
+     * @return if a whole second has passed since the timer was last updated
+     */
     public boolean hasWholeSecondPassed() {
         return lastSecond != currentSecond;
     }

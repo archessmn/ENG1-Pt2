@@ -19,14 +19,16 @@ public abstract class Building extends Sprite {
     private final Texture collisionTexture;
     private final Texture draggingTexture;
 
-    private boolean isSelected; // True when the corresponding building button is clicked
     private boolean isPlaced; // True when a building is placed on the grid
 
     private final int width;
     private final int height;
 
-    public final int cost;
+    private final int cost;
 
+    /**
+     * Stores different types of buildings
+     */
     public enum BuildingTypes {
         Accommodation,
         LectureHall,
@@ -37,8 +39,17 @@ public abstract class Building extends Sprite {
         Nature
     }
 
-    private BuildingTypes type;
+    private final BuildingTypes type;
 
+    /**
+     * @param placedTexture Texture to use for a placed building
+     * @param collisionTexture Texture to use during a collision
+     * @param draggingTexture Texture to use when dragging the building
+     * @param width Width of the building
+     * @param height Height of the building
+     * @param type {@link BuildingTypes} of the building
+     * @param cost How much the building should cost to build
+     */
     public Building(Texture placedTexture, Texture collisionTexture, Texture draggingTexture, int width, int height, BuildingTypes type, int cost) {
 
         this.placedTexture = placedTexture;
@@ -48,11 +59,10 @@ public abstract class Building extends Sprite {
         this.height = height;
         this.type = type;
         this.cost = cost;
-        isSelected = true;
         isPlaced = false;
 
         setSize(width, height);
-        setRegion(placedTexture); // By default a buildings texture is its placed texture
+        setRegion(placedTexture); // By default, a buildings texture is its placed texture
     }
 
     /**
@@ -92,7 +102,6 @@ public abstract class Building extends Sprite {
      * the texture to dragging.
      */
     public void selectBuilding() {
-        isSelected = true;
         setDraggingTexture(false); // Sets the texture to dragging
     }
 
@@ -103,7 +112,6 @@ public abstract class Building extends Sprite {
      */
     public void placeBuilding() {
         incrementCount();
-        isSelected = false;
         isPlaced = true;
         setRegion(placedTexture);
         SoundManager.playClick();
@@ -117,7 +125,7 @@ public abstract class Building extends Sprite {
 
 
     /**
-     * Sets the texture to collision or dragging dependings on if it is colliding
+     * Sets the texture to collision or dragging depending on if it is colliding
      * with another collidable in {@link Map#collidableSprites}.
      *
      * @param collision true when the building is colliding and false otherwise.
@@ -137,28 +145,9 @@ public abstract class Building extends Sprite {
     }
 
     /**
-     * Gets the distance from this building to another building. The distance
-     * is defined by the x_distance + y_distance between buildings.
-     *
-     * @param building The other building to find the distance between.
-     * @return The distance. Can be rounded both down and up.
-     */
-    public int getDistanceFrom(Building building) {
-        float xDistance = Math.abs(getX() - building.getX());
-        float yDistance = Math.abs(getY() - building.getY());
-        int distance = Math.round(xDistance + yDistance);
-        return distance;
-    }
-
-    // Gets the vector of the centre of the building
-    public Vector2 getCentre() {
-        return new Vector2(getX() + width / 2, getY() + height / 2);
-    }
-
-    /**
      * Returns the column of the bottom left square of the building.
      *
-     * @return
+     * @return column of the bottom left square of the building
      */
     public int getCol() {
         return (int) (getX() / Consts.CELL_SIZE);
@@ -167,32 +156,57 @@ public abstract class Building extends Sprite {
     /**
      * Returns the row of the bottom left square of the building.
      *
-     * @return
+     * @return row of the bottom left square of the building
      */
     public int getRow() {
         return (int) (Consts.GRID_ROWS - getY() / Consts.CELL_SIZE);
     }
 
-    public boolean getIsSelected() {
-        return isSelected;
-    }
-
+    /**
+     * Get placed status of building
+     * @return whether the building is placed
+     */
     public boolean getIsPlaced() {
         return isPlaced;
     }
 
+    /**
+     * Get building width
+     * @return building width
+     */
     public int getBuildingWidth() {
         return width;
     }
 
+    /**
+     * Get building height
+     * @return building height
+     */
     public int getBuildingHeight() {
         return height;
     }
 
+    /**
+     * Return the {@link BuildingTypes} of the building
+     * @return type of building
+     */
     public BuildingTypes getType() {
         return type;
     }
 
+    /**
+     * @return cost of the building
+     */
+    public int getCost() {
+        return cost;
+    }
+
+    /**
+     * Disposes of textures to free up memory
+     */
     public void dispose() {
+        placedTexture.dispose();
+        collisionTexture.dispose();
+        draggingTexture.dispose();
     }
 }

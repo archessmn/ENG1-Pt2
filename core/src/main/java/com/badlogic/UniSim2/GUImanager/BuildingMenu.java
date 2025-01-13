@@ -23,19 +23,25 @@ import com.badlogic.gdx.utils.Array;
  */
 public class BuildingMenu {
 
-    private Stage stage;
-    private BuildingManager buildings;
-    private Image menuBar;
+    private final Stage stage;
+    private final BuildingManager buildings;
 
     private final Skin skin;
 
     // Holds the count of each type of building
-    private int accommodationCount, lectureHallCount, libraryCount, courseCount, foodZoneCount, recreationalCount, natureCount;
+//    private int accommodationCount, lectureHallCount, libraryCount, courseCount, foodZoneCount, recreationalCount, natureCount;
+    /**
+     * Counts of each type of building
+     */
     public static int[] buildingCounts;
 
     // Holds the labels that display the count of each building
     private static Array<Label> countLabels;
 
+    /**
+     * @param stage stage to add menu items to
+     * @param buildings {@link BuildingManager} to pull data from
+     */
     public BuildingMenu(Stage stage, BuildingManager buildings){
         this.stage = stage;
         Gdx.input.setInputProcessor(stage);
@@ -46,13 +52,13 @@ public class BuildingMenu {
         // Initializes buildingCounts with each building type
         buildingCounts = new int[]
         {
-            accommodationCount,
-            lectureHallCount,
-            libraryCount,
-            courseCount,
-            foodZoneCount,
-            recreationalCount,
-            natureCount
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
         };
 
         countLabels = new Array<>();
@@ -69,6 +75,9 @@ public class BuildingMenu {
         createCountLabels();
     }
 
+    /**
+     * @return counts of each type of building
+     */
     public int[] returnBuildingCount(){
         return buildingCounts;
     }
@@ -99,7 +108,7 @@ public class BuildingMenu {
     private void createImageButton(Building.BuildingTypes type, int buttonGap){
         int index = type.ordinal(); // Gets the index of type within BuildingTypes
         ImageButton button = setupImageButton(index, buttonGap); // Creates a button of the building type
-        addImageButtonClick(button, type, index); // Adds a click listener to the button so we can do something when clicked
+        addImageButtonClick(button, type); // Adds a click listener to the button so we can do something when clicked
         stage.addActor(button);
     }
 
@@ -129,7 +138,7 @@ public class BuildingMenu {
         button.setSize(Consts.BUILDING_BUTTON_WIDTH, Consts.BUILDING_BUTTON_HEIGHT);
         button.setPosition(Consts.BUILDING_BUTTON_X_BOUNDARY, Consts.BUILDING_BUTTON_Y_BOUNDARY - buttonGap); // Places the button with a gap
 
-        setUpCountLabel(index, button); // Sets up a count label for the button to count how many times the buildint type is placed
+        setUpCountLabel(index, button); // Sets up a count label for the button to count how many times the building type is placed
 
         return button;
     }
@@ -141,9 +150,8 @@ public class BuildingMenu {
      * @param button The button to add the listener to.
      * @param type The type of building that button represents. This building type
      * will be created when the button is pressed.
-     * @param index The index of the building in the enum {@link com.badlogic.UniSim2.buildingmanager.Building.BuildingTypes}
      */
-    private void addImageButtonClick(ImageButton button, Building.BuildingTypes type, int index){
+    private void addImageButtonClick(ImageButton button, Building.BuildingTypes type){
         button.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y){
@@ -199,7 +207,7 @@ public class BuildingMenu {
     }
 
     private void createMenuBar(){
-        menuBar = new Image(Assets.menuBarTexture);
+        Image menuBar = new Image(Assets.menuBarTexture);
         menuBar.setSize(Consts.MENU_BAR_WIDTH, Consts.MENU_BAR_HEIGHT);
         menuBar.setPosition(Consts.MENU_BAR_X, Consts.MENU_BAR_Y);
         stage.addActor(menuBar);
@@ -211,9 +219,6 @@ public class BuildingMenu {
     public void draw() {
         stage.act(Gdx.graphics.getDeltaTime());
         stage.draw();
-    }
-
-    public void dispose(){
     }
 }
 

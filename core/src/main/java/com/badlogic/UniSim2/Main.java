@@ -10,7 +10,7 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
 public class Main extends Game {
 
-    private StretchViewport viewport = new StretchViewport(Consts.WORLD_WIDTH, Consts.WORLD_HEIGHT);
+    private final StretchViewport viewport = new StretchViewport(Consts.WORLD_WIDTH, Consts.WORLD_HEIGHT);
 
     private StartScreen startScreen;
     private GameScreen gameScreen;
@@ -49,6 +49,9 @@ public class Main extends Game {
     /**
      * Ends the game by settings the screen to {@link #endScreen}. Should be called by
      * the {@link GameScreen} when the timer ends.
+     * @param score the score to end the game with
+     * @param satisfaction the satisfaction to end the game with
+     * @param counts counts of each building type to end the game with
      */
     public void endGame(int score, double satisfaction, int[] counts) {
         endScreen = new EndScreen(this, score, satisfaction, counts);

@@ -14,14 +14,17 @@ import java.util.HashMap;
  */
 public class BuildingManager {
 
-    private Map map;
+    private final Map map;
 
-    private Array<Building> buildings; // Array of all the buildings on the map in order of when placed
+    private final Array<Building> buildings; // Array of all the buildings on the map in order of when placed
 
     private Building currentBuilding; // References the building currently selected
 
     private boolean currentlySelecting; // True when a building is selected and being dragged
 
+    /**
+     * @param map The game map used to place buildings on
+     */
     public BuildingManager(Map map) {
         buildings = new Array<>();
         currentBuilding = null;
@@ -39,6 +42,9 @@ public class BuildingManager {
         Map.collidableSprites.add(building);
     }
 
+    /**
+     * @return all buildings stored in the {@link BuildingManager}
+     */
     public Array<Building> getBuildings() {
         return buildings;
     }
@@ -48,6 +54,7 @@ public class BuildingManager {
      *
      * @param mousePos The position of the mouse in world coordinates.
      * @param clicked  true if a click has happened and false if not.
+     * @param backspacePressed if backspace was pressed
      */
     public void input(Vector2 mousePos, boolean clicked, boolean backspacePressed) {
 
@@ -75,11 +82,11 @@ public class BuildingManager {
      * the location where it should be placed.
      */
     private void handlePlacing() {
-        boolean canAfford = map.getGame().getGameScreen().getMoney() >= currentBuilding.cost;
+        boolean canAfford = map.getGame().getGameScreen().getMoney() >= currentBuilding.getCost();
 
         // If the current building is not colliding
         if (!isColliding(currentBuilding) && canAfford) {
-            map.getGame().getGameScreen().subtractMoney(currentBuilding.cost);
+            map.getGame().getGameScreen().subtractMoney(currentBuilding.getCost());
             currentBuilding.placeBuilding(); // Place building
             currentBuilding = null;
             currentlySelecting = false; // No longer selecting a building
@@ -138,12 +145,12 @@ public class BuildingManager {
      * the texture of the building depending on whether it is colliding with
      * another building.
      *
-     * @param mousPos The position of the mouse if world coords.
+     * @param mousePos The position of the mouse if world coords.
      */
-    private void handleDragging(Vector2 mousPos) {
+    private void handleDragging(Vector2 mousePos) {
         boolean colliding = isColliding(currentBuilding);
-        boolean canAfford = map.getGame().getGameScreen().getMoney() >= currentBuilding.cost;
-        currentBuilding.handleDragging(mousPos, (colliding || !canAfford));
+        boolean canAfford = map.getGame().getGameScreen().getMoney() >= currentBuilding.getCost();
+        currentBuilding.handleDragging(mousePos, (colliding || !canAfford));
     }
 
     /**
@@ -168,6 +175,9 @@ public class BuildingManager {
         return false;
     }
 
+    /**
+     * @return whether the map contains at least one of every building
+     */
     public boolean hasEveryType() {
         HashMap<Building.BuildingTypes, Boolean> currentTypes = new HashMap<>();
 
@@ -182,10 +192,10 @@ public class BuildingManager {
 
     /**
      * Draws all the buildings and clamps them to ensure they cannot go outside
-     * of the map boundaries. Will also draw the {@link #currentBuilding}
+     * the map boundaries. Will also draw the {@link #currentBuilding}
      * on top of any placed buildings.
      *
-     * @param spriteBatch
+     * @param spriteBatch the {@link SpriteBatch} to draw
      */
     public void draw(SpriteBatch spriteBatch) {
         spriteBatch.begin();
@@ -209,15 +219,20 @@ public class BuildingManager {
         return currentlySelecting;
     }
 
+    /**
+     * @return {@link com.badlogic.UniSim2.buildingmanager.Building.BuildingTypes} of the currently selected building
+     */
     public Building.BuildingTypes getSelectedType() {
         return currentBuilding.getType();
     }
 
-    public boolean cancelCurrentlySelecting() {
+    /**
+     * Cancels current building selection
+     */
+    public void cancelCurrentlySelecting() {
         if (currentlySelecting) {
             removeBuilding();
-            return true;
-        } else return false;
+        }
     }
 
     /**

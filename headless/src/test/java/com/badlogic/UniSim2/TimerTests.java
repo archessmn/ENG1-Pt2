@@ -8,6 +8,9 @@ import org.mockito.Mockito;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Test methods for the {@link Timer}
+ */
 public class TimerTests {
     @Test
     public void testUpdate() {

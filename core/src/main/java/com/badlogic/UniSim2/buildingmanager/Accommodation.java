@@ -7,7 +7,9 @@ import com.badlogic.UniSim2.resources.*;
  * @see Building
  */
 public class Accommodation extends Building{
-
+    /**
+     * Initialises an {@link com.badlogic.UniSim2.buildingmanager.Building.BuildingTypes#Accommodation} building
+     */
     public Accommodation(){
         super(
             Assets.accommodationPlacedTexture,

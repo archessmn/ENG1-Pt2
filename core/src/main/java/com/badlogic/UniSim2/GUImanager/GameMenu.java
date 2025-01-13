@@ -15,11 +15,10 @@ import com.badlogic.gdx.utils.Align;
  * which can be used to place new buildings.
  */
 public class GameMenu {
-    private Stage stage;
+    private final Stage stage;
     private final Skin skin;
-    private BuildingManager buildingManager;
-    private BuildingMenu buildingMenu;
-    private Timer timer;
+    private final BuildingMenu buildingMenu;
+    private final Timer timer;
     private int money;
     private double satisfaction;
     private double satisfactionPerSecond;
@@ -29,6 +28,13 @@ public class GameMenu {
     private Label eventLabel;
     private boolean isPaused;
 
+    /**
+     * @param game the game used for the viewport
+     * @param timer the timer to use
+     * @param money how much money the player currently has
+     * @param satisfaction how much satisfaction the player currently has
+     * @param buildings building manager to use
+     */
     public GameMenu(Main game, Timer timer, int money, double satisfaction, BuildingManager buildings){
         stage = new Stage(game.getViewport());
         skin = new Skin(Gdx.files.internal("ui/uiskin.json"));
@@ -36,7 +42,6 @@ public class GameMenu {
         this.timer = timer;
         this.money = money;
         this.satisfaction = satisfaction;
-        this.buildingManager = buildings;
         isPaused = false;
         createMenu();
     }
@@ -48,6 +53,9 @@ public class GameMenu {
         Gdx.input.setInputProcessor(stage);
     }
 
+    /**
+     * @return counts of different building types
+     */
     public int[] returnBuildingCount(){
         return buildingMenu.returnBuildingCount();
     }
@@ -137,6 +145,9 @@ public class GameMenu {
         stage.addActor(eventLabel);
     }
 
+    /**
+     * @param text text to set the event label to
+     */
     public void updateEventLabel(String text){
         eventLabel.setText(text);
     }
@@ -169,7 +180,7 @@ public class GameMenu {
      * Updates and draws the menu.
      */
     public void draw(){
-        if (isPaused == false) {
+        if (!isPaused) {
             updateTimerLabel();
             updateMoneyLabel();
             updateSatisfactionLabel();
@@ -179,20 +190,22 @@ public class GameMenu {
     }
 
     /**
-     * @return true if the menu is paused and false if not.
+     * @param money current amount of money the player has
      */
-    public boolean getPaused(){
-        return isPaused;
-    }
-
     public void updateMoney(int money) {
         this.money = money;
     }
 
+    /**
+     * @param satisfaction current amount of satisfaction the player has
+     */
     public void updateSatisfaction(double satisfaction) {
         this.satisfaction = satisfaction;
     }
 
+    /**
+     * @param satisfactionPerSecond current satisfaction gain per second
+     */
     public void updateSatisfactionPerSecond(double satisfactionPerSecond) {
         this.satisfactionPerSecond = satisfactionPerSecond;
     }
@@ -202,7 +215,6 @@ public class GameMenu {
      * not going to be used anymore.
      */
     public void dispose(){
-        buildingMenu.dispose();
         stage.dispose();
         skin.dispose();
     }

@@ -24,23 +24,26 @@ import java.util.ArrayList;
  * This screen should be shown when the game ends.
  */
 public class EndScreen implements Screen {
-    private Main game;
-    private StretchViewport viewport;
+    private final StretchViewport viewport;
     private Stage stage;
     private Label scoreLabel;
-    private Label scoreNum;
-    private Label achievementLabel;
     private final Skin skin;
     private int score;
-    private double satisfaction;
+    private final double satisfaction;
     private final boolean didWin;
     private final int[] buildingCounts;
     private Scanner scanBoard;
 
     private SpriteBatch spriteBatch;
 
+    /**
+     * @param game to use for the viewport
+     * @param score calculated score at the end of the game
+     * @param satisfaction satisfaction at the end of the game
+     * @param headless whether the {@link EndScreen} is being used headless in a test
+     * @param counts counts of each different building type
+     */
     public EndScreen (Main game, int score, double satisfaction, boolean headless, int[] counts) {
-        this.game = game;
         this.viewport = game.getViewport();
 
         this.skin = new Skin(Gdx.files.internal("ui/uiskin.json"));
@@ -67,47 +70,71 @@ public class EndScreen implements Screen {
 
     // Adds achievement label to screen and adds to score if necessary
     private void calculateAchievements(){
-        achievementLabel = new Label("", skin);
+        Label achievementLabel = new Label("", skin);
         int change = 0;
 
         if (satisfaction == 0) {
-            achievementLabel = new Label ("ACHIEVEMENT: game completed with 0 satisfaction" +
-                "\n " +
-                "\n " +
-                "\n " +
-                "\n " +
-                "\n " +
-                "\n " +
-                "\nReward: +50 points", skin);
+            achievementLabel = new Label ("""
+                ACHIEVEMENT: game completed with 0 satisfaction\
+
+                 \
+
+                 \
+
+                 \
+
+                 \
+
+                 \
+
+                 \
+
+                Reward: +50 points""", skin);
             change = 50;
         }
 
         int overallCount = 0;
-        for (int i = 0; i < buildingCounts.length; i++) {
-            overallCount += buildingCounts[i];
+        for (int buildingCount : buildingCounts) {
+            overallCount += buildingCount;
         }
         if (overallCount > 50){
-            achievementLabel = new Label ("ACHIEVEMENT: over fifty buildings placed" +
-                "\n " +
-                "\n " +
-                "\n " +
-                "\n " +
-                "\n " +
-                "\n " +
-                "\nReward: +100 points", skin);
+            achievementLabel = new Label ("""
+                ACHIEVEMENT: over fifty buildings placed\
+
+                 \
+
+                 \
+
+                 \
+
+                 \
+
+                 \
+
+                 \
+
+                Reward: +100 points""", skin);
             change = 100;
             }
 
         int nature = buildingCounts[6];
         if (nature >= 25){
-            achievementLabel = new Label ("ACHIEVEMENT: nature lover - over 25 bushes placed" +
-                "\n " +
-                "\n " +
-                "\n " +
-                "\n " +
-                "\n " +
-                "\n " +
-                "\nReward: +250 points", skin);
+            achievementLabel = new Label ("""
+                ACHIEVEMENT: nature lover - over 25 bushes placed\
+
+                 \
+
+                 \
+
+                 \
+
+                 \
+
+                 \
+
+                 \
+
+                Reward: +250 points""", skin);
             change = 250;
         }
 
@@ -155,7 +182,7 @@ public class EndScreen implements Screen {
         catch (IOException e){
             throw new RuntimeException(e);
         }
-        ArrayList<Integer> boardList = new ArrayList<Integer>();
+        ArrayList<Integer> boardList = new ArrayList<>();
         try {
             scanBoard = new Scanner(leaderboard);
             for (int i = 0; i<5; i++) {
@@ -171,7 +198,7 @@ public class EndScreen implements Screen {
         Integer currentScore;
         boolean appended = false;
         for (int i = 0; i < boardList.size(); i++) {
-            currentScore = (Integer) boardList.get(i);
+            currentScore = boardList.get(i);
             if (currentScore < score) {
                 boardList.add(i, score);
                 appended = true;
@@ -183,8 +210,8 @@ public class EndScreen implements Screen {
         }
         try{
             BufferedWriter writeBoard = new BufferedWriter(new FileWriter(leaderboard));
-            for (int i = 0; i < boardList.size(); i++){
-                writeBoard.write(boardList.get(i) + "\r\n");
+            for (Integer integer : boardList) {
+                writeBoard.write(integer + "\r\n");
             }
             writeBoard.flush();
             writeBoard.close();
@@ -195,12 +222,12 @@ public class EndScreen implements Screen {
 
     //Initialises the scoreboard
     private void newScoreBoard(File leaderboard){
-        ArrayList<Integer> boardList = new ArrayList<Integer>();
+        ArrayList<Integer> boardList = new ArrayList<>();
         boardList.add(score);
         try{
             BufferedWriter writeBoard = new BufferedWriter(new FileWriter(leaderboard));
-            for (int i = 0; i < boardList.size(); i++){
-                writeBoard.write(boardList.get(i) + "\r\n");
+            for (Integer integer : boardList) {
+                writeBoard.write(integer + "\r\n");
             }
             writeBoard.flush();
             writeBoard.close();
@@ -223,7 +250,7 @@ public class EndScreen implements Screen {
         // Add the label to the stage
         stage.addActor(scoreLabel);
 
-        Integer varStringHeight = Consts.SCOREBOARD_LABEL_Y;
+        int varStringHeight = Consts.SCOREBOARD_LABEL_Y;
 
         File leaderboard = new File("Leaderboard.txt");
         try {
@@ -233,7 +260,7 @@ public class EndScreen implements Screen {
                 varStringHeight -= Consts.LABEL_GAP;
                 if(scanBoard.hasNext()){
                     String string = scanBoard.next();
-                    scoreNum = new Label(string, skin);
+                    Label scoreNum = new Label(string, skin);
                     scoreNum.setFontScale(3);
                     scoreNum.setAlignment(Align.center);
                     scoreNum.setColor(Consts.TIMER_COLOR);

@@ -7,7 +7,9 @@ import com.badlogic.UniSim2.resources.*;
  * @see Building
  */
 public class Library extends Building{
-
+    /**
+     * Initialises an {@link com.badlogic.UniSim2.buildingmanager.Building.BuildingTypes#Library} building
+     */
     public Library(){
         super(
             Assets.libraryPlacedTexture,

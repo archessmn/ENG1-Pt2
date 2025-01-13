@@ -1,14 +1,13 @@
 package com.badlogic.UniSim2;
 
-import com.badlogic.UniSim2.resources.Assets;
 import com.badlogic.gdx.Gdx;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
- // Test that all the asset files exist and are loaded,
- // there's likely better ways to do it but at least this gives a granular view of what's wrong.
+ * Test that all the asset files exist and are loaded,
+ * there's likely better ways to do it but at least this gives a granular view of what's wrong.
  */
 public class AssetTests extends AbstractHeadlessGdxTest {
     /**

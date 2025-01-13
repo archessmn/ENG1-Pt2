@@ -8,15 +8,14 @@ import com.badlogic.UniSim2.resources.SoundManager;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 
 import java.util.HashMap;
+import java.util.Objects;
 
 /**
  * This screen is used when the game is being played.
@@ -24,10 +23,10 @@ import java.util.HashMap;
 public class GameScreen implements Screen {
     private boolean headless = false;
 
-    private Main game;
-    private StretchViewport viewport;
+    private final Main game;
+    private final StretchViewport viewport;
 
-    private Timer timer;
+    private final Timer timer;
 
     private int money;
     private double satisfaction;
@@ -37,17 +36,24 @@ public class GameScreen implements Screen {
 
     boolean isPaused = false;
 
-    // This variable is needed to stop a crash from occuring when the game ends.
+    // This variable is needed to stop a crash from occurring when the game ends.
     boolean hasEnded = false;
 
     ShapeRenderer shapeRenderer;
 
     private Map map;
 
+    /**
+     * @param game the game to use for the {@link GameScreen}
+     */
     public GameScreen (Main game) {
         this(game, false);
     }
 
+    /**
+     * @param game the game to use for the {@link GameScreen}
+     * @param headless whether the {@link GameScreen} is being used headless in a test
+     */
     public GameScreen(Main game, boolean headless) {
         this.game = game;
         viewport = game.getViewport();
@@ -66,25 +72,29 @@ public class GameScreen implements Screen {
         } else this.headless = true;
     }
 
+    /**
+     * @return current amount of money
+     */
     public int getMoney() {
         return money;
     }
 
+    /**
+     * @return current amount of satisfaction
+     */
     public double getSatisfaction() {
         return satisfaction;
     }
 
     /**
      * Subtracts an amount of money if the current amount of money is greater than or equal to it
+     *
      * @param amount The amount of money to subtract
-     * @return If the money got subtracted
      */
-    public boolean subtractMoney(int amount) {
+    public void subtractMoney(int amount) {
         if (this.money >= amount) {
             this.money -= amount;
-            return true;
         }
-        return false;
     }
 
     @Override
@@ -199,13 +209,9 @@ public class GameScreen implements Screen {
 
                                 for (Building proximityBuilding : new Array.ArrayIterator<>(map.getBuildingManager().getBuildings())) {
                                     if (!proximityBuilding.getIsPlaced()) continue;
-                                    switch (proximityBuilding.getType()) {
-                                        case Accommodation -> {
-                                        }
-                                        default -> {
-                                            if (proximityRectangle.overlaps(proximityBuilding.getBoundingRectangle())) {
-                                                nearbyBuildings.put(proximityBuilding.getType(), true);
-                                            }
+                                    if (Objects.requireNonNull(proximityBuilding.getType()) != Building.BuildingTypes.Accommodation) {
+                                        if (proximityRectangle.overlaps(proximityBuilding.getBoundingRectangle())) {
+                                            nearbyBuildings.put(proximityBuilding.getType(), true);
                                         }
                                     }
                                 }
@@ -274,6 +280,9 @@ public class GameScreen implements Screen {
         score = (int)(satisfaction) + money/10;
     }
 
+    /**
+     * @return the calculated score. {@link GameScreen#calculateScore()} must be called first
+     */
     public int getScore() {
         return score;
     }

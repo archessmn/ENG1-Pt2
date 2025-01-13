@@ -20,11 +20,14 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
  */
 public class StartScreen implements Screen {
 
-    private Main game;
-    private StretchViewport viewport;
-    private Stage stage;
+    private final Main game;
+    private final StretchViewport viewport;
+    private final Stage stage;
     private ImageButton startButton;
 
+    /**
+     * @param game the {@link Main} to use for the {@link StartScreen}
+     */
     public StartScreen(Main game){
         this.game = game;
         viewport = game.getViewport();

@@ -1,13 +1,12 @@
 package com.badlogic.UniSim2;
 
 import com.badlogic.UniSim2.GUImanager.EndScreen;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import static org.mockito.Mockito.mock;
-
+/**
+ * Test methods for the {@link EndScreen}
+ */
 public class EndScreenTests extends AbstractHeadlessGdxTest {
 
 	@Test

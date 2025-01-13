@@ -7,7 +7,9 @@ import com.badlogic.UniSim2.resources.*;
  * @see Building
  */
 public class FoodZone extends Building{
-
+    /**
+     * Initialises an {@link com.badlogic.UniSim2.buildingmanager.Building.BuildingTypes#FoodZone} building
+     */
     public FoodZone(){
         super(
             Assets.foodZonePlacedTexture,

@@ -8,7 +8,9 @@ import com.badlogic.UniSim2.resources.*;
  * @see Building
  */
 public class Recreational extends Building{
-
+    /**
+     * Initialises an {@link com.badlogic.UniSim2.buildingmanager.Building.BuildingTypes#Recreational} building
+     */
     public Recreational(){
         super(
             Assets.recreationalPlacedTexture,

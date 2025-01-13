@@ -1,6 +1,5 @@
 package com.badlogic.UniSim2;
 
-import com.badlogic.UniSim2.GUImanager.EndScreen;
 import com.badlogic.UniSim2.GUImanager.GameScreen;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Graphics;
@@ -8,8 +7,10 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
 
+/**
+ * Test methods for the {@link GameScreen}
+ */
 public class GameScreenTests extends AbstractHeadlessGdxTest {
 
     @Test

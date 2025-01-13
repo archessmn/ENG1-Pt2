@@ -6,9 +6,12 @@ import com.badlogic.gdx.graphics.GL20;
 import org.junit.jupiter.api.BeforeEach;
 
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 public abstract class AbstractHeadlessGdxTest {
+
+    /**
+     * Prepare environment for each test run
+     */
     @BeforeEach
     public void setup() {
         Gdx.gl20 = mock(GL20.class);
