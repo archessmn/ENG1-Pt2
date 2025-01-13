@@ -19,41 +19,51 @@ public abstract class Building extends Sprite {
     private final Texture collisionTexture;
     private final Texture draggingTexture;
 
-    private boolean isSelected; // True when the corresponding building button is clicked
     private boolean isPlaced; // True when a building is placed on the grid
 
     private final int width;
     private final int height;
 
-    public final int cost;
+    private final int cost;
 
-<span class="nc" id="L30">    public enum BuildingTypes {</span>
-<span class="nc" id="L31">        Accommodation,</span>
-<span class="nc" id="L32">        LectureHall,</span>
-<span class="nc" id="L33">        Library,</span>
-<span class="nc" id="L34">        Course,</span>
-<span class="nc" id="L35">        FoodZone,</span>
-<span class="nc" id="L36">        Recreational,</span>
-<span class="nc" id="L37">        Nature</span>
+    /**
+     * Stores different types of buildings
+     */
+<span class="nc" id="L32">    public enum BuildingTypes {</span>
+<span class="nc" id="L33">        Accommodation,</span>
+<span class="nc" id="L34">        LectureHall,</span>
+<span class="nc" id="L35">        Library,</span>
+<span class="nc" id="L36">        Course,</span>
+<span class="nc" id="L37">        FoodZone,</span>
+<span class="nc" id="L38">        Recreational,</span>
+<span class="nc" id="L39">        Nature</span>
     }
 
-    private BuildingTypes type;
+    private final BuildingTypes type;
 
-<span class="nc" id="L42">    public Building(Texture placedTexture, Texture collisionTexture, Texture draggingTexture, int width, int height, BuildingTypes type, int cost) {</span>
+    /**
+     * @param placedTexture Texture to use for a placed building
+     * @param collisionTexture Texture to use during a collision
+     * @param draggingTexture Texture to use when dragging the building
+     * @param width Width of the building
+     * @param height Height of the building
+     * @param type {@link BuildingTypes} of the building
+     * @param cost How much the building should cost to build
+     */
+<span class="nc" id="L53">    public Building(Texture placedTexture, Texture collisionTexture, Texture draggingTexture, int width, int height, BuildingTypes type, int cost) {</span>
 
-<span class="nc" id="L44">        this.placedTexture = placedTexture;</span>
-<span class="nc" id="L45">        this.collisionTexture = collisionTexture;</span>
-<span class="nc" id="L46">        this.draggingTexture = draggingTexture;</span>
-<span class="nc" id="L47">        this.width = width;</span>
-<span class="nc" id="L48">        this.height = height;</span>
-<span class="nc" id="L49">        this.type = type;</span>
-<span class="nc" id="L50">        this.cost = cost;</span>
-<span class="nc" id="L51">        isSelected = true;</span>
-<span class="nc" id="L52">        isPlaced = false;</span>
+<span class="nc" id="L55">        this.placedTexture = placedTexture;</span>
+<span class="nc" id="L56">        this.collisionTexture = collisionTexture;</span>
+<span class="nc" id="L57">        this.draggingTexture = draggingTexture;</span>
+<span class="nc" id="L58">        this.width = width;</span>
+<span class="nc" id="L59">        this.height = height;</span>
+<span class="nc" id="L60">        this.type = type;</span>
+<span class="nc" id="L61">        this.cost = cost;</span>
+<span class="nc" id="L62">        isPlaced = false;</span>
 
-<span class="nc" id="L54">        setSize(width, height);</span>
-<span class="nc" id="L55">        setRegion(placedTexture); // By default a buildings texture is its placed texture</span>
-<span class="nc" id="L56">    }</span>
+<span class="nc" id="L64">        setSize(width, height);</span>
+<span class="nc" id="L65">        setRegion(placedTexture); // By default, a buildings texture is its placed texture</span>
+<span class="nc" id="L66">    }</span>
 
     /**
      * Updates the position of the building to the specified mousePos. Will
@@ -63,15 +73,15 @@ public abstract class Building extends Sprite {
      */
     private void updatePosition(Vector2 mousePos) {
         // Puts the centre of the building where the mouse is
-<span class="nc" id="L66">        float x = mousePos.x - getWidth() / 2f;</span>
-<span class="nc" id="L67">        float y = mousePos.y - getHeight() / 2f;</span>
+<span class="nc" id="L76">        float x = mousePos.x - getWidth() / 2f;</span>
+<span class="nc" id="L77">        float y = mousePos.y - getHeight() / 2f;</span>
 
         // Ensures that a building moves within the grid by snapping it to the grid
-<span class="nc" id="L70">        int cellSize = Consts.CELL_SIZE;</span>
-<span class="nc" id="L71">        float snapX = MathUtils.round(x / cellSize) * cellSize;</span>
-<span class="nc" id="L72">        float snapY = MathUtils.round(y / cellSize) * cellSize;</span>
-<span class="nc" id="L73">        setPosition(snapX, snapY);</span>
-<span class="nc" id="L74">    }</span>
+<span class="nc" id="L80">        int cellSize = Consts.CELL_SIZE;</span>
+<span class="nc" id="L81">        float snapX = MathUtils.round(x / cellSize) * cellSize;</span>
+<span class="nc" id="L82">        float snapY = MathUtils.round(y / cellSize) * cellSize;</span>
+<span class="nc" id="L83">        setPosition(snapX, snapY);</span>
+<span class="nc" id="L84">    }</span>
 
     /**
      * Should be called when is building is being dragged. Will update the
@@ -83,18 +93,17 @@ public abstract class Building extends Sprite {
      *                  {@link Map#collidableSprites} and false otherwise.
      */
     public void handleDragging(Vector2 mousePos, boolean colliding) {
-<span class="nc" id="L86">        updatePosition(mousePos); // Sets the position of the building to the mouse position</span>
-<span class="nc" id="L87">        setDraggingTexture(colliding); // Sets texture to colliding if true, dragging if false</span>
-<span class="nc" id="L88">    }</span>
+<span class="nc" id="L96">        updatePosition(mousePos); // Sets the position of the building to the mouse position</span>
+<span class="nc" id="L97">        setDraggingTexture(colliding); // Sets texture to colliding if true, dragging if false</span>
+<span class="nc" id="L98">    }</span>
 
     /**
      * Should be called when this building is selected. Will set
      * the texture to dragging.
      */
     public void selectBuilding() {
-<span class="nc" id="L95">        isSelected = true;</span>
-<span class="nc" id="L96">        setDraggingTexture(false); // Sets the texture to dragging</span>
-<span class="nc" id="L97">    }</span>
+<span class="nc" id="L105">        setDraggingTexture(false); // Sets the texture to dragging</span>
+<span class="nc" id="L106">    }</span>
 
     /**
      * Should be called when the building is placed. Will play the build
@@ -102,29 +111,28 @@ public abstract class Building extends Sprite {
      * placed texture.
      */
     public void placeBuilding() {
-<span class="nc" id="L105">        incrementCount();</span>
-<span class="nc" id="L106">        isSelected = false;</span>
-<span class="nc" id="L107">        isPlaced = true;</span>
-<span class="nc" id="L108">        setRegion(placedTexture);</span>
-<span class="nc" id="L109">        SoundManager.playClick();</span>
-<span class="nc" id="L110">    }</span>
+<span class="nc" id="L114">        incrementCount();</span>
+<span class="nc" id="L115">        isPlaced = true;</span>
+<span class="nc" id="L116">        setRegion(placedTexture);</span>
+<span class="nc" id="L117">        SoundManager.playClick();</span>
+<span class="nc" id="L118">    }</span>
 
     private void incrementCount() {
-<span class="nc" id="L113">        int index = type.ordinal();</span>
-<span class="nc" id="L114">        BuildingMenu.buildingCounts[index]++;</span>
-<span class="nc" id="L115">        BuildingMenu.updateCountLabel(index); // Increments the building count label by 1 and displays</span>
-<span class="nc" id="L116">    }</span>
+<span class="nc" id="L121">        int index = type.ordinal();</span>
+<span class="nc" id="L122">        BuildingMenu.buildingCounts[index]++;</span>
+<span class="nc" id="L123">        BuildingMenu.updateCountLabel(index); // Increments the building count label by 1 and displays</span>
+<span class="nc" id="L124">    }</span>
 
 
     /**
-     * Sets the texture to collision or dragging dependings on if it is colliding
+     * Sets the texture to collision or dragging depending on if it is colliding
      * with another collidable in {@link Map#collidableSprites}.
      *
      * @param collision true when the building is colliding and false otherwise.
      */
     private void setDraggingTexture(boolean collision) {
-<span class="nc bnc" id="L126" title="All 2 branches missed.">        setRegion(collision ? collisionTexture : draggingTexture);</span>
-<span class="nc" id="L127">    }</span>
+<span class="nc bnc" id="L134" title="All 2 branches missed.">        setRegion(collision ? collisionTexture : draggingTexture);</span>
+<span class="nc" id="L135">    }</span>
 
     /**
      * Ensures that the building stays within the boundaries set by {@link Consts#MAP_MIN_X_BOUNDARY},
@@ -132,68 +140,74 @@ public abstract class Building extends Sprite {
      * {@link Consts#MAP_MAX_Y_BOUNDARY}.
      */
     public void clampPosition() {
-<span class="nc" id="L135">        setX(MathUtils.clamp(getX(), Consts.MAP_MIN_X_BOUNDARY, Consts.MAP_MAX_X_BOUNDARY - width));</span>
-<span class="nc" id="L136">        setY(MathUtils.clamp(getY(), Consts.MAP_MIN_Y_BOUNDARY, Consts.MAP_MAX_Y_BOUNDARY - height));</span>
-<span class="nc" id="L137">    }</span>
-
-    /**
-     * Gets the distance from this building to another building. The distance
-     * is defined by the x_distance + y_distance between buildings.
-     *
-     * @param building The other building to find the distance between.
-     * @return The distance. Can be rounded both down and up.
-     */
-    public int getDistanceFrom(Building building) {
-<span class="nc" id="L147">        float xDistance = Math.abs(getX() - building.getX());</span>
-<span class="nc" id="L148">        float yDistance = Math.abs(getY() - building.getY());</span>
-<span class="nc" id="L149">        int distance = Math.round(xDistance + yDistance);</span>
-<span class="nc" id="L150">        return distance;</span>
-    }
-
-    // Gets the vector of the centre of the building
-    public Vector2 getCentre() {
-<span class="nc" id="L155">        return new Vector2(getX() + width / 2, getY() + height / 2);</span>
-    }
+<span class="nc" id="L143">        setX(MathUtils.clamp(getX(), Consts.MAP_MIN_X_BOUNDARY, Consts.MAP_MAX_X_BOUNDARY - width));</span>
+<span class="nc" id="L144">        setY(MathUtils.clamp(getY(), Consts.MAP_MIN_Y_BOUNDARY, Consts.MAP_MAX_Y_BOUNDARY - height));</span>
+<span class="nc" id="L145">    }</span>
 
     /**
      * Returns the column of the bottom left square of the building.
      *
-     * @return
+     * @return column of the bottom left square of the building
      */
     public int getCol() {
-<span class="nc" id="L164">        return (int) (getX() / Consts.CELL_SIZE);</span>
+<span class="nc" id="L153">        return (int) (getX() / Consts.CELL_SIZE);</span>
     }
 
     /**
      * Returns the row of the bottom left square of the building.
      *
-     * @return
+     * @return row of the bottom left square of the building
      */
     public int getRow() {
-<span class="nc" id="L173">        return (int) (Consts.GRID_ROWS - getY() / Consts.CELL_SIZE);</span>
+<span class="nc" id="L162">        return (int) (Consts.GRID_ROWS - getY() / Consts.CELL_SIZE);</span>
     }
 
-    public boolean getIsSelected() {
-<span class="nc" id="L177">        return isSelected;</span>
-    }
-
+    /**
+     * Get placed status of building
+     * @return whether the building is placed
+     */
     public boolean getIsPlaced() {
-<span class="nc" id="L181">        return isPlaced;</span>
+<span class="nc" id="L170">        return isPlaced;</span>
     }
 
+    /**
+     * Get building width
+     * @return building width
+     */
     public int getBuildingWidth() {
-<span class="nc" id="L185">        return width;</span>
+<span class="nc" id="L178">        return width;</span>
     }
 
+    /**
+     * Get building height
+     * @return building height
+     */
     public int getBuildingHeight() {
-<span class="nc" id="L189">        return height;</span>
+<span class="nc" id="L186">        return height;</span>
     }
 
+    /**
+     * Return the {@link BuildingTypes} of the building
+     * @return type of building
+     */
     public BuildingTypes getType() {
-<span class="nc" id="L193">        return type;</span>
+<span class="nc" id="L194">        return type;</span>
     }
 
+    /**
+     * @return cost of the building
+     */
+    public int getCost() {
+<span class="nc" id="L201">        return cost;</span>
+    }
+
+    /**
+     * Disposes of textures to free up memory
+     */
     public void dispose() {
-<span class="nc" id="L197">    }</span>
+<span class="nc" id="L208">        placedTexture.dispose();</span>
+<span class="nc" id="L209">        collisionTexture.dispose();</span>
+<span class="nc" id="L210">        draggingTexture.dispose();</span>
+<span class="nc" id="L211">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

@@ -8,26 +8,25 @@ import com.badlogic.UniSim2.resources.SoundManager;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 
 import java.util.HashMap;
+import java.util.Objects;
 
 /**
  * This screen is used when the game is being played.
  */
 public class GameScreen implements Screen {
-<span class="fc" id="L25">    private boolean headless = false;</span>
+<span class="fc" id="L24">    private boolean headless = false;</span>
 
-    private Main game;
-    private StretchViewport viewport;
+    private final Main game;
+    private final StretchViewport viewport;
 
-    private Timer timer;
+    private final Timer timer;
 
     private int money;
     private double satisfaction;
@@ -35,131 +34,142 @@ public class GameScreen implements Screen {
 
     private GameMenu menu; // Used to make and display the game menu
 
-<span class="fc" id="L38">    boolean isPaused = false;</span>
+<span class="fc" id="L37">    boolean isPaused = false;</span>
 
-    // This variable is needed to stop a crash from occuring when the game ends.
-<span class="fc" id="L41">    boolean hasEnded = false;</span>
+    // This variable is needed to stop a crash from occurring when the game ends.
+<span class="fc" id="L40">    boolean hasEnded = false;</span>
 
     ShapeRenderer shapeRenderer;
 
     private Map map;
 
+    /**
+     * @param game the game to use for the {@link GameScreen}
+     */
     public GameScreen (Main game) {
-<span class="nc" id="L48">        this(game, false);</span>
-<span class="nc" id="L49">    }</span>
+<span class="nc" id="L50">        this(game, false);</span>
+<span class="nc" id="L51">    }</span>
 
-<span class="fc" id="L51">    public GameScreen(Main game, boolean headless) {</span>
-<span class="fc" id="L52">        this.game = game;</span>
-<span class="fc" id="L53">        viewport = game.getViewport();</span>
-<span class="fc" id="L54">        timer = new Timer();</span>
-<span class="fc" id="L55">        money = 250;</span>
-<span class="fc" id="L56">        satisfaction = 0;</span>
-<span class="fc" id="L57">        score = 0;</span>
+    /**
+     * @param game the game to use for the {@link GameScreen}
+     * @param headless whether the {@link GameScreen} is being used headless in a test
+     */
+<span class="fc" id="L57">    public GameScreen(Main game, boolean headless) {</span>
+<span class="fc" id="L58">        this.game = game;</span>
+<span class="fc" id="L59">        viewport = game.getViewport();</span>
+<span class="fc" id="L60">        timer = new Timer();</span>
+<span class="fc" id="L61">        money = 250;</span>
+<span class="fc" id="L62">        satisfaction = 0;</span>
+<span class="fc" id="L63">        score = 0;</span>
 
-<span class="pc bpc" id="L59" title="1 of 2 branches missed.">        if (!headless) {</span>
-<span class="nc" id="L60">            map = new Map(game);</span>
-<span class="nc" id="L61">            menu = new GameMenu(game, timer, money, satisfaction, map.getBuildingManager());</span>
+<span class="pc bpc" id="L65" title="1 of 2 branches missed.">        if (!headless) {</span>
+<span class="nc" id="L66">            map = new Map(game);</span>
+<span class="nc" id="L67">            menu = new GameMenu(game, timer, money, satisfaction, map.getBuildingManager());</span>
 
-<span class="nc" id="L63">            SoundManager.playMusic();</span>
+<span class="nc" id="L69">            SoundManager.playMusic();</span>
 
-<span class="nc" id="L65">            shapeRenderer = new ShapeRenderer();</span>
-<span class="fc" id="L66">        } else this.headless = true;</span>
-<span class="fc" id="L67">    }</span>
+<span class="nc" id="L71">            shapeRenderer = new ShapeRenderer();</span>
+<span class="fc" id="L72">        } else this.headless = true;</span>
+<span class="fc" id="L73">    }</span>
 
+    /**
+     * @return current amount of money
+     */
     public int getMoney() {
-<span class="fc" id="L70">        return money;</span>
+<span class="fc" id="L79">        return money;</span>
     }
 
+    /**
+     * @return current amount of satisfaction
+     */
     public double getSatisfaction() {
-<span class="fc" id="L74">        return satisfaction;</span>
+<span class="fc" id="L86">        return satisfaction;</span>
     }
 
     /**
      * Subtracts an amount of money if the current amount of money is greater than or equal to it
+     *
      * @param amount The amount of money to subtract
-     * @return If the money got subtracted
      */
-    public boolean subtractMoney(int amount) {
-<span class="pc bpc" id="L83" title="1 of 2 branches missed.">        if (this.money &gt;= amount) {</span>
-<span class="fc" id="L84">            this.money -= amount;</span>
-<span class="fc" id="L85">            return true;</span>
+    public void subtractMoney(int amount) {
+<span class="pc bpc" id="L95" title="1 of 2 branches missed.">        if (this.money &gt;= amount) {</span>
+<span class="fc" id="L96">            this.money -= amount;</span>
         }
-<span class="nc" id="L87">        return false;</span>
-    }
+<span class="fc" id="L98">    }</span>
 
     @Override
     public void show() {
-<span class="nc" id="L92">        menu.activate();</span>
-<span class="nc" id="L93">    }</span>
+<span class="nc" id="L102">        menu.activate();</span>
+<span class="nc" id="L103">    }</span>
 
     @Override
     public void render(float delta) {
-<span class="nc" id="L97">        input();</span>
-<span class="nc" id="L98">        update();</span>
-<span class="nc bnc" id="L99" title="All 2 branches missed.">        if (hasEnded) return;</span>
-<span class="nc" id="L100">        draw();</span>
-<span class="nc" id="L101">    }</span>
+<span class="nc" id="L107">        input();</span>
+<span class="nc" id="L108">        update();</span>
+<span class="nc bnc" id="L109" title="All 2 branches missed.">        if (hasEnded) return;</span>
+<span class="nc" id="L110">        draw();</span>
+<span class="nc" id="L111">    }</span>
 
     /**
      * Processes input. Will pause/resume the game if the space is pressed.
      */
     private void input() {
-<span class="nc" id="L107">        menu.input();</span>
-<span class="nc" id="L108">        map.input();</span>
+<span class="nc" id="L117">        menu.input();</span>
+<span class="nc" id="L118">        map.input();</span>
 
-<span class="nc bnc" id="L110" title="All 4 branches missed.">        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) || Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {</span>
-<span class="nc bnc" id="L111" title="All 2 branches missed.">            if (isPaused) {</span>
-<span class="nc" id="L112">                isPaused = false;</span>
-<span class="nc" id="L113">                menu.resume();</span>
+<span class="nc bnc" id="L120" title="All 4 branches missed.">        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) || Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {</span>
+<span class="nc bnc" id="L121" title="All 2 branches missed.">            if (isPaused) {</span>
+<span class="nc" id="L122">                isPaused = false;</span>
+<span class="nc" id="L123">                menu.resume();</span>
             } else {
-<span class="nc" id="L115">                isPaused = true;</span>
-<span class="nc" id="L116">                menu.pause();</span>
+<span class="nc" id="L125">                isPaused = true;</span>
+<span class="nc" id="L126">                menu.pause();</span>
             }
         }
 
-<span class="nc bnc" id="L120" title="All 2 branches missed.">        if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {</span>
-<span class="nc" id="L121">            calculateScore();</span>
-<span class="nc" id="L122">            game.endGame(score, satisfaction, menu.returnBuildingCount());</span>
-<span class="nc" id="L123">            hasEnded = true;</span>
+<span class="nc bnc" id="L130" title="All 2 branches missed.">        if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {</span>
+<span class="nc" id="L131">            calculateScore();</span>
+<span class="nc" id="L132">            game.endGame(score, satisfaction, menu.returnBuildingCount());</span>
+<span class="nc" id="L133">            hasEnded = true;</span>
         }
 
-<span class="nc" id="L126">    }</span>
+<span class="nc" id="L136">    }</span>
 
     /**
      * Will update the timer or not (depending on whether the game is paused)
      * and will end the game if the timer has reached its max time.
      */
     public void update() {
-<span class="fc bfc" id="L133" title="All 2 branches covered.">        if (!isPaused) {</span>
-<span class="fc" id="L134">            timer.update();</span>
+<span class="fc bfc" id="L143" title="All 2 branches covered.">        if (!isPaused) {</span>
+<span class="fc" id="L144">            timer.update();</span>
 
-<span class="fc bfc" id="L136" title="All 2 branches covered.">            if (timer.hasWholeSecondPassed()) {</span>
+<span class="fc bfc" id="L146" title="All 2 branches covered.">            if (timer.hasWholeSecondPassed()) {</span>
                 // Money Calculations
                 // Increase money by 10 until half-time, then by 20
-<span class="pc bpc" id="L139" title="1 of 2 branches missed.">                if (timer.getElapsedTime() &gt;= 150) {</span>
-<span class="nc" id="L140">                    money += 20;</span>
+<span class="pc bpc" id="L149" title="1 of 2 branches missed.">                if (timer.getElapsedTime() &gt;= 150) {</span>
+<span class="nc" id="L150">                    money += 20;</span>
                 } else {
-<span class="fc" id="L142">                    money += 10;</span>
+<span class="fc" id="L152">                    money += 10;</span>
                 }
 
-<span class="pc bpc" id="L145" title="1 of 2 branches missed.">                if (!headless) {</span>
-<span class="nc" id="L146">                    double satisfactionMultiplier = 1;</span>
-<span class="nc" id="L147">                    double satisfactionToAdd = 0;</span>
+<span class="pc bpc" id="L155" title="1 of 2 branches missed.">                if (!headless) {</span>
+<span class="nc" id="L156">                    double satisfactionMultiplier = 1;</span>
+<span class="nc" id="L157">                    double satisfactionToAdd = 0;</span>
 
                     // Satisfaction Calculations
-<span class="nc bnc" id="L150" title="All 2 branches missed.">                    if (map.getBuildingManager().hasEveryType()) {</span>
-<span class="nc" id="L151">                        satisfactionToAdd++;</span>
+<span class="nc bnc" id="L160" title="All 2 branches missed.">                    if (map.getBuildingManager().hasEveryType()) {</span>
+<span class="nc" id="L161">                        satisfactionToAdd++;</span>
                     }
 
-<span class="nc" id="L154">                    int numNatures = 0;</span>
+<span class="nc" id="L164">                    int numNatures = 0;</span>
 
                     Rectangle proximityRectangle;
 
-<span class="nc bnc" id="L158" title="All 2 branches missed.">                    for (Building building : new Array.ArrayIterator&lt;&gt;(map.getBuildingManager().getBuildings())) {</span>
-<span class="nc bnc" id="L159" title="All 2 branches missed.">                        if (!building.getIsPlaced()) continue;</span>
-<span class="nc bnc" id="L160" title="All 4 branches missed.">                        switch (building.getType()) {</span>
+<span class="nc bnc" id="L168" title="All 2 branches missed.">                    for (Building building : new Array.ArrayIterator&lt;&gt;(map.getBuildingManager().getBuildings())) {</span>
+<span class="nc bnc" id="L169" title="All 2 branches missed.">                        if (!building.getIsPlaced()) continue;</span>
+<span class="nc bnc" id="L170" title="All 4 branches missed.">                        switch (building.getType()) {</span>
                             case Nature:
-<span class="nc bnc" id="L162" title="All 2 branches missed.">                                if (numNatures &lt;= 4) numNatures++;</span>
+<span class="nc bnc" id="L172" title="All 2 branches missed.">                                if (numNatures &lt;= 4) numNatures++;</span>
                                 break;
                             case LectureHall:
                             case FoodZone:
@@ -167,115 +177,114 @@ public class GameScreen implements Screen {
                                 // Check for {LectureHall, FoodZone, Library} within 3 tiles of a {Course, Recreational, LectureHall}
 
                                 // Create a rectangle 3 tiles bigger on each side to check for overlaps
-<span class="nc" id="L170">                                proximityRectangle = new Rectangle(building.getBoundingRectangle());</span>
-<span class="nc" id="L171">                                proximityRectangle.set(proximityRectangle.x - (Consts.CELL_SIZE * 3), proximityRectangle.y - (Consts.CELL_SIZE * 3), proximityRectangle.width + (Consts.CELL_SIZE * 6), proximityRectangle.height + (Consts.CELL_SIZE * 6));</span>
+<span class="nc" id="L180">                                proximityRectangle = new Rectangle(building.getBoundingRectangle());</span>
+<span class="nc" id="L181">                                proximityRectangle.set(proximityRectangle.x - (Consts.CELL_SIZE * 3), proximityRectangle.y - (Consts.CELL_SIZE * 3), proximityRectangle.width + (Consts.CELL_SIZE * 6), proximityRectangle.height + (Consts.CELL_SIZE * 6));</span>
 
                                 // Match current building type to one to match to
-<span class="nc bnc" id="L174" title="All 4 branches missed.">                                Building.BuildingTypes matchType = switch (building.getType()) {</span>
-<span class="nc" id="L175">                                    case LectureHall -&gt; Building.BuildingTypes.Course;</span>
-<span class="nc" id="L176">                                    case FoodZone -&gt; Building.BuildingTypes.Recreational;</span>
-<span class="nc" id="L177">                                    case Library -&gt; Building.BuildingTypes.LectureHall;</span>
+<span class="nc bnc" id="L184" title="All 4 branches missed.">                                Building.BuildingTypes matchType = switch (building.getType()) {</span>
+<span class="nc" id="L185">                                    case LectureHall -&gt; Building.BuildingTypes.Course;</span>
+<span class="nc" id="L186">                                    case FoodZone -&gt; Building.BuildingTypes.Recreational;</span>
+<span class="nc" id="L187">                                    case Library -&gt; Building.BuildingTypes.LectureHall;</span>
                                     default -&gt;
-<span class="nc" id="L179">                                        throw new IllegalStateException(&quot;Unexpected value in satisfaction switch: &quot; + building.getType());</span>
+<span class="nc" id="L189">                                        throw new IllegalStateException(&quot;Unexpected value in satisfaction switch: &quot; + building.getType());</span>
                                 };
 
                                 // Find the matching buildings and check if they overlap
-<span class="nc bnc" id="L183" title="All 2 branches missed.">                                for (Building proximityBuilding : new Array.ArrayIterator&lt;&gt;(map.getBuildingManager().getBuildings())) {</span>
-<span class="nc bnc" id="L184" title="All 2 branches missed.">                                    if (!proximityBuilding.getIsPlaced()) continue;</span>
+<span class="nc bnc" id="L193" title="All 2 branches missed.">                                for (Building proximityBuilding : new Array.ArrayIterator&lt;&gt;(map.getBuildingManager().getBuildings())) {</span>
+<span class="nc bnc" id="L194" title="All 2 branches missed.">                                    if (!proximityBuilding.getIsPlaced()) continue;</span>
 
-<span class="nc bnc" id="L186" title="All 2 branches missed.">                                    if (proximityBuilding.getType() == matchType) {</span>
-<span class="nc bnc" id="L187" title="All 2 branches missed.">                                        if (proximityRectangle.overlaps(proximityBuilding.getBoundingRectangle())) {</span>
-<span class="nc" id="L188">                                            satisfactionMultiplier += 0.2;</span>
-<span class="nc" id="L189">                                            break;</span>
+<span class="nc bnc" id="L196" title="All 2 branches missed.">                                    if (proximityBuilding.getType() == matchType) {</span>
+<span class="nc bnc" id="L197" title="All 2 branches missed.">                                        if (proximityRectangle.overlaps(proximityBuilding.getBoundingRectangle())) {</span>
+<span class="nc" id="L198">                                            satisfactionMultiplier += 0.2;</span>
+<span class="nc" id="L199">                                            break;</span>
                                         }
                                     }
-<span class="nc" id="L192">                                }</span>
-<span class="nc" id="L193">                                break;</span>
+<span class="nc" id="L202">                                }</span>
+<span class="nc" id="L203">                                break;</span>
                             case Accommodation:
-<span class="nc" id="L195">                                proximityRectangle = new Rectangle(building.getBoundingRectangle());</span>
-<span class="nc" id="L196">                                proximityRectangle.set(proximityRectangle.x - (Consts.CELL_SIZE * 10), proximityRectangle.y - (Consts.CELL_SIZE * 10), proximityRectangle.width + (Consts.CELL_SIZE * 20), proximityRectangle.height + (Consts.CELL_SIZE * 20));</span>
+<span class="nc" id="L205">                                proximityRectangle = new Rectangle(building.getBoundingRectangle());</span>
+<span class="nc" id="L206">                                proximityRectangle.set(proximityRectangle.x - (Consts.CELL_SIZE * 10), proximityRectangle.y - (Consts.CELL_SIZE * 10), proximityRectangle.width + (Consts.CELL_SIZE * 20), proximityRectangle.height + (Consts.CELL_SIZE * 20));</span>
 
-<span class="nc" id="L198">                                HashMap&lt;Building.BuildingTypes, Boolean&gt; nearbyBuildings = new HashMap&lt;&gt;();</span>
+<span class="nc" id="L208">                                HashMap&lt;Building.BuildingTypes, Boolean&gt; nearbyBuildings = new HashMap&lt;&gt;();</span>
 
-<span class="nc bnc" id="L200" title="All 2 branches missed.">                                for (Building proximityBuilding : new Array.ArrayIterator&lt;&gt;(map.getBuildingManager().getBuildings())) {</span>
-<span class="nc bnc" id="L201" title="All 2 branches missed.">                                    if (!proximityBuilding.getIsPlaced()) continue;</span>
-<span class="nc bnc" id="L202" title="All 2 branches missed.">                                    switch (proximityBuilding.getType()) {</span>
-                                        case Accommodation -&gt; {
-<span class="nc" id="L204">                                        }</span>
-                                        default -&gt; {
-<span class="nc bnc" id="L206" title="All 2 branches missed.">                                            if (proximityRectangle.overlaps(proximityBuilding.getBoundingRectangle())) {</span>
-<span class="nc" id="L207">                                                nearbyBuildings.put(proximityBuilding.getType(), true);</span>
-                                            }
+<span class="nc bnc" id="L210" title="All 2 branches missed.">                                for (Building proximityBuilding : new Array.ArrayIterator&lt;&gt;(map.getBuildingManager().getBuildings())) {</span>
+<span class="nc bnc" id="L211" title="All 2 branches missed.">                                    if (!proximityBuilding.getIsPlaced()) continue;</span>
+<span class="nc bnc" id="L212" title="All 2 branches missed.">                                    if (Objects.requireNonNull(proximityBuilding.getType()) != Building.BuildingTypes.Accommodation) {</span>
+<span class="nc bnc" id="L213" title="All 2 branches missed.">                                        if (proximityRectangle.overlaps(proximityBuilding.getBoundingRectangle())) {</span>
+<span class="nc" id="L214">                                            nearbyBuildings.put(proximityBuilding.getType(), true);</span>
                                         }
                                     }
-<span class="nc" id="L211">                                }</span>
+<span class="nc" id="L217">                                }</span>
 
-<span class="nc bnc" id="L213" title="All 2 branches missed.">                                if (nearbyBuildings.size() == Building.BuildingTypes.values().length - 1) {</span>
-<span class="nc" id="L214">                                    satisfactionMultiplier += 1;</span>
+<span class="nc bnc" id="L219" title="All 2 branches missed.">                                if (nearbyBuildings.size() == Building.BuildingTypes.values().length - 1) {</span>
+<span class="nc" id="L220">                                    satisfactionMultiplier += 1;</span>
                                 }
                                 break;
                         }
-<span class="nc" id="L218">                    }</span>
+<span class="nc" id="L224">                    }</span>
 
-<span class="nc" id="L220">                    satisfactionMultiplier += numNatures * 0.5;</span>
+<span class="nc" id="L226">                    satisfactionMultiplier += numNatures * 0.5;</span>
 
-<span class="nc" id="L222">                    this.satisfaction += (satisfactionToAdd * satisfactionMultiplier);</span>
-<span class="nc" id="L223">                    menu.updateSatisfactionPerSecond(satisfactionToAdd * satisfactionMultiplier);</span>
+<span class="nc" id="L228">                    this.satisfaction += (satisfactionToAdd * satisfactionMultiplier);</span>
+<span class="nc" id="L229">                    menu.updateSatisfactionPerSecond(satisfactionToAdd * satisfactionMultiplier);</span>
                 }
 
-<span class="fc" id="L226">                gameEvents();</span>
+<span class="fc" id="L232">                gameEvents();</span>
             }
 
-<span class="pc bpc" id="L229" title="1 of 2 branches missed.">            if (!headless) {</span>
-<span class="nc" id="L230">                menu.updateMoney(money);</span>
-<span class="nc" id="L231">                menu.updateSatisfaction(satisfaction);</span>
+<span class="pc bpc" id="L235" title="1 of 2 branches missed.">            if (!headless) {</span>
+<span class="nc" id="L236">                menu.updateMoney(money);</span>
+<span class="nc" id="L237">                menu.updateSatisfaction(satisfaction);</span>
             }
 
-<span class="pc bpc" id="L234" title="1 of 2 branches missed.">            if (timer.hasReachedMaxTime()) {</span>
-<span class="nc" id="L235">                calculateScore();</span>
-<span class="nc" id="L236">                game.endGame(score, satisfaction, menu.returnBuildingCount());</span>
-<span class="nc" id="L237">                hasEnded = true;</span>
+<span class="pc bpc" id="L240" title="1 of 2 branches missed.">            if (timer.hasReachedMaxTime()) {</span>
+<span class="nc" id="L241">                calculateScore();</span>
+<span class="nc" id="L242">                game.endGame(score, satisfaction, menu.returnBuildingCount());</span>
+<span class="nc" id="L243">                hasEnded = true;</span>
             }
         }
-<span class="fc" id="L240">    }</span>
+<span class="fc" id="L246">    }</span>
 
     /**
      * Adds events to the game.
      */
     private void gameEvents(){
-<span class="pc bpc" id="L246" title="3 of 4 branches missed.">        if ((timer.getElapsedTime() &gt; 59.5 &amp;&amp; timer.getElapsedTime() &lt; 60.5) ||</span>
-<span class="pc bpc" id="L247" title="3 of 4 branches missed.">            (timer.getElapsedTime() &gt; 119.5 &amp;&amp; timer.getElapsedTime() &lt; 120.5) ||</span>
-<span class="pc bpc" id="L248" title="3 of 4 branches missed.">            (timer.getElapsedTime() &gt; 179.5 &amp;&amp; timer.getElapsedTime() &lt; 180.5) ||</span>
-<span class="pc bpc" id="L249" title="3 of 4 branches missed.">            (timer.getElapsedTime() &gt; 239.5 &amp;&amp; timer.getElapsedTime() &lt; 240.5)) {</span>
-<span class="nc bnc" id="L250" title="All 2 branches missed.">            if (Math.random() &lt; 0.5){</span>
-<span class="nc" id="L251">                menu.updateEventLabel(&quot;You won the lottery!!! Have an extra $500&quot;);</span>
-<span class="nc" id="L252">                money += 500;</span>
+<span class="pc bpc" id="L252" title="3 of 4 branches missed.">        if ((timer.getElapsedTime() &gt; 59.5 &amp;&amp; timer.getElapsedTime() &lt; 60.5) ||</span>
+<span class="pc bpc" id="L253" title="3 of 4 branches missed.">            (timer.getElapsedTime() &gt; 119.5 &amp;&amp; timer.getElapsedTime() &lt; 120.5) ||</span>
+<span class="pc bpc" id="L254" title="3 of 4 branches missed.">            (timer.getElapsedTime() &gt; 179.5 &amp;&amp; timer.getElapsedTime() &lt; 180.5) ||</span>
+<span class="pc bpc" id="L255" title="3 of 4 branches missed.">            (timer.getElapsedTime() &gt; 239.5 &amp;&amp; timer.getElapsedTime() &lt; 240.5)) {</span>
+<span class="nc bnc" id="L256" title="All 2 branches missed.">            if (Math.random() &lt; 0.5){</span>
+<span class="nc" id="L257">                menu.updateEventLabel(&quot;You won the lottery!!! Have an extra $500&quot;);</span>
+<span class="nc" id="L258">                money += 500;</span>
             }
             else {
-<span class="nc" id="L255">                menu.updateEventLabel(&quot;Building fine - $300 has been confiscated :((&quot;);</span>
-<span class="nc" id="L256">                money -= 300;</span>
-<span class="nc bnc" id="L257" title="All 2 branches missed.">                if (money &lt; 0){</span>
-<span class="nc" id="L258">                    money = 0;</span>
+<span class="nc" id="L261">                menu.updateEventLabel(&quot;Building fine - $300 has been confiscated :((&quot;);</span>
+<span class="nc" id="L262">                money -= 300;</span>
+<span class="nc bnc" id="L263" title="All 2 branches missed.">                if (money &lt; 0){</span>
+<span class="nc" id="L264">                    money = 0;</span>
                 }
             }
         }
-<span class="pc bpc" id="L262" title="3 of 4 branches missed.">        if (timer.getElapsedTime() &gt; 69.5 &amp;&amp; timer.getElapsedTime() &lt; 70.5||</span>
-<span class="pc bpc" id="L263" title="3 of 4 branches missed.">            (timer.getElapsedTime() &gt; 129.5 &amp;&amp; timer.getElapsedTime() &lt; 130.5) ||</span>
-<span class="pc bpc" id="L264" title="3 of 4 branches missed.">            (timer.getElapsedTime() &gt; 189.5 &amp;&amp; timer.getElapsedTime() &lt; 190.5) ||</span>
-<span class="pc bpc" id="L265" title="3 of 4 branches missed.">            (timer.getElapsedTime() &gt; 249.5 &amp;&amp; timer.getElapsedTime() &lt; 250.5)) {</span>
-<span class="nc" id="L266">            menu.updateEventLabel(&quot;&quot;);</span>
+<span class="pc bpc" id="L268" title="3 of 4 branches missed.">        if (timer.getElapsedTime() &gt; 69.5 &amp;&amp; timer.getElapsedTime() &lt; 70.5||</span>
+<span class="pc bpc" id="L269" title="3 of 4 branches missed.">            (timer.getElapsedTime() &gt; 129.5 &amp;&amp; timer.getElapsedTime() &lt; 130.5) ||</span>
+<span class="pc bpc" id="L270" title="3 of 4 branches missed.">            (timer.getElapsedTime() &gt; 189.5 &amp;&amp; timer.getElapsedTime() &lt; 190.5) ||</span>
+<span class="pc bpc" id="L271" title="3 of 4 branches missed.">            (timer.getElapsedTime() &gt; 249.5 &amp;&amp; timer.getElapsedTime() &lt; 250.5)) {</span>
+<span class="nc" id="L272">            menu.updateEventLabel(&quot;&quot;);</span>
         }
-<span class="fc" id="L268">    }</span>
+<span class="fc" id="L274">    }</span>
 
     /**
      * Calculates the score of the player by the end of the game.
      */
     public void calculateScore(){
-<span class="fc" id="L274">        score = (int)(satisfaction) + money/10;</span>
-<span class="fc" id="L275">    }</span>
+<span class="fc" id="L280">        score = (int)(satisfaction) + money/10;</span>
+<span class="fc" id="L281">    }</span>
 
+    /**
+     * @return the calculated score. {@link GameScreen#calculateScore()} must be called first
+     */
     public int getScore() {
-<span class="fc" id="L278">        return score;</span>
+<span class="fc" id="L287">        return score;</span>
     }
 
     /**
@@ -283,37 +292,37 @@ public class GameScreen implements Screen {
      * map.
      */
     private void draw() {
-<span class="nc" id="L286">        viewport.apply();</span>
-<span class="nc" id="L287">        ScreenUtils.clear(Consts.BACKGROUND_COLOR);</span>
-<span class="nc" id="L288">        map.draw();</span>
-<span class="nc" id="L289">        menu.draw();</span>
-<span class="nc" id="L290">    }</span>
+<span class="nc" id="L295">        viewport.apply();</span>
+<span class="nc" id="L296">        ScreenUtils.clear(Consts.BACKGROUND_COLOR);</span>
+<span class="nc" id="L297">        map.draw();</span>
+<span class="nc" id="L298">        menu.draw();</span>
+<span class="nc" id="L299">    }</span>
 
 
     @Override
     public void resize(int width, int height) {
-<span class="nc" id="L295">        map.resize(width, height);</span>
-<span class="nc" id="L296">        viewport.update(width, height, true);</span>
-<span class="nc" id="L297">    }</span>
+<span class="nc" id="L304">        map.resize(width, height);</span>
+<span class="nc" id="L305">        viewport.update(width, height, true);</span>
+<span class="nc" id="L306">    }</span>
 
     @Override
     public void pause() {
-<span class="fc" id="L301">        isPaused = true;</span>
-<span class="fc" id="L302">    }</span>
+<span class="fc" id="L310">        isPaused = true;</span>
+<span class="fc" id="L311">    }</span>
 
     @Override
     public void resume() {
-<span class="nc" id="L306">        isPaused = false;</span>
-<span class="nc" id="L307">    }</span>
+<span class="nc" id="L315">        isPaused = false;</span>
+<span class="nc" id="L316">    }</span>
 
     @Override
     public void hide() {
-<span class="nc" id="L311">    }</span>
+<span class="nc" id="L320">    }</span>
 
     @Override
     public void dispose() {
-<span class="nc" id="L315">        map.dispose();</span>
-<span class="nc" id="L316">        menu.dispose();</span>
-<span class="nc" id="L317">    }</span>
+<span class="nc" id="L324">        map.dispose();</span>
+<span class="nc" id="L325">        menu.dispose();</span>
+<span class="nc" id="L326">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

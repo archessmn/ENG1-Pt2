@@ -15,11 +15,10 @@ import com.badlogic.gdx.utils.Align;
  * which can be used to place new buildings.
  */
 public class GameMenu {
-    private Stage stage;
+    private final Stage stage;
     private final Skin skin;
-    private BuildingManager buildingManager;
-    private BuildingMenu buildingMenu;
-    private Timer timer;
+    private final BuildingMenu buildingMenu;
+    private final Timer timer;
     private int money;
     private double satisfaction;
     private double satisfactionPerSecond;
@@ -29,182 +28,195 @@ public class GameMenu {
     private Label eventLabel;
     private boolean isPaused;
 
-<span class="nc" id="L32">    public GameMenu(Main game, Timer timer, int money, double satisfaction, BuildingManager buildings){</span>
-<span class="nc" id="L33">        stage = new Stage(game.getViewport());</span>
-<span class="nc" id="L34">        skin = new Skin(Gdx.files.internal(&quot;ui/uiskin.json&quot;));</span>
-<span class="nc" id="L35">        buildingMenu = new BuildingMenu(stage, buildings);</span>
-<span class="nc" id="L36">        this.timer = timer;</span>
-<span class="nc" id="L37">        this.money = money;</span>
-<span class="nc" id="L38">        this.satisfaction = satisfaction;</span>
-<span class="nc" id="L39">        this.buildingManager = buildings;</span>
-<span class="nc" id="L40">        isPaused = false;</span>
-<span class="nc" id="L41">        createMenu();</span>
-<span class="nc" id="L42">    }</span>
+    /**
+     * @param game the game used for the viewport
+     * @param timer the timer to use
+     * @param money how much money the player currently has
+     * @param satisfaction how much satisfaction the player currently has
+     * @param buildings building manager to use
+     */
+<span class="nc" id="L38">    public GameMenu(Main game, Timer timer, int money, double satisfaction, BuildingManager buildings){</span>
+<span class="nc" id="L39">        stage = new Stage(game.getViewport());</span>
+<span class="nc" id="L40">        skin = new Skin(Gdx.files.internal(&quot;ui/uiskin.json&quot;));</span>
+<span class="nc" id="L41">        buildingMenu = new BuildingMenu(stage, buildings);</span>
+<span class="nc" id="L42">        this.timer = timer;</span>
+<span class="nc" id="L43">        this.money = money;</span>
+<span class="nc" id="L44">        this.satisfaction = satisfaction;</span>
+<span class="nc" id="L45">        isPaused = false;</span>
+<span class="nc" id="L46">        createMenu();</span>
+<span class="nc" id="L47">    }</span>
 
     /**
      * Activates the input processor needed for the menu to use inputs.
      */
     public void activate() {
-<span class="nc" id="L48">        Gdx.input.setInputProcessor(stage);</span>
-<span class="nc" id="L49">    }</span>
+<span class="nc" id="L53">        Gdx.input.setInputProcessor(stage);</span>
+<span class="nc" id="L54">    }</span>
 
+    /**
+     * @return counts of different building types
+     */
     public int[] returnBuildingCount(){
-<span class="nc" id="L52">        return buildingMenu.returnBuildingCount();</span>
+<span class="nc" id="L60">        return buildingMenu.returnBuildingCount();</span>
     }
 
     private void createMenu(){
-<span class="nc" id="L56">        buildingMenu.createBuildingMenu();</span>
-<span class="nc" id="L57">        createTimerLabel();</span>
-<span class="nc" id="L58">        createMoneyLabel();</span>
-<span class="nc" id="L59">        createSatisfactionLabel();</span>
-<span class="nc" id="L60">        createEventLabel();</span>
-<span class="nc" id="L61">    }</span>
+<span class="nc" id="L64">        buildingMenu.createBuildingMenu();</span>
+<span class="nc" id="L65">        createTimerLabel();</span>
+<span class="nc" id="L66">        createMoneyLabel();</span>
+<span class="nc" id="L67">        createSatisfactionLabel();</span>
+<span class="nc" id="L68">        createEventLabel();</span>
+<span class="nc" id="L69">    }</span>
 
     // Adds a label at the top of the screen displaying the time
     private void createTimerLabel(){
 
         // Initialize timerLabel
-<span class="nc" id="L67">        timerLabel = new Label(&quot;00:00&quot;, skin);</span>
-<span class="nc" id="L68">        timerLabel.setFontScale(3);</span>
-<span class="nc" id="L69">        timerLabel.setAlignment(Align.center);</span>
-<span class="nc" id="L70">        timerLabel.setColor(Consts.TIMER_COLOR);</span>
+<span class="nc" id="L75">        timerLabel = new Label(&quot;00:00&quot;, skin);</span>
+<span class="nc" id="L76">        timerLabel.setFontScale(3);</span>
+<span class="nc" id="L77">        timerLabel.setAlignment(Align.center);</span>
+<span class="nc" id="L78">        timerLabel.setColor(Consts.TIMER_COLOR);</span>
 
         // Position the label at the top center of the screen
-<span class="nc" id="L73">        timerLabel.setPosition(Consts.TIMER_X, Consts.TIMER_Y, Align.center);</span>
+<span class="nc" id="L81">        timerLabel.setPosition(Consts.TIMER_X, Consts.TIMER_Y, Align.center);</span>
 
         // Add the label to the stage
-<span class="nc" id="L76">        stage.addActor(timerLabel);</span>
-<span class="nc" id="L77">    }</span>
+<span class="nc" id="L84">        stage.addActor(timerLabel);</span>
+<span class="nc" id="L85">    }</span>
 
     /**
      * Updates the time shown on the label to the elapsed time got from
      * the timer.
      */
     private void updateTimerLabel(){
-<span class="nc" id="L84">        float elapsedTime = timer.getElapsedTime();</span>
-<span class="nc" id="L85">        int minutes = (int) (elapsedTime / 60);</span>
-<span class="nc" id="L86">        int seconds = (int) (elapsedTime % 60);</span>
-<span class="nc" id="L87">        timerLabel.setText(String.format(&quot;%02d:%02d&quot;, minutes, seconds));</span>
-<span class="nc" id="L88">    }</span>
+<span class="nc" id="L92">        float elapsedTime = timer.getElapsedTime();</span>
+<span class="nc" id="L93">        int minutes = (int) (elapsedTime / 60);</span>
+<span class="nc" id="L94">        int seconds = (int) (elapsedTime % 60);</span>
+<span class="nc" id="L95">        timerLabel.setText(String.format(&quot;%02d:%02d&quot;, minutes, seconds));</span>
+<span class="nc" id="L96">    }</span>
 
     // Adds a label at the top of the screen displaying the time
     private void createMoneyLabel(){
 
         // Initialize timerLabel
-<span class="nc" id="L94">        moneyLabel = new Label(String.format(&quot;$%d&quot;, money), skin);</span>
-<span class="nc" id="L95">        moneyLabel.setFontScale(2f);</span>
-<span class="nc" id="L96">        moneyLabel.setAlignment(Align.center);</span>
-<span class="nc" id="L97">        moneyLabel.setColor(Consts.TIMER_COLOR);</span>
+<span class="nc" id="L102">        moneyLabel = new Label(String.format(&quot;$%d&quot;, money), skin);</span>
+<span class="nc" id="L103">        moneyLabel.setFontScale(2f);</span>
+<span class="nc" id="L104">        moneyLabel.setAlignment(Align.center);</span>
+<span class="nc" id="L105">        moneyLabel.setColor(Consts.TIMER_COLOR);</span>
 
         // Position the label at the top center of the screen
-<span class="nc" id="L100">        moneyLabel.setPosition(Consts.MONEY_X, Consts.MONEY_Y, Align.center);</span>
+<span class="nc" id="L108">        moneyLabel.setPosition(Consts.MONEY_X, Consts.MONEY_Y, Align.center);</span>
 
         // Add the label to the stage
-<span class="nc" id="L103">        stage.addActor(moneyLabel);</span>
-<span class="nc" id="L104">    }</span>
+<span class="nc" id="L111">        stage.addActor(moneyLabel);</span>
+<span class="nc" id="L112">    }</span>
 
     /**
      * Updates the time shown on the label to the elapsed time got from
      * the timer.
      */
     private void updateMoneyLabel(){
-<span class="nc" id="L111">        moneyLabel.setText(String.format(&quot;$%d&quot;, money));</span>
-<span class="nc" id="L112">    }</span>
+<span class="nc" id="L119">        moneyLabel.setText(String.format(&quot;$%d&quot;, money));</span>
+<span class="nc" id="L120">    }</span>
 
     private void createSatisfactionLabel(){
-<span class="nc" id="L115">        satisfactionLabel = new Label(String.format(&quot;Satisfaction:\n%,.1f\n%,.1f/s&quot;, satisfaction, satisfactionPerSecond), skin);</span>
-<span class="nc" id="L116">        satisfactionLabel.setFontScale(1.5f);</span>
-<span class="nc" id="L117">        satisfactionLabel.setAlignment(Align.center);</span>
-<span class="nc" id="L118">        satisfactionLabel.setColor(Consts.TIMER_COLOR);</span>
+<span class="nc" id="L123">        satisfactionLabel = new Label(String.format(&quot;Satisfaction:\n%,.1f\n%,.1f/s&quot;, satisfaction, satisfactionPerSecond), skin);</span>
+<span class="nc" id="L124">        satisfactionLabel.setFontScale(1.5f);</span>
+<span class="nc" id="L125">        satisfactionLabel.setAlignment(Align.center);</span>
+<span class="nc" id="L126">        satisfactionLabel.setColor(Consts.TIMER_COLOR);</span>
 
-<span class="nc" id="L120">        satisfactionLabel.setPosition(Consts.SATISFACTION_X, Consts.SATISFACTION_Y, Align.center);</span>
+<span class="nc" id="L128">        satisfactionLabel.setPosition(Consts.SATISFACTION_X, Consts.SATISFACTION_Y, Align.center);</span>
 
-<span class="nc" id="L122">        stage.addActor(satisfactionLabel);</span>
-<span class="nc" id="L123">    }</span>
+<span class="nc" id="L130">        stage.addActor(satisfactionLabel);</span>
+<span class="nc" id="L131">    }</span>
 
     private void updateSatisfactionLabel(){
-<span class="nc" id="L126">        satisfactionLabel.setText(String.format(&quot;Satisfaction:\n%,.1f\n%,.1f/s&quot;, satisfaction, satisfactionPerSecond));</span>
-<span class="nc" id="L127">    }</span>
+<span class="nc" id="L134">        satisfactionLabel.setText(String.format(&quot;Satisfaction:\n%,.1f\n%,.1f/s&quot;, satisfaction, satisfactionPerSecond));</span>
+<span class="nc" id="L135">    }</span>
 
     private void createEventLabel(){
-<span class="nc" id="L130">        eventLabel = new Label(&quot;&quot;, skin);</span>
-<span class="nc" id="L131">        eventLabel.setFontScale(2.5f);</span>
-<span class="nc" id="L132">        eventLabel.setAlignment(Align.center);</span>
-<span class="nc" id="L133">        eventLabel.setColor(Consts.TIMER_COLOR);</span>
+<span class="nc" id="L138">        eventLabel = new Label(&quot;&quot;, skin);</span>
+<span class="nc" id="L139">        eventLabel.setFontScale(2.5f);</span>
+<span class="nc" id="L140">        eventLabel.setAlignment(Align.center);</span>
+<span class="nc" id="L141">        eventLabel.setColor(Consts.TIMER_COLOR);</span>
 
-<span class="nc" id="L135">        eventLabel.setPosition(Consts.EVENT_LABEL_X, Consts.EVENT_LABEL_Y, Align.center);</span>
+<span class="nc" id="L143">        eventLabel.setPosition(Consts.EVENT_LABEL_X, Consts.EVENT_LABEL_Y, Align.center);</span>
 
-<span class="nc" id="L137">        stage.addActor(eventLabel);</span>
-<span class="nc" id="L138">    }</span>
+<span class="nc" id="L145">        stage.addActor(eventLabel);</span>
+<span class="nc" id="L146">    }</span>
 
+    /**
+     * @param text text to set the event label to
+     */
     public void updateEventLabel(String text){
-<span class="nc" id="L141">        eventLabel.setText(text);</span>
-<span class="nc" id="L142">    }</span>
+<span class="nc" id="L152">        eventLabel.setText(text);</span>
+<span class="nc" id="L153">    }</span>
 
     /**
      * Should be called when the game is paused.
      */
     public void pause() {
-<span class="nc" id="L148">        timerLabel.setText(&quot;PAUSED&quot;);</span>
-<span class="nc" id="L149">        isPaused = true;</span>
-<span class="nc" id="L150">    }</span>
+<span class="nc" id="L159">        timerLabel.setText(&quot;PAUSED&quot;);</span>
+<span class="nc" id="L160">        isPaused = true;</span>
+<span class="nc" id="L161">    }</span>
 
     /**
      * Should be called when the game is resumed.
      */
     public void resume() {
-<span class="nc" id="L156">        updateTimerLabel();</span>
-<span class="nc" id="L157">        updateMoneyLabel();</span>
-<span class="nc" id="L158">        isPaused = false;</span>
-<span class="nc" id="L159">    }</span>
+<span class="nc" id="L167">        updateTimerLabel();</span>
+<span class="nc" id="L168">        updateMoneyLabel();</span>
+<span class="nc" id="L169">        isPaused = false;</span>
+<span class="nc" id="L170">    }</span>
 
     /**
      * Processes any input.
      */
     public void input(){
-<span class="nc" id="L165">        stage.act(Gdx.graphics.getDeltaTime());</span>
-<span class="nc" id="L166">    }</span>
+<span class="nc" id="L176">        stage.act(Gdx.graphics.getDeltaTime());</span>
+<span class="nc" id="L177">    }</span>
 
     /**
      * Updates and draws the menu.
      */
     public void draw(){
-<span class="nc bnc" id="L172" title="All 2 branches missed.">        if (isPaused == false) {</span>
-<span class="nc" id="L173">            updateTimerLabel();</span>
-<span class="nc" id="L174">            updateMoneyLabel();</span>
-<span class="nc" id="L175">            updateSatisfactionLabel();</span>
+<span class="nc bnc" id="L183" title="All 2 branches missed.">        if (!isPaused) {</span>
+<span class="nc" id="L184">            updateTimerLabel();</span>
+<span class="nc" id="L185">            updateMoneyLabel();</span>
+<span class="nc" id="L186">            updateSatisfactionLabel();</span>
         }
-<span class="nc" id="L177">        buildingMenu.draw();</span>
-<span class="nc" id="L178">        stage.draw();</span>
-<span class="nc" id="L179">    }</span>
-
-    /**
-     * @return true if the menu is paused and false if not.
-     */
-    public boolean getPaused(){
-<span class="nc" id="L185">        return isPaused;</span>
-    }
-
-    public void updateMoney(int money) {
-<span class="nc" id="L189">        this.money = money;</span>
+<span class="nc" id="L188">        buildingMenu.draw();</span>
+<span class="nc" id="L189">        stage.draw();</span>
 <span class="nc" id="L190">    }</span>
 
-    public void updateSatisfaction(double satisfaction) {
-<span class="nc" id="L193">        this.satisfaction = satisfaction;</span>
-<span class="nc" id="L194">    }</span>
+    /**
+     * @param money current amount of money the player has
+     */
+    public void updateMoney(int money) {
+<span class="nc" id="L196">        this.money = money;</span>
+<span class="nc" id="L197">    }</span>
 
+    /**
+     * @param satisfaction current amount of satisfaction the player has
+     */
+    public void updateSatisfaction(double satisfaction) {
+<span class="nc" id="L203">        this.satisfaction = satisfaction;</span>
+<span class="nc" id="L204">    }</span>
+
+    /**
+     * @param satisfactionPerSecond current satisfaction gain per second
+     */
     public void updateSatisfactionPerSecond(double satisfactionPerSecond) {
-<span class="nc" id="L197">        this.satisfactionPerSecond = satisfactionPerSecond;</span>
-<span class="nc" id="L198">    }</span>
+<span class="nc" id="L210">        this.satisfactionPerSecond = satisfactionPerSecond;</span>
+<span class="nc" id="L211">    }</span>
 
     /**
      * Gets rid the all textures. This method should be called when the menu is
      * not going to be used anymore.
      */
     public void dispose(){
-<span class="nc" id="L205">        buildingMenu.dispose();</span>
-<span class="nc" id="L206">        stage.dispose();</span>
-<span class="nc" id="L207">        skin.dispose();</span>
-<span class="nc" id="L208">    }</span>
+<span class="nc" id="L218">        stage.dispose();</span>
+<span class="nc" id="L219">        skin.dispose();</span>
+<span class="nc" id="L220">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

@@ -23,40 +23,46 @@ import com.badlogic.gdx.utils.Array;
  */
 public class BuildingMenu {
 
-    private Stage stage;
-    private BuildingManager buildings;
-    private Image menuBar;
+    private final Stage stage;
+    private final BuildingManager buildings;
 
     private final Skin skin;
 
     // Holds the count of each type of building
-    private int accommodationCount, lectureHallCount, libraryCount, courseCount, foodZoneCount, recreationalCount, natureCount;
+//    private int accommodationCount, lectureHallCount, libraryCount, courseCount, foodZoneCount, recreationalCount, natureCount;
+    /**
+     * Counts of each type of building
+     */
     public static int[] buildingCounts;
 
     // Holds the labels that display the count of each building
     private static Array&lt;Label&gt; countLabels;
 
-<span class="nc" id="L39">    public BuildingMenu(Stage stage, BuildingManager buildings){</span>
-<span class="nc" id="L40">        this.stage = stage;</span>
-<span class="nc" id="L41">        Gdx.input.setInputProcessor(stage);</span>
-<span class="nc" id="L42">        this.buildings = buildings;</span>
+    /**
+     * @param stage stage to add menu items to
+     * @param buildings {@link BuildingManager} to pull data from
+     */
+<span class="nc" id="L45">    public BuildingMenu(Stage stage, BuildingManager buildings){</span>
+<span class="nc" id="L46">        this.stage = stage;</span>
+<span class="nc" id="L47">        Gdx.input.setInputProcessor(stage);</span>
+<span class="nc" id="L48">        this.buildings = buildings;</span>
 
-<span class="nc" id="L44">        skin = new Skin(Gdx.files.internal(&quot;ui/uiskin.json&quot;));</span>
+<span class="nc" id="L50">        skin = new Skin(Gdx.files.internal(&quot;ui/uiskin.json&quot;));</span>
 
         // Initializes buildingCounts with each building type
-<span class="nc" id="L47">        buildingCounts = new int[]</span>
+<span class="nc" id="L53">        buildingCounts = new int[]</span>
         {
-            accommodationCount,
-            lectureHallCount,
-            libraryCount,
-            courseCount,
-            foodZoneCount,
-            recreationalCount,
-            natureCount
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
         };
 
-<span class="nc" id="L58">        countLabels = new Array&lt;&gt;();</span>
-<span class="nc" id="L59">    }</span>
+<span class="nc" id="L64">        countLabels = new Array&lt;&gt;();</span>
+<span class="nc" id="L65">    }</span>
 
     /**
      * Creates a bar to hold all the building buttons, creates the building
@@ -64,13 +70,16 @@ public class BuildingMenu {
      * building has been placed.
      */
     public void createBuildingMenu(){
-<span class="nc" id="L67">        createMenuBar();</span>
-<span class="nc" id="L68">        createImageButtons();</span>
-<span class="nc" id="L69">        createCountLabels();</span>
-<span class="nc" id="L70">    }</span>
+<span class="nc" id="L73">        createMenuBar();</span>
+<span class="nc" id="L74">        createImageButtons();</span>
+<span class="nc" id="L75">        createCountLabels();</span>
+<span class="nc" id="L76">    }</span>
 
+    /**
+     * @return counts of each type of building
+     */
     public int[] returnBuildingCount(){
-<span class="nc" id="L73">        return buildingCounts;</span>
+<span class="nc" id="L82">        return buildingCounts;</span>
     }
 
     /**
@@ -78,15 +87,15 @@ public class BuildingMenu {
      * a count label for each button.
      */
     private void createImageButtons() {
-<span class="nc" id="L81">        int buttonGap = Consts.BUILDING_BUTTON_GAP;</span>
+<span class="nc" id="L90">        int buttonGap = Consts.BUILDING_BUTTON_GAP;</span>
 
         // Iterating through each type of building
-<span class="nc bnc" id="L84" title="All 2 branches missed.">        for(Building.BuildingTypes type : Building.BuildingTypes.values()){</span>
+<span class="nc bnc" id="L93" title="All 2 branches missed.">        for(Building.BuildingTypes type : Building.BuildingTypes.values()){</span>
 
-<span class="nc" id="L86">            createImageButton(type, buttonGap);</span>
-<span class="nc" id="L87">            buttonGap += Consts.BUILDING_BUTTON_GAP;</span>
+<span class="nc" id="L95">            createImageButton(type, buttonGap);</span>
+<span class="nc" id="L96">            buttonGap += Consts.BUILDING_BUTTON_GAP;</span>
         }
-<span class="nc" id="L89">    }</span>
+<span class="nc" id="L98">    }</span>
 
     /**
      * Creates a single image button and adds it to the {@link #stage}.
@@ -97,11 +106,11 @@ public class BuildingMenu {
      * Will place newly created button at ({@link Consts#BUILDING_BUTTON_Y_BOUNDARY} - buttonGap).
      */
     private void createImageButton(Building.BuildingTypes type, int buttonGap){
-<span class="nc" id="L100">        int index = type.ordinal(); // Gets the index of type within BuildingTypes</span>
-<span class="nc" id="L101">        ImageButton button = setupImageButton(index, buttonGap); // Creates a button of the building type</span>
-<span class="nc" id="L102">        addImageButtonClick(button, type, index); // Adds a click listener to the button so we can do something when clicked</span>
-<span class="nc" id="L103">        stage.addActor(button);</span>
-<span class="nc" id="L104">    }</span>
+<span class="nc" id="L109">        int index = type.ordinal(); // Gets the index of type within BuildingTypes</span>
+<span class="nc" id="L110">        ImageButton button = setupImageButton(index, buttonGap); // Creates a button of the building type</span>
+<span class="nc" id="L111">        addImageButtonClick(button, type); // Adds a click listener to the button so we can do something when clicked</span>
+<span class="nc" id="L112">        stage.addActor(button);</span>
+<span class="nc" id="L113">    }</span>
 
 
     /**
@@ -114,24 +123,24 @@ public class BuildingMenu {
      * @return The button.
      */
     private ImageButton setupImageButton(int index, int buttonGap){
-<span class="nc" id="L117">        Texture buttonUpTexture = Assets.buttonUpTextures[index]; // Texture when not hovering or clicking</span>
-<span class="nc" id="L118">        Texture buttonDownTexture = Assets.buttonDownTextures[index]; // Texture when hovering or clicking</span>
-<span class="nc" id="L119">        Drawable buttonUpDrawable = new TextureRegionDrawable(buttonUpTexture);</span>
-<span class="nc" id="L120">        Drawable buttonDownDrawable = new TextureRegionDrawable(buttonDownTexture);</span>
-<span class="nc" id="L121">        ImageButton.ImageButtonStyle buttonStyle = new ImageButton.ImageButtonStyle();</span>
+<span class="nc" id="L126">        Texture buttonUpTexture = Assets.buttonUpTextures[index]; // Texture when not hovering or clicking</span>
+<span class="nc" id="L127">        Texture buttonDownTexture = Assets.buttonDownTextures[index]; // Texture when hovering or clicking</span>
+<span class="nc" id="L128">        Drawable buttonUpDrawable = new TextureRegionDrawable(buttonUpTexture);</span>
+<span class="nc" id="L129">        Drawable buttonDownDrawable = new TextureRegionDrawable(buttonDownTexture);</span>
+<span class="nc" id="L130">        ImageButton.ImageButtonStyle buttonStyle = new ImageButton.ImageButtonStyle();</span>
 
-<span class="nc" id="L123">        buttonStyle.up = buttonUpDrawable;</span>
-<span class="nc" id="L124">        buttonStyle.down = buttonDownDrawable;</span>
-<span class="nc" id="L125">        buttonStyle.over = buttonDownDrawable;</span>
+<span class="nc" id="L132">        buttonStyle.up = buttonUpDrawable;</span>
+<span class="nc" id="L133">        buttonStyle.down = buttonDownDrawable;</span>
+<span class="nc" id="L134">        buttonStyle.over = buttonDownDrawable;</span>
 
-<span class="nc" id="L127">        ImageButton button = new ImageButton(buttonStyle); // Creates a new button with the correct building button textures</span>
+<span class="nc" id="L136">        ImageButton button = new ImageButton(buttonStyle); // Creates a new button with the correct building button textures</span>
 
-<span class="nc" id="L129">        button.setSize(Consts.BUILDING_BUTTON_WIDTH, Consts.BUILDING_BUTTON_HEIGHT);</span>
-<span class="nc" id="L130">        button.setPosition(Consts.BUILDING_BUTTON_X_BOUNDARY, Consts.BUILDING_BUTTON_Y_BOUNDARY - buttonGap); // Places the button with a gap</span>
+<span class="nc" id="L138">        button.setSize(Consts.BUILDING_BUTTON_WIDTH, Consts.BUILDING_BUTTON_HEIGHT);</span>
+<span class="nc" id="L139">        button.setPosition(Consts.BUILDING_BUTTON_X_BOUNDARY, Consts.BUILDING_BUTTON_Y_BOUNDARY - buttonGap); // Places the button with a gap</span>
 
-<span class="nc" id="L132">        setUpCountLabel(index, button); // Sets up a count label for the button to count how many times the buildint type is placed</span>
+<span class="nc" id="L141">        setUpCountLabel(index, button); // Sets up a count label for the button to count how many times the building type is placed</span>
 
-<span class="nc" id="L134">        return button;</span>
+<span class="nc" id="L143">        return button;</span>
     }
 
 
@@ -141,23 +150,22 @@ public class BuildingMenu {
      * @param button The button to add the listener to.
      * @param type The type of building that button represents. This building type
      * will be created when the button is pressed.
-     * @param index The index of the building in the enum {@link com.badlogic.UniSim2.buildingmanager.Building.BuildingTypes}
      */
-    private void addImageButtonClick(ImageButton button, Building.BuildingTypes type, int index){
-<span class="nc" id="L147">        button.addListener(new ClickListener() {</span>
+    private void addImageButtonClick(ImageButton button, Building.BuildingTypes type){
+<span class="nc" id="L155">        button.addListener(new ClickListener() {</span>
             @Override
             public void clicked(InputEvent event, float x, float y){
                 // If the currently selected building matches the button type, just unselect it, otherwise unselect and select new
-<span class="nc bnc" id="L151" title="All 4 branches missed.">                if (buildings.getCurrentlySelecting() &amp;&amp; buildings.getSelectedType() == type) {</span>
-<span class="nc" id="L152">                    buildings.cancelCurrentlySelecting();</span>
+<span class="nc bnc" id="L159" title="All 4 branches missed.">                if (buildings.getCurrentlySelecting() &amp;&amp; buildings.getSelectedType() == type) {</span>
+<span class="nc" id="L160">                    buildings.cancelCurrentlySelecting();</span>
                 } else {
-<span class="nc" id="L154">                    buildings.cancelCurrentlySelecting();</span>
-<span class="nc" id="L155">                    SoundManager.playClick();</span>
-<span class="nc" id="L156">                    buildings.handleSelection(type); // Creates a building of whatever type the button pressed is</span>
+<span class="nc" id="L162">                    buildings.cancelCurrentlySelecting();</span>
+<span class="nc" id="L163">                    SoundManager.playClick();</span>
+<span class="nc" id="L164">                    buildings.handleSelection(type); // Creates a building of whatever type the button pressed is</span>
                 }
-<span class="nc" id="L158">            }</span>
+<span class="nc" id="L166">            }</span>
         });
-<span class="nc" id="L160">    }</span>
+<span class="nc" id="L168">    }</span>
 
     /**
      * A count label is created for each building button to show how many building
@@ -168,53 +176,50 @@ public class BuildingMenu {
      */
     private void setUpCountLabel(int index, ImageButton button){
 
-<span class="nc" id="L171">        int count = buildingCounts[index]; // Gets the count for the type of building using the type index in BuildingTypes</span>
-<span class="nc" id="L172">        Label countLabel = new Label(String.valueOf(count), skin);</span>
+<span class="nc" id="L179">        int count = buildingCounts[index]; // Gets the count for the type of building using the type index in BuildingTypes</span>
+<span class="nc" id="L180">        Label countLabel = new Label(String.valueOf(count), skin);</span>
 
         // Sets position of label to the top right of the button
-<span class="nc" id="L175">        float x = button.getX() + button.getWidth();</span>
-<span class="nc" id="L176">        float y = button.getY() + button.getHeight();</span>
-<span class="nc" id="L177">        countLabel.setPosition(x, y);</span>
+<span class="nc" id="L183">        float x = button.getX() + button.getWidth();</span>
+<span class="nc" id="L184">        float y = button.getY() + button.getHeight();</span>
+<span class="nc" id="L185">        countLabel.setPosition(x, y);</span>
 
-<span class="nc" id="L179">        countLabel.setColor(Consts.COUNT_COLOR);</span>
-<span class="nc" id="L180">        countLabel.setFontScale(Consts.COUNT_SIZE);</span>
-<span class="nc" id="L181">        countLabels.add(countLabel);</span>
-<span class="nc" id="L182">    }</span>
+<span class="nc" id="L187">        countLabel.setColor(Consts.COUNT_COLOR);</span>
+<span class="nc" id="L188">        countLabel.setFontScale(Consts.COUNT_SIZE);</span>
+<span class="nc" id="L189">        countLabels.add(countLabel);</span>
+<span class="nc" id="L190">    }</span>
 
     /**
      * Increments the count label for a specified building button label.
      * @param index The index of the building in the enum {@link com.badlogic.UniSim2.buildingmanager.Building.BuildingTypes}
      */
     public static void updateCountLabel(int index){
-<span class="nc" id="L189">        countLabels.get(index).setText(String.valueOf(buildingCounts[index]));</span>
-<span class="nc" id="L190">    }</span>
+<span class="nc" id="L197">        countLabels.get(index).setText(String.valueOf(buildingCounts[index]));</span>
+<span class="nc" id="L198">    }</span>
 
     /**
      * Adds the count labels to the stage.
      */
     private void createCountLabels(){
-<span class="nc bnc" id="L196" title="All 2 branches missed.">        for(Label countLabel : countLabels){</span>
-<span class="nc" id="L197">            stage.addActor(countLabel);</span>
-<span class="nc" id="L198">        }</span>
-<span class="nc" id="L199">    }</span>
+<span class="nc bnc" id="L204" title="All 2 branches missed.">        for(Label countLabel : countLabels){</span>
+<span class="nc" id="L205">            stage.addActor(countLabel);</span>
+<span class="nc" id="L206">        }</span>
+<span class="nc" id="L207">    }</span>
 
     private void createMenuBar(){
-<span class="nc" id="L202">        menuBar = new Image(Assets.menuBarTexture);</span>
-<span class="nc" id="L203">        menuBar.setSize(Consts.MENU_BAR_WIDTH, Consts.MENU_BAR_HEIGHT);</span>
-<span class="nc" id="L204">        menuBar.setPosition(Consts.MENU_BAR_X, Consts.MENU_BAR_Y);</span>
-<span class="nc" id="L205">        stage.addActor(menuBar);</span>
-<span class="nc" id="L206">    }</span>
+<span class="nc" id="L210">        Image menuBar = new Image(Assets.menuBarTexture);</span>
+<span class="nc" id="L211">        menuBar.setSize(Consts.MENU_BAR_WIDTH, Consts.MENU_BAR_HEIGHT);</span>
+<span class="nc" id="L212">        menuBar.setPosition(Consts.MENU_BAR_X, Consts.MENU_BAR_Y);</span>
+<span class="nc" id="L213">        stage.addActor(menuBar);</span>
+<span class="nc" id="L214">    }</span>
 
     /**
      * Draws the building menu.
      */
     public void draw() {
-<span class="nc" id="L212">        stage.act(Gdx.graphics.getDeltaTime());</span>
-<span class="nc" id="L213">        stage.draw();</span>
-<span class="nc" id="L214">    }</span>
-
-    public void dispose(){
-<span class="nc" id="L217">    }</span>
+<span class="nc" id="L220">        stage.act(Gdx.graphics.getDeltaTime());</span>
+<span class="nc" id="L221">        stage.draw();</span>
+<span class="nc" id="L222">    }</span>
 }
 
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

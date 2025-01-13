@@ -20,100 +20,103 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
  */
 public class StartScreen implements Screen {
 
-    private Main game;
-    private StretchViewport viewport;
-    private Stage stage;
+    private final Main game;
+    private final StretchViewport viewport;
+    private final Stage stage;
     private ImageButton startButton;
 
-<span class="nc" id="L28">    public StartScreen(Main game){</span>
-<span class="nc" id="L29">        this.game = game;</span>
-<span class="nc" id="L30">        viewport = game.getViewport();</span>
-<span class="nc" id="L31">        stage = new Stage(viewport);</span>
-<span class="nc" id="L32">        addStartButton();</span>
-<span class="nc" id="L33">    }</span>
+    /**
+     * @param game the {@link Main} to use for the {@link StartScreen}
+     */
+<span class="nc" id="L31">    public StartScreen(Main game){</span>
+<span class="nc" id="L32">        this.game = game;</span>
+<span class="nc" id="L33">        viewport = game.getViewport();</span>
+<span class="nc" id="L34">        stage = new Stage(viewport);</span>
+<span class="nc" id="L35">        addStartButton();</span>
+<span class="nc" id="L36">    }</span>
 
     @Override
     public void show() {
-<span class="nc" id="L37">        Gdx.input.setInputProcessor(stage);</span>
-<span class="nc" id="L38">    }</span>
+<span class="nc" id="L40">        Gdx.input.setInputProcessor(stage);</span>
+<span class="nc" id="L41">    }</span>
     /**
      * Adds a start button to the menu.
      */
     private void addStartButton(){
-<span class="nc" id="L43">        setupStartButton(); // Initializes startButton with the correct textures, size, and position</span>
-<span class="nc" id="L44">        addStartButtonClick(); // Adds a click listener to start button</span>
-<span class="nc" id="L45">    }</span>
+<span class="nc" id="L46">        setupStartButton(); // Initializes startButton with the correct textures, size, and position</span>
+<span class="nc" id="L47">        addStartButtonClick(); // Adds a click listener to start button</span>
+<span class="nc" id="L48">    }</span>
 
     // Initializes startButton
     private void setupStartButton(){
 
         // Setting up the textures
-<span class="nc" id="L51">        Drawable startButtonUpDrawable = new TextureRegionDrawable(Assets.startButtonUpTexture); // Texture when not hovering or clicking</span>
-<span class="nc" id="L52">        Drawable startButtonDownDrawable = new TextureRegionDrawable(Assets.startButtonDownTexture); // Texture when hovering or clicking</span>
-<span class="nc" id="L53">        ImageButton.ImageButtonStyle startButtonStyle = new ImageButton.ImageButtonStyle();</span>
-<span class="nc" id="L54">        startButtonStyle.up = startButtonUpDrawable;</span>
-<span class="nc" id="L55">        startButtonStyle.down = startButtonDownDrawable;</span>
-<span class="nc" id="L56">        startButtonStyle.over = startButtonDownDrawable;</span>
+<span class="nc" id="L54">        Drawable startButtonUpDrawable = new TextureRegionDrawable(Assets.startButtonUpTexture); // Texture when not hovering or clicking</span>
+<span class="nc" id="L55">        Drawable startButtonDownDrawable = new TextureRegionDrawable(Assets.startButtonDownTexture); // Texture when hovering or clicking</span>
+<span class="nc" id="L56">        ImageButton.ImageButtonStyle startButtonStyle = new ImageButton.ImageButtonStyle();</span>
+<span class="nc" id="L57">        startButtonStyle.up = startButtonUpDrawable;</span>
+<span class="nc" id="L58">        startButtonStyle.down = startButtonDownDrawable;</span>
+<span class="nc" id="L59">        startButtonStyle.over = startButtonDownDrawable;</span>
 
         // Initializing startButton and setting its size and position
-<span class="nc" id="L59">        startButton = new ImageButton(startButtonStyle);</span>
-<span class="nc" id="L60">        startButton.setSize(Consts.START_BUTTON_WIDTH, Consts.START_BUTTON_HEIGHT);</span>
-<span class="nc" id="L61">        startButton.setPosition(Consts.START_BUTTON_X, Consts.START_BUTTON_Y);</span>
-<span class="nc" id="L62">    }</span>
+<span class="nc" id="L62">        startButton = new ImageButton(startButtonStyle);</span>
+<span class="nc" id="L63">        startButton.setSize(Consts.START_BUTTON_WIDTH, Consts.START_BUTTON_HEIGHT);</span>
+<span class="nc" id="L64">        startButton.setPosition(Consts.START_BUTTON_X, Consts.START_BUTTON_Y);</span>
+<span class="nc" id="L65">    }</span>
 
     /**
      * Ensures that when the start button is pressed, the game is played.
      */
     private void addStartButtonClick(){
-<span class="nc" id="L68">        startButton.addListener(new ClickListener() {</span>
+<span class="nc" id="L71">        startButton.addListener(new ClickListener() {</span>
             @Override
             public void clicked(InputEvent event, float x, float y){
-<span class="nc" id="L71">                game.startGame();</span>
-<span class="nc" id="L72">                dispose();</span>
-<span class="nc" id="L73">            }</span>
+<span class="nc" id="L74">                game.startGame();</span>
+<span class="nc" id="L75">                dispose();</span>
+<span class="nc" id="L76">            }</span>
         });
-<span class="nc" id="L75">        stage.addActor(startButton);</span>
-<span class="nc" id="L76">    }</span>
+<span class="nc" id="L78">        stage.addActor(startButton);</span>
+<span class="nc" id="L79">    }</span>
 
     // Draws the background of the start menu
     private void drawBackground(){
-<span class="nc" id="L80">        SpriteBatch spriteBatch = new SpriteBatch();</span>
-<span class="nc" id="L81">        ScreenUtils.clear(Consts.BACKGROUND_COLOR);</span>
-<span class="nc" id="L82">        viewport.apply();</span>
-<span class="nc" id="L83">        spriteBatch.setProjectionMatrix(viewport.getCamera().combined);</span>
-<span class="nc" id="L84">        spriteBatch.begin();</span>
-<span class="nc" id="L85">        spriteBatch.draw(Assets.startBackgroundTexture, 0, 0, Consts.WORLD_WIDTH, Consts.WORLD_HEIGHT);</span>
-<span class="nc" id="L86">        spriteBatch.end();</span>
+<span class="nc" id="L83">        SpriteBatch spriteBatch = new SpriteBatch();</span>
+<span class="nc" id="L84">        ScreenUtils.clear(Consts.BACKGROUND_COLOR);</span>
+<span class="nc" id="L85">        viewport.apply();</span>
+<span class="nc" id="L86">        spriteBatch.setProjectionMatrix(viewport.getCamera().combined);</span>
+<span class="nc" id="L87">        spriteBatch.begin();</span>
+<span class="nc" id="L88">        spriteBatch.draw(Assets.startBackgroundTexture, 0, 0, Consts.WORLD_WIDTH, Consts.WORLD_HEIGHT);</span>
+<span class="nc" id="L89">        spriteBatch.end();</span>
 
-<span class="nc" id="L88">    }</span>
+<span class="nc" id="L91">    }</span>
 
     @Override
     public void render(float delta) {
-<span class="nc" id="L92">        ScreenUtils.clear(Consts.BACKGROUND_COLOR);</span>
-<span class="nc" id="L93">        drawBackground();</span>
-<span class="nc" id="L94">        stage.act(delta);</span>
-<span class="nc" id="L95">        stage.draw();</span>
-<span class="nc" id="L96">    }</span>
+<span class="nc" id="L95">        ScreenUtils.clear(Consts.BACKGROUND_COLOR);</span>
+<span class="nc" id="L96">        drawBackground();</span>
+<span class="nc" id="L97">        stage.act(delta);</span>
+<span class="nc" id="L98">        stage.draw();</span>
+<span class="nc" id="L99">    }</span>
 
     @Override
     public void resize(int width, int height) {
-<span class="nc" id="L100">        viewport.update(width, height, true);</span>
-<span class="nc" id="L101">    }</span>
+<span class="nc" id="L103">        viewport.update(width, height, true);</span>
+<span class="nc" id="L104">    }</span>
 
     @Override
     public void pause() {
-<span class="nc" id="L105">    }</span>
+<span class="nc" id="L108">    }</span>
 
     @Override
     public void resume() {
-<span class="nc" id="L109">    }</span>
+<span class="nc" id="L112">    }</span>
 
     @Override
     public void hide() {
-<span class="nc" id="L113">    }</span>
+<span class="nc" id="L116">    }</span>
 
     @Override
     public void dispose() {
-<span class="nc" id="L117">    }</span>
+<span class="nc" id="L120">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

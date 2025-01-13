@@ -16,11 +16,14 @@ public class Timer {
     private int lastSecond;
     private int currentSecond;
 
-<span class="fc" id="L19">    public Timer() {</span>
-<span class="fc" id="L20">        this.maxTime = Consts.MAX_TIME;</span>
-<span class="fc" id="L21">        this.elapsedTime = 0;</span>
-<span class="fc" id="L22">        reachedMaxTime = false;</span>
-<span class="fc" id="L23">    }</span>
+    /**
+     * Initialises a timer for use in the rest of the screens
+     */
+<span class="fc" id="L22">    public Timer() {</span>
+<span class="fc" id="L23">        this.maxTime = Consts.MAX_TIME;</span>
+<span class="fc" id="L24">        this.elapsedTime = 0;</span>
+<span class="fc" id="L25">        reachedMaxTime = false;</span>
+<span class="fc" id="L26">    }</span>
 
     /**
      * Update the timer by the amount of time since the last frame and checks
@@ -28,28 +31,37 @@ public class Timer {
      */
     public void update() {
         // Checks if the time has reached the limit
-<span class="pc bpc" id="L31" title="1 of 2 branches missed.">        if (elapsedTime &lt; maxTime) {</span>
+<span class="pc bpc" id="L34" title="1 of 2 branches missed.">        if (elapsedTime &lt; maxTime) {</span>
             // If not it updates the time
-<span class="fc" id="L33">            elapsedTime += Gdx.graphics.getDeltaTime();</span>
+<span class="fc" id="L36">            elapsedTime += Gdx.graphics.getDeltaTime();</span>
 
-<span class="fc" id="L35">            lastSecond = currentSecond;</span>
-<span class="fc" id="L36">            currentSecond = (int) Math.floor(elapsedTime);</span>
+<span class="fc" id="L38">            lastSecond = currentSecond;</span>
+<span class="fc" id="L39">            currentSecond = (int) Math.floor(elapsedTime);</span>
         }
-<span class="fc bfc" id="L38" title="All 2 branches covered.">        if (elapsedTime &gt;= maxTime) {</span>
-<span class="fc" id="L39">            reachedMaxTime = true;</span>
+<span class="fc bfc" id="L41" title="All 2 branches covered.">        if (elapsedTime &gt;= maxTime) {</span>
+<span class="fc" id="L42">            reachedMaxTime = true;</span>
         }
-<span class="fc" id="L41">    }</span>
+<span class="fc" id="L44">    }</span>
 
+    /**
+     * @return total time that the timer has kept track of
+     */
     public float getElapsedTime() {
-<span class="fc" id="L44">        return elapsedTime;</span>
+<span class="fc" id="L50">        return elapsedTime;</span>
     }
 
+    /**
+     * @return if the timer has reached the {@link Consts#MAX_TIME}
+     */
     public boolean hasReachedMaxTime() {
-<span class="fc" id="L48">        return reachedMaxTime;</span>
+<span class="fc" id="L57">        return reachedMaxTime;</span>
     }
 
+    /**
+     * @return if a whole second has passed since the timer was last updated
+     */
     public boolean hasWholeSecondPassed() {
-<span class="fc bfc" id="L52" title="All 2 branches covered.">        return lastSecond != currentSecond;</span>
+<span class="fc bfc" id="L64" title="All 2 branches covered.">        return lastSecond != currentSecond;</span>
     }
 }
 

@@ -10,7 +10,7 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
 <span class="fc" id="L11">public class Main extends Game {</span>
 
-<span class="fc" id="L13">    private StretchViewport viewport = new StretchViewport(Consts.WORLD_WIDTH, Consts.WORLD_HEIGHT);</span>
+<span class="fc" id="L13">    private final StretchViewport viewport = new StretchViewport(Consts.WORLD_WIDTH, Consts.WORLD_HEIGHT);</span>
 
     private StartScreen startScreen;
     private GameScreen gameScreen;
@@ -49,11 +49,14 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
     /**
      * Ends the game by settings the screen to {@link #endScreen}. Should be called by
      * the {@link GameScreen} when the timer ends.
+     * @param score the score to end the game with
+     * @param satisfaction the satisfaction to end the game with
+     * @param counts counts of each building type to end the game with
      */
     public void endGame(int score, double satisfaction, int[] counts) {
-<span class="nc" id="L54">        endScreen = new EndScreen(this, score, satisfaction, counts);</span>
-<span class="nc" id="L55">        setScreen(endScreen);</span>
-<span class="nc" id="L56">        gameScreen.dispose();</span>
-<span class="nc" id="L57">    }</span>
+<span class="nc" id="L57">        endScreen = new EndScreen(this, score, satisfaction, counts);</span>
+<span class="nc" id="L58">        setScreen(endScreen);</span>
+<span class="nc" id="L59">        gameScreen.dispose();</span>
+<span class="nc" id="L60">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

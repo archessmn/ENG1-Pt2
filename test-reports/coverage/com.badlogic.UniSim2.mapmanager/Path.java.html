@@ -6,20 +6,20 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
  * A class which represents a path from one path to another on the {@link Map}.
  */
 public class Path extends Sprite{
-    
+
     /**
      * Creates a new path at the specified (x, y) coord with the specified width
-     * and height and adds it to to {@link Map#collidableSprites}.
+     * and height and adds it to {@link Map#collidableSprites}.
      * @param x x coord of the bottom left corner of the path.
      * @param y y coord of the bottom left corner of the path.
-     * @param width
-     * @param height
+     * @param width width of the path
+     * @param height height of the path
      */
 <span class="nc" id="L18">    public Path(int x, int y, int width, int height){</span>
 <span class="nc" id="L19">        setPosition(x, y);</span>
 <span class="nc" id="L20">        setSize(width, height);</span>
 <span class="nc" id="L21">        Map.collidableSprites.add(this);</span>
 <span class="nc" id="L22">    }</span>
-    
+
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
